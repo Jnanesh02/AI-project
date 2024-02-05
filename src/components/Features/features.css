@@ -1,0 +1,63 @@
+
+.container.features-cards h1 {
+    text-align: center;
+}
+.container.features-cards {
+    padding-top: 30px;
+}
+.container.features-cards h1 {
+    margin-bottom: 30px;
+}
+img.card-img-top.features-icons-cards {
+    position: absolute;
+    width: 120px;
+    left: -32px;
+    top: -54px;
+}
+h5.card-title.card-title-name {
+    margin-top: 65px;
+    font-weight: 600;
+    text-align: left;
+}
+.features-main-card {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.features-main-card .card {
+    width: 90% !important;
+    margin: auto;
+    display: block;
+    border: none;
+}
+button.btn.btn-primary.learn-more {
+    color: black;
+    font-size: 14px;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-weight: 600;
+}
+.features-main-card p.card-text {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.features-main-card .card-body {
+    border-right: 12px solid black;
+    border-top: 12px solid black;
+    border-radius: 20px;
+    border-left: 1px solid #00000070;
+    border-bottom: 1px solid #00000063;
+    box-shadow: 0px 2px 2px 3px #d7d7d7;
+}
+@media only screen and (max-width: 1000px) {
+    img.card-img-top.features-icons-cards {
+        position: absolute;
+        width: 114px;
+        left: -20px;
+        top: -54px;
+    }
+}
