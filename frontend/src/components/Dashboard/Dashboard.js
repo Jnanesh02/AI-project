@@ -1,9 +1,6 @@
 import React from 'react'
 import loginlogo from "../../images/loginlogo.png";
-import facebook from "../../images/facebook.png";
-import instagram from "../../images/instagram.png";
-import twitter from "../../images/twitter.png";
-import youtube from "../../images/youtube.png";
+
 
 import "./Dashboard.css"
 export const Dashboard = () => {
@@ -14,7 +11,7 @@ export const Dashboard = () => {
             <div className='row'>
                 <div className='col-lg-12'>
                     <div className='dashboard-logo-section'>
-                    <img class="login-logo-image" src={loginlogo}/>
+                    <img class="login-logo-image" src={loginlogo} alt=""/>
                     </div>
                 </div>
                 <div className='col-lg-12'>
