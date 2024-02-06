@@ -2,8 +2,8 @@ import React from 'react'
 import loginlogo from "../../images/loginlogo.png";
 
 
-import "./Dashboard.css"
-export const Dashboard = () => {
+import "./Login.css"
+export const Login = () => {
   return (
   <div className='login-dashboard-full'>
     <section className='dashboard-login'>
@@ -25,7 +25,7 @@ export const Dashboard = () => {
     <input type="password" class="form-control" id="exampleInputPassword1" placeholder='Password'/>
   </div>
  <div className='login-accounts'>
-  <label> Create Account </label>
+  <button> Create Account </button>
   <label> Forgot Password </label>
  </div>
   <button type="submit" class="btn btn-primary btn-login"> Login </button>
