@@ -50,8 +50,7 @@ const answer = async () => {
 // answer();
 
 app.use(express.json());
-app.use(passport.initialize());
-app.use(passport.session());
+
 app.use("/", socialRouter);
 app.use("/auth/twitter", twitterRouter);
 

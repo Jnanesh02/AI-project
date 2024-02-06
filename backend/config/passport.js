@@ -195,6 +195,8 @@ passport.use(
       ],
     },
     async function (accessToken, refreshToken, profile, done) {
+      app.use(passport.initialize());
+      app.use(passport.session());
       const user = {
         profile: profile,
         accessToken: accessToken,
