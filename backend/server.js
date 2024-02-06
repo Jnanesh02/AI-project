@@ -6,13 +6,13 @@ const {
   sentimentAnalysis,
 } = require("./src/helper/chatgpt");
 const twitterClient = require("./src/routes/twitterClient");
-const passportStrategy = require("./config/passport");
+// const passportStrategy = require("./config/passport");
 const app = express();
 const socialRouter = require("./src/routes/socialmedia");
 const PORT = process.env.PORT;
 const CHAT_GPT_KEY = process.env.CHATGPT_KEY;
 // const passport = console.log(CHAT_GPT_KEY);
-const passport = require("passport");
+// const passport = require("passport");
 const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
@@ -50,8 +50,8 @@ const answer = async () => {
 // answer();
 
 app.use(express.json());
-auth.login(app);
 app.use("/", socialRouter);
+auth.login(app);
 app.use("/auth/twitter", twitterRouter);
 
 app.listen(PORT, () => {

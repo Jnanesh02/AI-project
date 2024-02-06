@@ -30,7 +30,7 @@ router.get(
   "/auth/youtube/callback",
   passport.authenticate("youtube"),
   (req, res) => {
-    console.log(req.user);
+    // console.log(req.user);
 
     res.redirect("/login");
   }
@@ -38,6 +38,8 @@ router.get(
 
 router.get("/login", async (req, res) => {
   try {
+    // console.log(req.isAuthenticated())
+    console.log(req.user);
     const user = await req.user; // Wait for user data to be available
     res.json(user);
   } catch (error) {

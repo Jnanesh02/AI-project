@@ -7,12 +7,13 @@ const passport = require("passport");
 const { assistantResponse } = require("../src/helper/chatgpt");
 
 passport.serializeUser((user, done) => {
-  console.log(`Serializing user: ${user}`);
-  done(null, user);
+  console.log("------------------------");
+  console.log(user);
+
+  done(null, user.toString());
 });
 
 passport.deserializeUser((user, done) => {
-
   done(null, user);
 });
 
@@ -207,6 +208,5 @@ module.exports = {
         }
       )
     );
-  }
-}
-
+  },
+};
