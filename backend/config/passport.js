@@ -12,7 +12,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((user, done) => {
-  
+
   done(null, user);
 });
 
@@ -182,27 +182,31 @@ passport.use(
 //     }
 //   )
 // );
+module.exports = {
+  login: function (app) {
+    passport.use(
+      new YoutubeV3Strategy(
+        {
+          clientID: process.env.GOOGLE_CLIENT_ID,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+          callbackURL: "http://localhost:3000/auth/youtube/callback",
+          scope: [
+            "https://www.googleapis.com/auth/youtube.readonly",
+            "https://www.googleapis.com/auth/youtube.force-ssl",
+          ],
+        },
+        async function (accessToken, refreshToken, profile, done) {
+          app.use(passport.initialize());
+          app.use(passport.session());
+          const user = {
+            profile: profile,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+          };
+          return done(null, user);
+        }
+      )
+    );
+  }
+}
 
-passport.use(
-  new YoutubeV3Strategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/youtube/callback",
-      scope: [
-        "https://www.googleapis.com/auth/youtube.readonly",
-        "https://www.googleapis.com/auth/youtube.force-ssl",
-      ],
-    },
-    async function (accessToken, refreshToken, profile, done) {
-      app.use(passport.initialize());
-      app.use(passport.session());
-      const user = {
-        profile: profile,
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-      };
-      return done(null, user);
-    }
-  )
-);

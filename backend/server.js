@@ -16,7 +16,7 @@ const passport = require("passport");
 const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
-
+const auth = require("./config/passport");
 app.use(
   session({
     secret: "keyboard cat",
@@ -50,7 +50,7 @@ const answer = async () => {
 // answer();
 
 app.use(express.json());
-
+auth.login(app);
 app.use("/", socialRouter);
 app.use("/auth/twitter", twitterRouter);
 
