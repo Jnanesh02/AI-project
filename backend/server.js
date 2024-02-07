@@ -1,10 +1,12 @@
 const express = require("express");
+const { connect } = require("./config/database");
 require("dotenv").config();
 const {
   getChatGPTResponse,
   assistantResponse,
   sentimentAnalysis,
 } = require("./src/helper/chatgpt");
+const cors = require('cors');
 const twitterClient = require("./src/routes/twitterClient");
 const passportStrategy = require("./config/passport");
 const app = express();
@@ -16,8 +18,6 @@ const passport = require("passport");
 const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
-
-// const path = require("./src/helper/youtube");
 
 app.use(
   session({
@@ -59,7 +59,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/", socialRouter);
 app.use("/auth/twitter", twitterRouter);
-
+// Admin routes
+app.use("/ai", router.adminAuthentication);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

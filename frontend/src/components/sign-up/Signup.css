@@ -1,5 +1,3 @@
-
-
 .dashboard-login
 {
     background-image: url(../../images/login-bg.jpg);
@@ -95,3 +93,25 @@ img.login-logo-image {
         font-size: 22px;
     }
   }
+  .btn-primary.login {
+    display: inline-block;
+    margin: 10px; /* Adjust margin as needed */
+  }
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .form-group {
+    flex: 1;
+    margin-right: 15px; /* Adjust spacing between fields */
+  }
+  
+  .mb-4 {
+    margin-bottom: 1rem !important; /* Ensure consistent margin for vertical spacing */
+  }
+  
+  .mb-2 {
+    margin-bottom: 0.5rem !important; /* Ensure consistent margin for vertical spacing */
+  }
+  

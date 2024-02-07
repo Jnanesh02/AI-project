@@ -1,0 +1,103 @@
+
+
+.dashboard-login
+{
+    background-image: url(../../images/login-bg.jpg);
+    padding-top: 50px;
+    padding-bottom: 50px;
+    
+}
+
+.login-dashboard-full {
+    background: black;
+    height: 100vh;
+}
+img.login-logo-image {
+    width: 350px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.dashboard-login-form {
+    display: flex;
+    background: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dashboard-login-form form {
+    width: 50%;
+    text-align: left;
+    color: white;
+}
+.dashboard-login-form h4 {
+    color: white;
+    font-weight: unset;
+    letter-spacing: 2px;
+    margin-bottom: 50px;
+}
+.dashboard-login-form input.form-control {
+    background: #5e5e5e;
+    border: none;
+    padding: 22px;
+    border-radius: 24px;
+}
+.dashboard-login-form input.form-control::placeholder {
+    color: white;
+    opacity: 1; /* Firefox */
+  }
+  .login-accounts {
+    display: flex;
+    justify-content: space-between;
+}
+.dashboard-login-form  button.btn.btn-primary.btn-login {
+    background: #afafaf;
+    color: black;
+    margin: auto;
+    display: block;
+    border: none;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-size: 18px;
+}
+.social-media-icons i {
+    color: white;
+    font-size: 35px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.social-media-icons {
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+.social-media-icons span {
+    color: white;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-family: 'Poppins' !important;
+}
+@media only screen and (max-width: 900px) {
+    img.login-logo-image {
+        width: 250px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+    .dashboard-login-form form {
+        width: 90%;
+    }
+    .dashboard-login-form button.btn.btn-primary.btn-login {
+        margin-top: 50px;
+    }
+    .social-media-icons i {
+        font-size: 22px;
+    }
+  }
+  .btn-primary.login {
+    display: inline-block;
+    margin: 10px; /* Adjust margin as needed */
+  }
+  
+  
