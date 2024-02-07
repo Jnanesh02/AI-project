@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 // const axios = require("axios");
+const handleYoutubeInteractions = require("../helper/youtube");
 
 router.get("/auth/facebook", passport.authenticate("facebook"));
 router.get(
@@ -30,7 +31,9 @@ router.get(
   "/auth/youtube/callback",
   passport.authenticate("youtube"),
   (req, res) => {
-    console.log(req.user);
+    // console.log(req.user);
+    console.log(req.user.profile.id);
+    handleYoutubeInteractions(req.user.profile.id);
 
     res.redirect("/login");
   }

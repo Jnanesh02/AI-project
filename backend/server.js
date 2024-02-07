@@ -17,6 +17,8 @@ const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
 
+// const path = require("./src/helper/youtube");
+
 app.use(
   session({
     secret: "keyboard cat",
@@ -48,6 +50,9 @@ const answer = async () => {
   console.log(`Sentiment Analysis: ${response3}`);
 };
 // answer();
+// console.log(__dirname);
+
+// console.log("youtube.js path " + path);
 
 app.use(express.json());
 app.use(passport.initialize());
