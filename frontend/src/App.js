@@ -23,7 +23,7 @@ function App() {
     <Route path="Signup" element={<Signup />} />
     <Route path="Blog" element={<Pricing />} />
     <Route path="Contact-Us" element={<Pricing />} />
-    <Route path="adminLogin" element={<AdminLogin />} />
+    <Route path="adminLogin" element={<AdminLogin />} ></Route>
     <Route path="adminDashboard" element={<AdminDashboard />} />
 
 
