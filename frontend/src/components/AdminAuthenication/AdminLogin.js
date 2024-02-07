@@ -22,7 +22,8 @@ const handleSubmit= async(e)=>{
         e.preventDefault();
         const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/admin/login`,adminLoginDetails);
         if(response.status === 200) {
-            navigate.to("adminDashboard");
+            console.log("success");
+            navigate("adminDashboard");
         }
       } catch (error) {
         console.error('Error:', error);

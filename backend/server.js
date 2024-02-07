@@ -20,11 +20,12 @@ const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
 //connecting to MongoDB
 connect();
+// Enable CORS for all requests
 app.use(cors({
-  origin: "https://localhost:3000",
-  method: "GET, POST, PUT, DELETE",
-  credentials: true
-}))
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 const router = require('./src/routes')
 app.use(
   session({
