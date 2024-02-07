@@ -66,7 +66,7 @@ button.btn.btn-primary.create-button {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #dd2817;
+    background:black;
     color: #fff;
     transition: all 0.3s;
 }
@@ -77,7 +77,7 @@ button.btn.btn-primary.create-button {
 #sidebar .sidebar-header {
     padding: 20px;
     background: #ffffff;
-    border-right: 1px solid #dd2817;
+    border-right: 1px solid black;
     padding-bottom: 10px;
     padding-top: 10px;
 }
@@ -121,7 +121,7 @@ a[aria-expanded="true"] {
 
 
 .accordion-button.custom-button {
-    background-color: #dd2817 !important; /* Change to your desired background color */
+    background-color: black !important; /* Change to your desired background color */
     color: #fff !important; /* Change to your desired text color */
     padding: 15px !important; /* Adjust padding as needed */
     display: block !important;
