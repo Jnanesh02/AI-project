@@ -62,6 +62,7 @@ button.btn.btn-primary.pricing-buttons {
     background: black;
     width: 100%;
     top: -35px;
+    right: -1px;
     padding: 8px;
     color: white;
     border-top-left-radius: 20px;

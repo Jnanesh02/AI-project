@@ -19,7 +19,7 @@ function App() {
 <Router>
   <Routes>
     <Route path="/" element={<Layout/>}>
-    <Route index element={<OutLlet />} />
+    <Route index element={<OutLlet />}/>
    {/* <Route path="dashboard" element={<Dashboard />} /> */}
     </Route>
     <Route path="Features" element={<Features />} />
