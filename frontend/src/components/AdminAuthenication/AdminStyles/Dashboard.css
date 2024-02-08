@@ -13,34 +13,12 @@ img.header-logo {
     border-radius: 0;
     margin-bottom: 0px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid #dd281778;
+    border-bottom: 1px solid black;
 }
-.main-department-section {
-    width: 90%;
-    margin: auto;
-    padding-top: 20px;
-}
-.main-department-section h2 {
-    color: #dd2817;
-    font-size: 24px;
-}
-.main-department-section  .employee-table th {
-    background-color: #dd2817;
-    color: white;
-    font-weight: normal;
-    padding: 12px;
-}
-.dep-tbl {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-}
-button.btn.btn-primary.create-button {
-    background: #dd2817;
-    border: none;
-    border-radius: 0px;
 
-}
+
+
+
 .navbar-btn {
     box-shadow: none;
     outline: none !important;
@@ -75,6 +53,7 @@ button.btn.btn-primary.create-button {
 }
 
 #sidebar .sidebar-header {
+    height: 60px;
     padding: 20px;
     background: #ffffff;
     border-right: 1px solid black;
@@ -121,6 +100,7 @@ a[aria-expanded="true"] {
 
 
 .accordion-button.custom-button {
+
     background-color: black !important; /* Change to your desired background color */
     color: #fff !important; /* Change to your desired text color */
     padding: 15px !important; /* Adjust padding as needed */
@@ -133,13 +113,19 @@ a[aria-expanded="true"] {
 }
 .accordion-item{
     border: none;
+    margin: 10px;
 }
 .accordion-button.custom-button:hover {
-    background: #dd2817 !important; /* Change to your desired hover background color */
+    background: white !important; /* Change to your desired hover background color */
+    color: black !important;
+    border-radius: 5px !important;
+    
 }
 
 .accordion-button.custom-button.active {
-    background: #dd2817 !important; /* Change to your desired active background color */
+    background: white !important; /* Change to your desired hover background color */
+    color: black !important;
+    border-radius: 5px !important;/* Change to your desired active background color */
 }
 
 .custom-link {
@@ -218,6 +204,7 @@ img.dashboard-logo {
 }
 img.dashboard-logo {
     width: 175px;
+    height: 47px;
     margin: auto;
     display: block;
     padding: 0px;
@@ -234,15 +221,15 @@ svg.dashborad-icons {
 }
 button#sidebarCollapse {
     background: none;
-    border: 1px solid #e12912;
-    fill: #e12912;
+    border: 1px solid black;
+    fill: black;
 }
 .main-dashboard-k {
     padding-left: 20px;
     padding-right: 20px;
 }
 a.download.dashboard {
-    color: #dd2817 !important;
+    color: black !important;
     padding: 10px !important;
     border-radius: 30px;
 }
@@ -269,7 +256,7 @@ li.nav-item.avatar-icons-ds {
     padding: 0px;
 }
 a.nav-link.notification {
-    background: #dd2817d6;
+    background: black;
     border-radius: 50%;
     fill: white;
     width: 40px;
@@ -334,27 +321,7 @@ svg.arrows-dashboard {
     display: flex;
     justify-content: flex-end;
 }
-.pagination button.previouss {
-    background: #dd2817;
-    border: none;
-    color: white;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 5px;
-    margin-right: 11px;
-    font-size: 14px;
-}
-.pagination button.next {
-    background: #dd2817;
-    border: none;
-    color: white;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 5px;
-    margin-right: 0px;
-    font-size: 14px;
-    margin-left: 10px;
-}
+
 span.pagination-count {
     color: black;
 }

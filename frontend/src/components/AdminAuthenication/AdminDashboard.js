@@ -1,6 +1,7 @@
 import React,{useEffect} from 'react'
-import { NavLink,Link } from 'react-router-dom';
-import "./Dashboard.css";
+import { NavLink,Link ,Outlet} from 'react-router-dom';
+import "./AdminStyles/Dashboard.css";
+import headerlogo from "../../images/header-logo.png";
 export const AdminDashboard = () => {
   useEffect(() => {
     const handleSidebarToggle = () => {
@@ -29,7 +30,7 @@ export const AdminDashboard = () => {
         {/* <!-- Sidebar  --> */}
         <nav id="sidebar">
           <div className="sidebar-header">
-            {/* <img className="dashboard-logo" src={Logo} alt="" /> */}
+            <img className="dashboard-logo" src={headerlogo} alt="" />
           </div>
 
           <ul className="list-unstyled components">
@@ -50,7 +51,7 @@ export const AdminDashboard = () => {
               <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne2">
                   <NavLink className="accordion-button custom-button" to="profile">
-                    profile
+                    Profile
                   </NavLink>
                 </h2>
               </div>
@@ -76,7 +77,7 @@ export const AdminDashboard = () => {
             <div className="accordion" id="accordionExample2">
               <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne2">
-                  <NavLink className="accordion-button custom-button" to="employeeDetails">
+                  <NavLink className="accordion-button custom-button" to="settings">
                     <i className="fas fa-gear"></i> Settings
                   </NavLink>
                 </h2>
@@ -184,6 +185,7 @@ export const AdminDashboard = () => {
               </div>
             </div>
           </nav>
+          <Outlet />
         </div>
       </div>
     </div>

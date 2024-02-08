@@ -10,6 +10,9 @@ import Signup from './components/sign-up/Signup';
 import Forgot from './components/Forgot/Forgot';
 import { AdminLogin } from './components/AdminAuthenication/AdminLogin';
 import { AdminDashboard } from './components/AdminAuthenication/AdminDashboard';
+import AdminHomePage from './components/AdminAuthenication/AdminHomePage'
+import {AdminProfile} from './components/AdminAuthenication/AdminProfile'
+import CustomerDetails from './components/AdminAuthenication/CustomerDetails'
 function App() {
   return (
     <div className="App">
@@ -26,7 +29,21 @@ function App() {
     <Route path="Blog" element={<Pricing />} />
     <Route path="Contact-Us" element={<Pricing />} />
     <Route path="adminLogin" element={<AdminLogin />} ></Route>
-    <Route path="adminDashboard" element={<AdminDashboard />} />
+    <Route path="adminDashboard" element={<AdminDashboard />} >
+            <Route index element={<AdminHomePage />} />
+            <Route path="profile" element={<AdminProfile />}/>
+            {/* <Route path="employeeDetails" element={<EmployeeDetails />}/> */}
+            <Route path="customerDetails" element={<CustomerDetails />}/>
+{/*             
+            <Route path="countryServices" element={<CountryServices />}>
+            </Route>
+            <Route path="profile" element={<AdminProfile />}>
+            </Route>
+            <Route path="customerDetails" element={<CustomerDetails />} />
+            <Route path="employeeDetails" element={<EmployeeDetails />} /> */}
+
+
+    </Route>
 
 
   </Routes>
