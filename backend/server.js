@@ -6,7 +6,7 @@ const {
   assistantResponse,
   sentimentAnalysis,
 } = require("./src/helper/chatgpt");
-const cors = require('cors');
+const cors = require("cors");
 const twitterClient = require("./src/routes/twitterClient");
 const passportStrategy = require("./config/passport");
 const app = express();
@@ -18,15 +18,8 @@ const passport = require("passport");
 const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
-//connecting to MongoDB
+const router = require("./src/routes/index");
 connect();
-// Enable CORS for all requests
-app.use(cors({
-  origin: 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-const router = require('./src/routes')
 app.use(
   session({
     secret: "keyboard cat",
@@ -58,6 +51,9 @@ const answer = async () => {
   console.log(`Sentiment Analysis: ${response3}`);
 };
 // answer();
+// console.log(__dirname);
+
+// console.log("youtube.js path " + path);
 
 app.use(express.json());
 app.use(passport.initialize());
@@ -66,6 +62,8 @@ app.use("/", socialRouter);
 app.use("/auth/twitter", twitterRouter);
 // Admin routes
 app.use("/ai", router.adminAuthentication);
+app.use("/ai", router.customer);
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 // const axios = require("axios");
+const handleYoutubeInteractions = require("../helper/youtube");
 
 router.get("/auth/facebook", passport.authenticate("facebook"));
 router.get(
@@ -29,10 +30,19 @@ router.get("/auth/youtube", passport.authenticate("youtube"));
 router.get(
   "/auth/youtube/callback",
   passport.authenticate("youtube"),
-  (req, res) => {
-    console.log(req.user);
+  async (req, res) => {
+    // console.log(req.user);
+    try {
+      const channelId = req.user.profile.id;
+      const { channels, videos } = await handleYoutubeInteractions(channelId);
+      console.log(channels, videos);
+      res.json({ channels, videos });
+    } catch (err) {
+      console.error("Error in getting Youtube Channel Info : ", err);
+      return res.status(500).send("Server error");
+    }
 
-    res.redirect("/login");
+    // res.redirect("/login");
   }
 );
 

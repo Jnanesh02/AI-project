@@ -3,18 +3,32 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const YoutubeV3Strategy = require("passport-youtube-v3").Strategy;
 const { google } = require("googleapis");
 const passport = require("passport");
+const fs = require("fs-extra");
 // const { OpenAI } = require("openai");
 const { assistantResponse } = require("../src/helper/chatgpt");
 
 passport.serializeUser((user, done) => {
-  console.log(`Serializing user: ${user}`);
   done(null, user);
 });
 
 passport.deserializeUser((user, done) => {
-  
   done(null, user);
 });
+
+async function updateAccessToken(accessToken) {
+  try {
+    let credentials = await fs.readJson("./config/credentials.json");
+    console.log(credentials);
+    credentials.accessToken = accessToken;
+
+    // Write the updated credentials back to the file
+    await fs.writeJson("./config/credentials.json", credentials);
+
+    console.log("accessToken updated successfully!");
+  } catch (err) {
+    console.error("Error updating accessToken:", err);
+  }
+}
 
 passport.use(
   new FacebookStrategy(
@@ -52,136 +66,136 @@ passport.use(
   )
 );
 
-//youtube comments
-// passport.use(
-//   new YoutubeV3Strategy(
-//     {
-//       clientID: process.env.GOOGLE_CLIENT_ID,
-//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//       callbackURL: "http://localhost:3000/auth/youtube/callback",
-//       scope: [
-//         "https://www.googleapis.com/auth/youtube.readonly",
-//         "https://www.googleapis.com/auth/youtube.force-ssl",
-//       ],
-//     },
-//     function (accessToken, refreshToken, profile, done) {
-//       // Access user's channel details
-//       const channelId = profile.id;
+// youtube comments
+passport.use(
+  new YoutubeV3Strategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/youtube/callback",
+      scope: [
+        "https://www.googleapis.com/auth/youtube.readonly",
+        "https://www.googleapis.com/auth/youtube.force-ssl",
+      ],
+    },
+    function (accessToken, refreshToken, profile, done) {
+      // Access user's channel details
+      const channelId = profile.id;
 
-//       // Create a youtube object using OAuth2 tokens
-//       const auth = new google.auth.OAuth2();
-//       auth.setCredentials({ access_token: accessToken });
-//       const youtube = google.youtube({ version: "v3", auth });
+      // Create a youtube object using OAuth2 tokens
+      const auth = new google.auth.OAuth2();
+      auth.setCredentials({ access_token: accessToken });
+      const youtube = google.youtube({ version: "v3", auth });
 
-//       // req.session.accessToken=accessToken
-//       profile.accessToken = accessToken;
+      // req.session.accessToken=accessToken
+      profile.accessToken = accessToken;
 
-//       // Make requests to get user's activities
+      // Make requests to get user's activities
 
-//       // Fetch user's channel details
-//       youtube.channels.list(
-//         {
-//           part: "snippet,contentDetails,statistics",
-//           id: channelId,
-//         },
-//         (err, channelResponse) => {
-//           if (err) {
-//             return done(err);
-//           }
+      // Fetch user's channel details
+      youtube.channels.list(
+        {
+          part: "snippet,contentDetails,statistics",
+          id: channelId,
+        },
+        (err, channelResponse) => {
+          if (err) {
+            return done(err);
+          }
 
-//           // console.log("User Channel Details:", channelResponse.data);
+          // console.log("User Channel Details:", channelResponse.data);
 
-//           // Fetch user's video comments
-//           youtube.commentThreads.list(
-//             {
-//               part: "snippet",
-//               allThreadsRelatedToChannelId: channelId,
-//             },
-//             (err, commentsResponse) => {
-//               if (err) {
-//                 return done(err);
-//               }
+          // Fetch user's video comments
+          youtube.commentThreads.list(
+            {
+              part: "snippet",
+              allThreadsRelatedToChannelId: channelId,
+            },
+            (err, commentsResponse) => {
+              if (err) {
+                return done(err);
+              }
 
-//               const comments = commentsResponse.data.items;
+              const comments = commentsResponse.data.items;
 
-//               // Iterate through each comment thread
-//               comments.forEach(async (comment) => {
-//                 try {
-//                   // Extract topLevelComment from the snippet
-//                   const topLevelComment =
-//                     comment.snippet.topLevelComment.snippet.textOriginal;
+              // Iterate through each comment thread
+              comments.forEach(async (comment) => {
+                try {
+                  // Extract topLevelComment from the snippet
+                  const topLevelComment =
+                    comment.snippet.topLevelComment.snippet.textOriginal;
 
-//                   // Log or process the topLevelComment as needed
-//                   // Pass the comment to ChatGPT for a short response
-//                   const chatGPTResponse = await assistantResponse(
-//                     topLevelComment
-//                   );
-//                   // console.log(chatGPTResponse);
+                  // Log or process the topLevelComment as needed
+                  // Pass the comment to ChatGPT for a short response
+                  const chatGPTResponse = await assistantResponse(
+                    topLevelComment
+                  );
+                  // console.log(chatGPTResponse);
 
-//                   // Check if the ChatGPT response is not empty
-//                   if (chatGPTResponse.trim() !== "") {
-//                     try {
-//                       const replyResponse = await youtube.comments.insert({
-//                         auth: auth,
-//                         part: "snippet",
-//                         resource: {
-//                           snippet: {
-//                             channelId:
-//                               comment.snippet.topLevelComment.snippet
-//                                 .authorChannelId.value,
-//                             videoId: comment.snippet.videoId,
-//                             parentId: comment.id,
-//                             textOriginal: chatGPTResponse,
-//                           },
-//                         },
-//                       });
-//                       // console.log(
-//                       //   "Comment reply inserted successfully:",
-//                       //   replyResponse
-//                       // );
-//                     } catch (error) {
-//                       console.error(
-//                         "Error replying to YouTube comment:",
-//                         error.message
-//                       );
-//                       // console.error("Comment details:", comment.snippet);
-//                     }
-//                   } else {
-//                     console.log("chatgpt provided empty response");
-//                   }
-//                 } catch (error) {
-//                   console.error(
-//                     "Error replying to YouTube comment:",
-//                     error.message
-//                   );
-//                 }
-//               });
-//               // Fetch user's liked videos
-//               youtube.videos.list(
-//                 {
-//                   part: "snippet",
-//                   myRating: "like",
-//                 },
-//                 (err, likedVideosResponse) => {
-//                   if (err) {
-//                     return done(err);
-//                   }
+                  // Check if the ChatGPT response is not empty
+                  if (chatGPTResponse.trim() !== "") {
+                    try {
+                      const replyResponse = await youtube.comments.insert({
+                        auth: auth,
+                        part: "snippet",
+                        resource: {
+                          snippet: {
+                            channelId:
+                              comment.snippet.topLevelComment.snippet
+                                .authorChannelId.value,
+                            videoId: comment.snippet.videoId,
+                            parentId: comment.id,
+                            textOriginal: chatGPTResponse,
+                          },
+                        },
+                      });
+                      // console.log(
+                      //   "Comment reply inserted successfully:",
+                      //   replyResponse
+                      // );
+                    } catch (error) {
+                      console.error(
+                        "Error replying to YouTube comment:",
+                        error.message
+                      );
+                      // console.error("Comment details:", comment.snippet);
+                    }
+                  } else {
+                    console.log("chatgpt provided empty response");
+                  }
+                } catch (error) {
+                  console.error(
+                    "Error replying to YouTube comment:",
+                    error.message
+                  );
+                }
+              });
+              // Fetch user's liked videos
+              youtube.videos.list(
+                {
+                  part: "snippet",
+                  myRating: "like",
+                },
+                (err, likedVideosResponse) => {
+                  if (err) {
+                    return done(err);
+                  }
 
-//                   // console.log("User Liked Videos:", likedVideosResponse.data);
+                  // console.log("User Liked Videos:", likedVideosResponse.data);
 
-//                   // You can add more API requests based on your requirements
+                  // You can add more API requests based on your requirements
 
-//                   // Call done() to finish the authentication process
-//                   done(null, profile);
-//                 }
-//               );
-//             }
-//           );
-//         }
-//       );
-//     }
-//   )
-// );
+                  // Call done() to finish the authentication process
+                  done(null, profile);
+                }
+              );
+            }
+          );
+        }
+      );
+    }
+  )
+);
 
 passport.use(
   new YoutubeV3Strategy(
@@ -200,6 +214,8 @@ passport.use(
         accessToken: accessToken,
         refreshToken: refreshToken,
       };
+      await updateAccessToken(accessToken);
+
       return done(null, user);
     }
   )
