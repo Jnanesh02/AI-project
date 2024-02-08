@@ -125,5 +125,25 @@ button.btn.btn-primary.signup {
         text-align: left;
     }
 }
-
+/* .btn-custom {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+  } */
+  .btn-custom {
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #000 !important;
+    display: inline-block; /* Ensure it's displayed as a block element */
+    vertical-align: middle; /* Vertically align it to the middle */
+    line-height: normal; /* Reset the line height */
+    margin: 5px;
+  }
+  
+  
+  
+  /* .btn-custom:hover {
+    background-color: #333;
+    border-color: #333;
+  } */
   

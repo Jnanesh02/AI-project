@@ -81,18 +81,20 @@ export default function Home() {
               </div>
               <div className="col-lg-3">
                 <div className="login-details">
-                  <button class="btn btn-primary login">
+                  {/* <button class="btn btn-primary login">
                   <NavLink to="/Login" class="btn btn-primary login">
                     {" "}
                     Login{" "}
                   </NavLink>
-                  </button>
-                  <button class="btn btn-primary login">
-                  <NavLink to="/Signup" class="btn btn-primary login">
-                    {" "}
-                    Sign Up{" "}
+                  </button> */}
+                  
+                   <NavLink to="/Login" className="btn btn-custom login">
+                   Login
                   </NavLink>
-                  </button>
+                   <NavLink to="/Signup" className="btn btn-custom login">
+                    Signup
+                   </NavLink>
+                  
                   
                 </div>
               </div>
