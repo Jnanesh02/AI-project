@@ -30,12 +30,19 @@ router.get("/auth/youtube", passport.authenticate("youtube"));
 router.get(
   "/auth/youtube/callback",
   passport.authenticate("youtube"),
-  (req, res) => {
+  async (req, res) => {
     // console.log(req.user);
-    console.log(req.user.profile.id);
-    handleYoutubeInteractions(req.user.profile.id);
+    try {
+      const channelId = req.user.profile.id;
+      const { channels, videos } = await handleYoutubeInteractions(channelId);
+      console.log(channels, videos);
+      res.json({ channels, videos });
+    } catch (err) {
+      console.error("Error in getting Youtube Channel Info : ", err);
+      return res.status(500).send("Server error");
+    }
 
-    res.redirect("/login");
+    // res.redirect("/login");
   }
 );
 

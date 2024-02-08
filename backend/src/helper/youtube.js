@@ -13,19 +13,20 @@ async function handleYoutubeInteractions(channelId) {
     auth.setCredentials({ access_token: accessToken });
     const youtube = google.youtube({ version: "v3", auth });
 
-    const channels = youtube.channels.list(
-      {
-        part: "snippet,contentDetails,statistics",
-        id: channelId,
-      },
-      (err, channelResponse) => {
-        if (err) {
-          console.log("1", err);
-        } else {
-          console.log("2", channelResponse.data.items[0].snippet);
-        }
-      }
-    );
+    const channels = await youtube.channels.list({
+      part: "snippet,contentDetails,statistics",
+      id: channelId,
+    });
+    // (err, channelResponse) => {
+    //   if (err) {
+    //     console.log("1", err);
+    //   } else {
+    //     return  (channelResponse.data.items[0].snippet);
+    //   }
+    // }
+    // );
+    // console.log("2", channels.data.items[0].snippet);
+    // console.log("channel response:", channels.data.items[0].snippet);
 
     // const videos = youtube.videos.list(
     //   {
@@ -47,8 +48,56 @@ async function handleYoutubeInteractions(channelId) {
       channelId: channelId,
       type: "video",
     });
-    console.log("3", videos.data.items);
+    // console.log("3", videos.data.items);
+    return {
+      channels: channels.data.items[0].snippet,
+      videos: videos.data.items,
+    };
 
+    const videoComments = [];
+
+    for (const video of videos.data.items) {
+      const videoId = video.id.videoId; // Extract video ID
+
+      // Fetch comments for this video, filtering for top-level comments
+      if (!video) {
+        console.error("Skipping video: Missing video object.");
+        continue;
+      }
+
+      // Check if privacy property is available
+      if (!video.contentDetails || !video.contentDetails.privacy) {
+        console.warn(
+          `Skipping video ${video.id.videoId}: Missing privacy property.`
+        );
+        continue;
+      }
+
+      // Now check the privacy status safely
+      if (video.contentDetails.privacy.status === "private") {
+        console.log(
+          `Skipping video ${video.id.videoId}: Comments disabled (private).`
+        );
+        continue;
+      }
+      const comments = await youtube.commentThreads.list({
+        part: "snippet",
+        videoId: videoId,
+        // Ensure chronological order
+        textDisplay: "original", // Include original comment text
+        // searchRank: "topLevel", // Filter for top-level comments
+      });
+
+      // Only add top-level comments to the array
+      videoComments.push({
+        videoId: videoId,
+        comments: comments.data.items.map(
+          (comment) => comment.snippet.topLevelComment.snippet.textDisplay
+        ),
+      });
+    }
+
+    console.log("4", videoComments);
     // console.log("3", channels);
     // console.log(channels.data.items[0]);
 

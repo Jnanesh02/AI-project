@@ -6,7 +6,7 @@ const {
   assistantResponse,
   sentimentAnalysis,
 } = require("./src/helper/chatgpt");
-const cors = require('cors');
+const cors = require("cors");
 const twitterClient = require("./src/routes/twitterClient");
 const passportStrategy = require("./config/passport");
 const app = express();
@@ -18,7 +18,8 @@ const passport = require("passport");
 const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
-
+const router = require("./src/routes/index");
+connect();
 app.use(
   session({
     secret: "keyboard cat",
