@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const customer = new mongoose.Schema({
   userName: {
     type: String,
-    required: true,
+    default: "",
   },
-  
+
   email: {
     type: String,
     required: true,
@@ -13,19 +13,19 @@ const customer = new mongoose.Schema({
     type: String,
     required: true,
   },
-  password:{
+  password: {
     type: String,
     required: true,
   },
-  socialMedia:{
-    youtube:{
-        type: String,
-        default:"",
+  socialMedia: {
+    youtube: {
+      type: String,
+      default: "",
     },
   },
   plan: {
     type: String,
-    default:"",
+    default: "",
   },
   status: {
     type: String,
@@ -33,5 +33,5 @@ const customer = new mongoose.Schema({
     default: "active",
   },
 });
-const customermodel = mongoose.model("customerModel",customer);
+const customermodel = mongoose.model("customerModel", customer);
 module.exports = customermodel;

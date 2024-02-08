@@ -18,16 +18,18 @@ const passport = require("passport");
 const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
-const router = require("./src/routes/index");
+const router = require("./src/routes");
 connect();
 // Enable CORS for all requests
-app.use(cors({
-  origin: 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// app.use(
+//   cors({
+//     origin: ["http://localhost:3001", "http://localhost:3000"],
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
 
-const router = require('./src/routes')
+app.use(cors());
 
 app.use(
   session({
@@ -60,9 +62,6 @@ const answer = async () => {
   console.log(`Sentiment Analysis: ${response3}`);
 };
 // answer();
-// console.log(__dirname);
-
-// console.log("youtube.js path " + path);
 
 app.use(express.json());
 app.use(passport.initialize());

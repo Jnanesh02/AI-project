@@ -9,14 +9,15 @@ const router = express.Router();
 router.post("/signup", async (req, res) => {
   console.log("signup");
   try {
-    const { userName, email, phoneNumber, password } = req.body;
+    const { userName, email, mobileNumber, password } = req.body;
+    console.log(req.body);
 
     // Check if the username already exists
     const existingUser = await Customer.findOne({
       $or: [
         { userName: userName },
         { email: email },
-        { phoneNumber: phoneNumber },
+        { phoneNumber: mobileNumber },
       ],
     });
 
@@ -27,7 +28,7 @@ router.post("/signup", async (req, res) => {
       if (existingUser.email === email) {
         return res.status(409).json({ error: "Email already exists" });
       }
-      if (existingUser.phoneNumber === phoneNumber) {
+      if (existingUser.phoneNumber === mobileNumber) {
         return res.status(409).json({ error: "Phone number already exists" });
       }
     }
@@ -40,7 +41,7 @@ router.post("/signup", async (req, res) => {
     const newCustomer = new Customer({
       userName: userName,
       email: email,
-      phoneNumber: phoneNumber,
+      phoneNumber: mobileNumber,
       password: hashedPassword,
     });
     await newCustomer.save();

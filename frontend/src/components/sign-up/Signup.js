@@ -80,7 +80,10 @@ function Signup() {
     e.preventDefault();
     if (validateForm()) {
       // Submit form or perform further actions
-      const response = axios.post("http://localhost:3000/ai/signup", formData);
+      const response = axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/signup`,
+        formData
+      );
       // Navigate to login page
       navigate("/Login");
       console.log("Form submitted successfully:", {
