@@ -38,9 +38,9 @@ router.post("/admin/login", async (req, res) => {
     });
 
     if (!existingAdmin) {
-      return res.send(409).json({ message: "Invalid email" });
+      return res.status(409).json({ message: "Invalid email" });
     } else if (!existingAdminPassword) {
-      return res.send(409).json({ message: "Invalid email" });
+      return res.status(409).json({ message: "Invalid email" });
     }
     if (!existingAdmin.password.startsWith("TEMP_")) {
       // Check if the provided password matches the stored hashed password
@@ -52,7 +52,7 @@ router.post("/admin/login", async (req, res) => {
     }
     return res.status(200).json({ message: existingAdmin });
   } catch (error) {
-    res.send(500).message(error.message);
+    res.status(500).message(error.message);
   }
 });
 module.exports = router;

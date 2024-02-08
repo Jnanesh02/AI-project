@@ -26,7 +26,9 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 const router = require('./src/routes')
+
 app.use(
   session({
     secret: "keyboard cat",
