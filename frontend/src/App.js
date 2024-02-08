@@ -8,6 +8,8 @@ import Features from './components/Features/Features';
 import Pricing from './components/Pricing/Pricing';
 import Signup from './components/sign-up/Signup';
 import Forgot from './components/Forgot/Forgot';
+import { AdminLogin } from './components/AdminAuthenication/AdminLogin';
+import { AdminDashboard } from './components/AdminAuthenication/AdminDashboard';
 function App() {
   return (
     <div className="App">
@@ -23,8 +25,12 @@ function App() {
     <Route path="Forgot" element={<Forgot />} />
     <Route path="Blog" element={<Pricing />} />
     <Route path="Contact-Us" element={<Pricing />} />
-    </Routes>
-   </Router>
+    <Route path="adminLogin" element={<AdminLogin />} ></Route>
+    <Route path="adminDashboard" element={<AdminDashboard />} />
+
+
+  </Routes>
+</Router>
   
     </div>
   );
