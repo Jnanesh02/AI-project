@@ -78,3 +78,33 @@ button.btn.btn-primary.pricing-buttons {
     }
   
   }
+  .pricing-cards {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .pricing-cards:hover {
+    transform: translate(-5px);
+    transform: scale(1.10);
+  }
+  /* .pricing-cards:hover {
+    animation-name: scaleUp;
+    animation-duration: 1.19s;
+    
+  }
+  
+  @keyframes scaleUp {
+    0% {
+      transform: scale(0.7);
+    }
+    50% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1.2);
+    }
+  }
+  .features-main-card:hover {
+    transform: scale(1.16);
+  }
+  
+   */

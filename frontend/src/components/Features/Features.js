@@ -62,16 +62,11 @@ export default function Features() {
                   
                         <button class="btn btn-primary learn-more"> Learn More </button>
                     </div>
-                   
-                    
+                   </div>
                   </div>
+             </div>
             </div>
-
-            
-
-        </div>
-    </div>
-   </section>
+            </section>
     </div>
   )
 }
