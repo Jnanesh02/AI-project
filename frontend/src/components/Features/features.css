@@ -61,3 +61,11 @@ button.btn.btn-primary.learn-more {
         top: -54px;
     }
 }
+.features-main-card {
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .features-main-card:hover {
+    transform: scale(1.16);
+  }
+  

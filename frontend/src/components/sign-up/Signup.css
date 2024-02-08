@@ -114,4 +114,10 @@ img.login-logo-image {
   .mb-2 {
     margin-bottom: 0.5rem !important; /* Ensure consistent margin for vertical spacing */
   }
+  .error {
+    color: red;
+  }
+  
+  
+  
   
