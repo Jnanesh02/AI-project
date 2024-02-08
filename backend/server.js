@@ -66,6 +66,8 @@ app.use("/", socialRouter);
 app.use("/auth/twitter", twitterRouter);
 // Admin routes
 app.use("/ai", router.adminAuthentication);
+app.use("/ai", router.customer);
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
