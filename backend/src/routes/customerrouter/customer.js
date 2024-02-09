@@ -7,24 +7,23 @@ const router = express.Router();
 
 // Signup logic
 router.post("/signup", async (req, res) => {
-  console.log("signup");
+  console.log("signup",req.body);
   try {
-    const { userName, email, mobileNumber, password } = req.body;
+    const { firstName,lastName,email,password,mobileNumber} = req.body;
     console.log(req.body);
 
     // Check if the username already exists
     const existingUser = await Customer.findOne({
       $or: [
-        { userName: userName },
+        {firstName:firstName},
+        {lastName:lastName},
         { email: email },
         { phoneNumber: mobileNumber },
       ],
     });
 
     if (existingUser) {
-      if (existingUser.userName === userName) {
-        return res.status(409).json({ error: "Username already exists" });
-      }
+      
       if (existingUser.email === email) {
         return res.status(409).json({ error: "Email already exists" });
       }
@@ -39,7 +38,8 @@ router.post("/signup", async (req, res) => {
 
     // Create a new customer
     const newCustomer = new Customer({
-      userName: userName,
+      firstName: firstName,
+      lastName:lastName,
       email: email,
       phoneNumber: mobileNumber,
       password: hashedPassword,
@@ -53,12 +53,13 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+  console.log("login:",req.body);
   try {
-    const { mailNumberuserId, password } = req.body;
+    const { email, password } = req.body;
     const user = await Customer.find({
       $or: [
-        { username: { $regex: mailNumberuserId, $options: "i" } },
-        { email: { $regex: mailNumberuserId, $options: "i" } },
+        { email: email },
+        
       ],
     });
 

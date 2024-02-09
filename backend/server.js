@@ -35,13 +35,7 @@ app.use(
   session({
     secret: "keyboard cat",
     resave: false,
-    saveUninitialized: true,
-    cookie: {
-      path: "/",
-      httpOnly: true,
-      maxAge: 86400000,
-      sameSite: "None",
-    },
+    saveUninitialized: false,
   })
 );
 
@@ -51,16 +45,16 @@ app.use(
 //     keys: ["alfjal ;dsfjo; gjoerjf;jfmsaldf "],
 //   })
 // );
-const answer = async () => {
-  const userComment =
-    "This video is incredibly informative! I love how well-explained the content is, and the visuals are top-notch. Keep up the great work! 👍";
-  const response1 = await assistantResponse(userComment);
-  const response2 = await getChatGPTResponse(userComment);
-  const response3 = await sentimentAnalysis(userComment);
-  console.log(`assistant response: ${response1}`);
-  console.log(`chatgpt response: ${response2}`);
-  console.log(`Sentiment Analysis: ${response3}`);
-};
+// const answer = async () => {
+//   const userComment =
+//     "This video is incredibly informative! I love how well-explained the content is, and the visuals are top-notch. Keep up the great work! 👍";
+//   const response1 = await assistantResponse(userComment);
+//   const response2 = await getChatGPTResponse(userComment);
+//   const response3 = await sentimentAnalysis(userComment);
+//   console.log(`assistant response: ${response1}`);
+//   console.log(`chatgpt response: ${response2}`);
+//   console.log(`Sentiment Analysis: ${response3}`);
+// };
 // answer();
 
 app.use(express.json());

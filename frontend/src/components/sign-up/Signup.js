@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import loginlogo from "../../images/loginlogo.png";
+
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -199,6 +200,8 @@ function Signup() {
                     REGISTER{" "}
                   </button>
                 </form>
+
+                
               </div>
             </div>
           </div>

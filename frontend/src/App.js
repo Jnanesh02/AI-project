@@ -12,6 +12,11 @@ import { AdminDashboard } from "./components/AdminAuthenication/AdminDashboard";
 import AdminHomePage from "./components/AdminAuthenication/AdminHomePage";
 import { AdminProfile } from "./components/AdminAuthenication/AdminProfile";
 import CustomerDetails from "./components/AdminAuthenication/CustomerDetails";
+import CustomerDashboard from "./pages/CustomerDashboard/CustomerDashboard";
+import CustomerHome from "./pages/CustomerDashboard/CustomerHome";
+import CustomerAccount from "./pages/CustomerDashboard/CustomerAccount";
+import CustomerBlog from "./pages/CustomerDashboard/CustomerBlog";
+import CustomerSubscription from "./pages/CustomerDashboard/CustomerSubscription";
 import Test from "./Test";
 function App() {
   return (
@@ -24,6 +29,15 @@ function App() {
           </Route>
           <Route path="Features" element={<Features />} />
           <Route path="Login" element={<Login />} />
+          <Route path="dashboard" element={<CustomerDashboard/>} >
+            <Route index element={<CustomerHome/>}/>
+            <Route path="Account" element={<CustomerAccount/>}/>
+            <Route path="Blog" element={<CustomerBlog/>}/>
+            <Route path="Subscription" element={<CustomerSubscription />}/>
+
+
+
+          </Route>
           <Route path="Signup" element={<Signup />} />
           <Route path="Forgot" element={<Forgot />} />
           <Route path="Blog" element={<Pricing />} />

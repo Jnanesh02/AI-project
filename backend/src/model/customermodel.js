@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 const customer = new mongoose.Schema({
-  userName: {
+  firstName: {
     type: String,
     default: "",
   },
-
+  lastName: {
+    type: String,
+    default: "",
+  },
   email: {
     type: String,
     required: true,
