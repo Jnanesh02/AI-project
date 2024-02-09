@@ -34,26 +34,27 @@ router.get(
     failureRedirect: "/login",
   })
 
-  // async (req, res) => {
-  //   // console.log(req.user);
-  //   try {
-  //     req.session.channelId=channelId
-  //     const channelId = req.user.profile.id;
-  //     const { channels, videos } = await handleYoutubeInteractions(channelId);
-  //     console.log(channels, videos);
-  //     // res.json({ channels, videos });
-  //     res.re
-  //   } catch (err) {
-  //     console.error("Error in getting Youtube Channel Info : ", err);
-  //     return res.status(500).send("Server error");
-  //   }
+  ,async (req, res) => {
+    // console.log(req.user);
+    try {
+      req.session.channelId=channelId
+      const channelId = req.user.profile.id;
+      const { channels, videos } = await handleYoutubeInteractions(channelId);
+      console.log(channels, videos);
+      // res.json({ channels, videos });
+      res.re
+    } catch (err) {
+      console.error("Error in getting Youtube Channel Info : ", err);
+      return res.status(500).send("Server error");
+    }
 
-  //   // res.redirect("/login");
-  // }
+    // res.redirect("/login");
+  }
 );
 
 router.get("/login", async (req, res) => {
   try {
+    console.log(req.user);
     const user = await req.user; // Wait for user data to be available
     res.json(user);
   } catch (error) {
