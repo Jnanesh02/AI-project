@@ -13,6 +13,7 @@ import { AdminDashboard } from './components/AdminAuthenication/AdminDashboard';
 import AdminHomePage from './components/AdminAuthenication/AdminHomePage'
 import {AdminProfile} from './components/AdminAuthenication/AdminProfile'
 import CustomerDetails from './components/AdminAuthenication/CustomerDetails'
+import { Test } from './Test';
 function App() {
   return (
     <div className="App">
@@ -44,7 +45,7 @@ function App() {
 
 
     </Route>
-
+<Route path="test" element={<Test/>} />
 
   </Routes>
 </Router>

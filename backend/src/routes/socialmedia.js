@@ -27,32 +27,27 @@ router.get(
 
 router.get("/auth/youtube", passport.authenticate("youtube"));
 
-router.get(
-  "/auth/youtube/callback",
-  passport.authenticate("youtube"),
-  async (req, res) => {
-    // console.log(req.user);
-    try {
-      const channelId = req.user.profile.id;
-      const { channels, videos } = await handleYoutubeInteractions(channelId);
-      console.log(channels, videos);
-      res.json({ channels, videos });
-    } catch (err) {
-      console.error("Error in getting Youtube Channel Info : ", err);
-      return res.status(500).send("Server error");
+router.get("/auth/youtube/callback", function (req, res, next) {
+  passport.authenticate("youtube", function (err, userInfo) {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    } else {
+      req.session.user = userInfo.profile.id;
+      req.session.save();
+
+      res.redirect("/success");
     }
-
-    // res.redirect("/login");
-  }
-);
-
-router.get("/login", async (req, res) => {
-  try {
-    const user = await req.user; // Wait for user data to be available
-    res.json(user);
-  } catch (error) {
-    console.error(error);
-    res.send("unauthorized");
+  })(req, res, next);
+});
+router.get("/success", async (req, res) => {
+  if (req.session.user !== null) {
+    const channelId = req.session.user;
+    return res.status(200).json({ message: "Success", userId: channelId });
+  } else {
+    return res.status(401).json({ message: "Unauthorized" });
   }
 });
+
 module.exports = router;
+
+
