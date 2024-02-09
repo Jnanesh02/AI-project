@@ -57,10 +57,10 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await Customer.find({
-      $or: [
-        { email: email },
+    
+         email: email ,
         
-      ],
+    
     });
 
     if (!user) {

@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 // const axios = require("axios");
 const handleYoutubeInteractions = require("../helper/youtube");
-
+let userId;
 router.get("/auth/facebook", passport.authenticate("facebook"));
 router.get(
   "/auth/facebook/callback",
@@ -32,22 +32,21 @@ router.get("/auth/youtube/callback", function (req, res, next) {
     if (err) {
       return res.status(500).json({ message: err.message });
     } else {
-      req.session.user = userInfo.profile.id;
-      req.session.save();
+      userId= userInfo.profile.id;
 
-      res.redirect("/success");
+      res.redirect("http://localhost:3001/dashboard");
     }
   })(req, res, next);
 });
-router.get("/success", async (req, res) => {
-  if (req.session.user !== null) {
-    const channelId = req.session.user;
-    return res.status(200).json({ message: "Success", userId: channelId });
+router.get("/dashboard", async (req, res) => {
+  const channelId = userId;
+  if (channelId) {
+    const fetchYouTubeComment = await handleYoutubeInteractions(channelId)
+    return res.status(200).json({ fetchYouTubeComment });
   } else {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Channel ID not found" });
   }
 });
-
 module.exports = router;
 
 

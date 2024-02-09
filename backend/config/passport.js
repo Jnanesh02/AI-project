@@ -11,9 +11,8 @@ passport.serializeUser((user, done) => {
   done(null,JSON.stringify(user.profile.id));
 });
 
-passport.deserializeUser((user, done) => {
-  console, log(user, "12345");
-  done(null, user);
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
 });
 
 async function updateAccessToken(accessToken) {
