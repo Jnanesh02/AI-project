@@ -30,6 +30,7 @@ router.post("/create/newAdmin", async (req, res) => {
 });
 
 router.post("/admin/login", async (req, res) => {
+  console.log("Admin:",req.body);
   try {
     const { email, password } = req.body;
     const existingAdmin = await adminSchema.findOne({ email: email });

@@ -1,0 +1,111 @@
+section.pricing {
+    padding-top: 50px;
+    text-align: center;
+    padding-bottom: 50px;
+}
+section.pricing h1 {
+    margin-bottom: 75px;
+}
+.card-body.pricing-card-body h2.card-title {
+    text-align: left;
+    padding-top: 10px;
+}
+
+.card-body.pricing-card-body h1 span {
+    font-size: 14px;
+}
+.card-body.pricing-card-body h1.card-body-h1 {
+    text-align: left;
+    margin-bottom: 0px;
+}
+ul.list-group.list-group-flush.pricing-ul li {
+    text-align: left;
+    font-size: 14px;
+    border: none;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 0px;
+}
+ul.list-group.list-group-flush.pricing-ul li svg {
+    background: black;
+    fill: white;
+    border-radius: 20px;
+    padding: 4px;
+    margin-right: 10px;
+}
+ul.list-group.list-group-flush.pricing-ul {
+    border: none;
+    border-top: 1px solid black;
+    width: 85%;
+    margin: auto;
+}
+button.btn.btn-primary.pricing-buttons {
+    background: black;
+    border: none;
+    border-radius: 30px;
+    width: 80%;
+    margin: auto;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    font-weight: normal;
+    letter-spacing: 0px;
+    font-size: 14px;
+}
+.card.pricing-cards {
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px #c3c3c3;
+}
+.most-popular-card {
+    position: absolute;
+    background: black;
+    width: 100%;
+    top: -35px;
+    right: -1px;
+    padding: 8px;
+    color: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+.most-popular-card h5 {
+    font-size: 18px;
+    padding-top: 3px;
+}
+@media only screen and (max-width: 1000px) {
+   
+    .card.pricing-cards {
+        margin-bottom: 50px;
+    }
+  
+  }
+  .pricing-cards {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .pricing-cards:hover {
+    transform: translate(-5px);
+    transform: scale(1.10);
+  }
+  /* .pricing-cards:hover {
+    animation-name: scaleUp;
+    animation-duration: 1.19s;
+    
+  }
+  
+  @keyframes scaleUp {
+    0% {
+      transform: scale(0.7);
+    }
+    50% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1.2);
+    }
+  }
+  .features-main-card:hover {
+    transform: scale(1.16);
+  }
+  
+   */

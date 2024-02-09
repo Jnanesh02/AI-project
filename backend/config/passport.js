@@ -12,6 +12,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((user, done) => {
+  console, log(user, "12345");
   done(null, user);
 });
 

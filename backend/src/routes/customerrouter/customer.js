@@ -2,47 +2,46 @@ const Customer = require("../../model/customermodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
-const express=require("express");
+const express = require("express");
 const router = express.Router();
-
 
 // Signup logic
 router.post("/signup", async (req, res) => {
-  console.log("signup");
+  console.log("signup",req.body);
   try {
-    const { userName, email,phoneNumber, password} = req.body;
+    const { firstName,lastName,email,password,mobileNumber} = req.body;
     console.log(req.body);
 
     // Check if the username already exists
-    const existingUser = await Customer.findOne({ userName:userName });
-    console.log("1",existingUser);
+    const existingUser = await Customer.findOne({
+      $or: [
+        {firstName:firstName},
+        {lastName:lastName},
+        { email: email },
+        { phoneNumber: mobileNumber },
+      ],
+    });
 
     if (existingUser) {
-      return res.status(409).json({ error: "Username already exists" });
-    }
-
-    const existingemail = await Customer.findOne({ email:email });
-    console.log("1",existingemail);
-    if (existingemail) {
-      return res.status(409).json({ error: "email already exists" });
-    };
-    const existingphoneNumber = await Customer.findOne({ phoneNumber:phoneNumber });
-    console.log("3",existingphoneNumber);
-    if (existingphoneNumber) {
-      return res.status(409).json({ error: "phoneNumber is  already exists" });
+      
+      if (existingUser.email === email) {
+        return res.status(409).json({ error: "Email already exists" });
+      }
+      if (existingUser.phoneNumber === mobileNumber) {
+        return res.status(409).json({ error: "Phone number already exists" });
+      }
     }
 
     // Hash the password
     const saltRounds = 10;
-    console.log(saltRounds);
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    console.log(hashedPassword);
 
     // Create a new customer
     const newCustomer = new Customer({
-      userName: userName,
+      firstName: firstName,
+      lastName:lastName,
       email: email,
-      phoneNumber:phoneNumber,
+      phoneNumber: mobileNumber,
       password: hashedPassword,
     });
     await newCustomer.save();
@@ -54,25 +53,21 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+  console.log("login:",req.body);
   try {
-    const { mailNumberuserId, password } = req.body;
-    console.log("mailNumberuserId", mailNumberuserId, "password", password);
+    const { email, password } = req.body;
     const user = await Customer.find({
       $or: [
-        { username: { $regex: mailNumberuserId, $options: "i" } },
-        { email: { $regex: mailNumberuserId, $options: "i" } },
+        { email: email },
         
       ],
     });
-    console.log(user);
 
     if (!user) {
       return res.status(403).json({ message: "Invalid Credentials" });
     }
 
     const matchedPassword = await bcrypt.compare(password, user[0].password);
-
-    console.log("matchedPassword", matchedPassword);
     if (!matchedPassword) {
       return res.status(401).json({ error: "Invalid credential" });
     }
@@ -88,4 +83,3 @@ router.post("/login", async (req, res) => {
 });
 
 module.exports = router;
-
