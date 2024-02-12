@@ -22,6 +22,7 @@ h5.card-title.card-title-name {
 .features-main-card {
     margin-top: 50px;
     margin-bottom: 50px;
+   margin-left: 80px;
 }
 .features-main-card .card {
     width: 90% !important;
@@ -43,6 +44,8 @@ button.btn.btn-primary.learn-more {
 .features-main-card p.card-text {
     margin-top: 10px;
     text-align: left;
+   
+   
 }
 
 .features-main-card .card-body {
