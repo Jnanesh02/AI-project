@@ -12,12 +12,11 @@ import { AdminDashboard } from "./components/AdminAuthenication/AdminDashboard";
 import AdminHomePage from "./components/AdminAuthenication/AdminHomePage";
 import { AdminProfile } from "./components/AdminAuthenication/AdminProfile";
 import CustomerDetails from "./components/AdminAuthenication/CustomerDetails";
-import CustomerDashboard from "./pages/CustomerDashboard/CustomerDashboard";
-import CustomerHome from "./pages/CustomerDashboard/CustomerHome";
 import CustomerAccount from "./pages/CustomerDashboard/CustomerAccount";
 import CustomerBlog from "./pages/CustomerDashboard/CustomerBlog";
 import CustomerSubscription from "./pages/CustomerDashboard/CustomerSubscription";
-import Test from "./Test";
+import { CustomerLayout } from "./pages/CustomerDashboard/CustomerLayout";
+import CustomerDashboard from "./pages/CustomerDashboard/CustomerDashboard";
 function App() {
   return (
     <div className="App">
@@ -29,8 +28,8 @@ function App() {
           </Route>
           <Route path="Features" element={<Features />} />
           <Route path="Login" element={<Login />} />
-          <Route path="dashboard" element={<CustomerDashboard/>} >
-            <Route index element={<CustomerHome/>}/>
+          <Route path="dashboard" element={<CustomerLayout/>} >
+            <Route index element={<CustomerDashboard/>}/>
             <Route path="Account" element={<CustomerAccount/>}/>
             <Route path="Blog" element={<CustomerBlog/>}/>
             <Route path="Subscription" element={<CustomerSubscription />}/>
@@ -56,7 +55,6 @@ function App() {
             <Route path="customerDetails" element={<CustomerDetails />} />
             <Route path="employeeDetails" element={<EmployeeDetails />} /> */}
           </Route>
-          <Route path="/test" element={<Test></Test>}></Route>
         </Routes>
       </Router>
     </div>

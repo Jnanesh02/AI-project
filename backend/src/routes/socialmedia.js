@@ -29,6 +29,7 @@ router.get("/auth/youtube", passport.authenticate("youtube"));
 
 router.get("/auth/youtube/callback", function (req, res, next) {
   passport.authenticate("youtube", function (err, userInfo) {
+    console.log(userInfo);
     if (err) {
       return res.status(500).json({ message: err.message });
     } else {
