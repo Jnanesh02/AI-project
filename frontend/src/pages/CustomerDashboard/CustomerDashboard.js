@@ -1,11 +1,22 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import "./CustomerDashboardStyles/Dashboard.css"
 import headerlogo from "../../images/header-logo.png";
-import user from "../../images/user.png"
 import { NavLink, Outlet } from "react-router-dom";
+import axios from 'axios';
 
 
 const CustomerDashboard = () => {
+  useEffect(() =>{
+    getChannelId()
+  },[]);
+  const getChannelId= async () =>{
+    try {
+      const response = await axios.get("http://localhost:3000/dashboard");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div>
       <div>
