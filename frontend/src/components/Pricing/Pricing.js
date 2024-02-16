@@ -158,7 +158,7 @@ import "./Pricing.css";
 
 const pricingData = [
   {
-    type: "Free",
+    type: " Basic Plan",
     price: "0$",
     duration: "30 days",
     features: [
@@ -171,7 +171,7 @@ const pricingData = [
     button: "Start Free Trial",
   },
   {
-    type: "Basic",
+    type: "Pro Plan",
     price: "899$",
     duration: "per Month",
     features: [
@@ -184,7 +184,7 @@ const pricingData = [
     button: "Contact For More Information",
   },
   {
-    type: "Standard",
+    type: "premium plan",
     price: "1199$",
     duration: "per Month",
     features: [
@@ -197,7 +197,7 @@ const pricingData = [
     button: "Contact For More Information",
   },
   {
-    type: "Platinum",
+    type: "Enterprise plan",
     price: "13,991$",
     duration: "per Annum",
     features: [
@@ -241,7 +241,7 @@ export default function Pricing() {
                           height="20"
                           viewBox="0 -960 960 960"
                           width="20">
-                          <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+                          <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
                         </svg>
                         {feature}
                       </li>

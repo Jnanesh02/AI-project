@@ -167,7 +167,7 @@ function Signup() {
                       )}
                     </div>
                     <div className="col-md-6 mb-4">
-                      <label htmlFor="confirmPassword">Confirm Password:</label>
+                      <label htmlFor="confirmPassword">Confirm password:</label>
                       <input
                         type="password"
                         id="confirmPassword"
@@ -200,8 +200,6 @@ function Signup() {
                     REGISTER{" "}
                   </button>
                 </form>
-
-                
               </div>
             </div>
           </div>

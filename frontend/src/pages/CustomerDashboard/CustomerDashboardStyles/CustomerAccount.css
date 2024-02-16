@@ -113,7 +113,14 @@
   .instagram:hover span { 
     background: #c32aa3;
   }
+  .youtube {
+    display: flex;
+    align-items: center;
+  }
   
+  .youtube form {
+    margin-left: 10px; /* Adjust this value as needed */
+  }
   .youtube:hover {
     color: #dd4b39;
   }

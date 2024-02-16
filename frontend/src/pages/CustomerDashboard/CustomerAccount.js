@@ -1,11 +1,20 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './CustomerDashboardStyles/CustomerAccount.css'
 const CustomerAccount = () => {
+  const navigate = useNavigate();
+  document.addEventListener('DOMContentLoaded',function(){
+  const form = document.getElementById('youtubeForm');
+       form.addEventListener('submit', function(event){
+        event.preventDefault();
+        console.log(event);
+        navigate("/customerDetails");
+       });
+  });
   return (
     <div>
       <ul className="social-icons">
-      <li>
+      {/* <li>
         <NavLink to="#" className="facebook">
           <span></span>
           <span></span>
@@ -32,16 +41,11 @@ const CustomerAccount = () => {
           <span></span>
           <i class="fa-brands fa-instagram" aria-hidden="true"></i>
         </NavLink>
-      </li>
-      <li>
-        <NavLink to="#" className="youtube">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <i class="fa-brands fa-youtube" aria-hidden="true"></i>
-        </NavLink>
-      </li>
+      </li> */}
+  <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+  <form id="youtubeForm" action="http://localhost:3000/auth/youtube" method="get">
+    <input type="submit" placeholder='Sign with YouTube'/>
+  </form>
     </ul>
     </div>
   )

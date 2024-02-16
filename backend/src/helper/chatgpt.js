@@ -1,5 +1,7 @@
+const { open } = require("fs-extra");
 const { OpenAI } = require("openai");
 
+// console.log(process.env.CHATGPT_KEY);
 const openai = new OpenAI({
   apiKey: process.env.CHATGPT_KEY,
 });
@@ -32,11 +34,58 @@ async function getChatGPTResponse(comment) {
   }
 }
 
+const assistantConfig = {
+  name: "test",
+  instructions: "",
+  tools: [{ type: "code_interpreter" }],
+  model: "gpt-4-turbo-preview",
+};
+
+const test = async () => {
+  const assistant = await openai.beta.assistants.create(assistantConfig);
+  console.log(assistant);
+};
+// test();
+const updateInstructions = async () => {
+  try {
+    const existingAssistant = openai.beta.assistants.retrieve(
+      "asst_p6mboQnCyfmGjKKecWwaSIRC"
+    );
+    const instructions = "this is just a test";
+    await openai.beta.assistants.update("asst_p6mboQnCyfmGjKKecWwaSIRC", {
+      instructions: instructions,
+    });
+    console.log("assistant instructions updated successfully");
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+// updateInstructions();
+// {
+//   id: 'asst_p6mboQnCyfmGjKKecWwaSIRC',
+//   object: 'assistant',
+//   created_at: 1707815157,
+//   name: 'test',
+//   description: null,
+//   model: 'gpt-4-turbo-preview',
+//   instructions: '',
+//   tools: [ { type: 'code_interpreter' } ],
+//   file_ids: [],
+//   metadata: {}
+// }
+
 async function assistantResponse(userComment) {
   try {
     // Retrieve the assistant
-    console.log(userComment);
-    const assistant = await openai.beta.assistants.retrieve(assistantId);
+
+    const assistant = await openai.beta.assistants.create({
+      name: "Math Tutor",
+      instructions:
+        "You are a personal math tutor. Write and run code to answer math questions.",
+      tools: [{ type: "code_interpreter" }],
+      model: "gpt-4-turbo-preview",
+    });
 
     // Create a thread
     const threadResponse = await openai.beta.threads.create();
