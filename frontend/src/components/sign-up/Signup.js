@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import loginlogo from "../../images/loginlogo.png";
+
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -166,7 +167,7 @@ function Signup() {
                       )}
                     </div>
                     <div className="col-md-6 mb-4">
-                      <label htmlFor="confirmPassword">Confirm Password:</label>
+                      <label htmlFor="confirmPassword">Confirm password:</label>
                       <input
                         type="password"
                         id="confirmPassword"

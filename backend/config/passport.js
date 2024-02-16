@@ -8,16 +8,17 @@ const fs = require("fs-extra");
 const { assistantResponse } = require("../src/helper/chatgpt");
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  console.log(JSON.stringify(user.profile.id))
+  done(null,JSON.stringify(user.profile.id));
 });
 
-passport.deserializeUser((user, done) => {
-  console, log(user, "12345");
-  done(null, user);
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
 });
 
 async function updateAccessToken(accessToken) {
   try {
+    console.log(accessToken);
     let credentials = await fs.readJson("./config/credentials.json");
     console.log(credentials);
     credentials.accessToken = accessToken;

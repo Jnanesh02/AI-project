@@ -22,7 +22,6 @@ const customer = new Schema({
     default: "",
     unique: true,
   },
-
   email: {
     type: String,
     required: true,

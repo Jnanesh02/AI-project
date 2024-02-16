@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 // const axios = require("axios");
 const handleYoutubeInteractions = require("../helper/youtube");
-
+let userId;
 router.get("/auth/facebook", passport.authenticate("facebook"));
 router.get(
   "/auth/facebook/callback",
@@ -27,38 +27,27 @@ router.get(
 
 router.get("/auth/youtube", passport.authenticate("youtube"));
 
-router.get(
-  "/auth/youtube/callback",
-  passport.authenticate("youtube", {
-    successRedirect: "http://localhost:3001/adminDashboard",
-    failureRedirect: "/login",
-  })
+router.get("/auth/youtube/callback", function (req, res, next) {
+  passport.authenticate("youtube", function (err, userInfo) {
+    console.log(userInfo);
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    } else {
+      userId= userInfo.profile.id;
 
-  // async (req, res) => {
-  //   // console.log(req.user);
-  //   try {
-  //     req.session.channelId=channelId
-  //     const channelId = req.user.profile.id;
-  //     const { channels, videos } = await handleYoutubeInteractions(channelId);
-  //     console.log(channels, videos);
-  //     // res.json({ channels, videos });
-  //     res.re
-  //   } catch (err) {
-  //     console.error("Error in getting Youtube Channel Info : ", err);
-  //     return res.status(500).send("Server error");
-  //   }
-
-  //   // res.redirect("/login");
-  // }
-);
-
-router.get("/login", async (req, res) => {
-  try {
-    const user = await req.user; // Wait for user data to be available
-    res.json(user);
-  } catch (error) {
-    console.error(error);
-    res.send("unauthorized");
+      res.redirect("http://localhost:3001/dashboard");
+    }
+  })(req, res, next);
+});
+router.get("/dashboard", async (req, res) => {
+  const channelId = userId;
+  if (channelId) {
+    const fetchYouTubeComment = await handleYoutubeInteractions(channelId)
+    return res.status(200).json({ fetchYouTubeComment });
+  } else {
+    return res.status(401).json({ message: "Channel ID not found" });
   }
 });
 module.exports = router;
+
+
