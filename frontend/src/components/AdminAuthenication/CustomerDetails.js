@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "./AdminStyles/CustomerDetails.css";
+import axios from "axios";
 
 const CustomerDetails = () => {
   const [employees, setEmployees] = useState([]);
@@ -10,15 +11,29 @@ const CustomerDetails = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [customersData, setCustomersData] = useState([]);
 
   const displayFields = [
-    "FirstName",
-    "LastName",
-    "Email",
-    "PhoneNumber",
-    "Plan",
+    "email",
+    "linkedAccount",
+    "plan",
+    "usage",
     "status",
-    "SocialMedia",
+    "renewal",
+  ];
+
+  const tableHeaders = [
+    "Email",
+    "Linked Accounts",
+    "Subscription Plan",
+    "Usage",
+    // "Assistant Instructions",
+    // "Extra Package Purchase Data",
+    // "Last Active Date",
+    "status",
+    "Renewal Date/Subscription Expiry",
+    // "Feedback Section",
+    // "Recent Activity Insights",
   ];
 
   // Dummy data
@@ -204,12 +219,34 @@ const CustomerDetails = () => {
       },
     },
   ];
-
-  const data= //
+  const getCustomerDetails = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/customer`,
+          {
+            headers: { authorization: token },
+          }
+        );
+        // console.log(response.data);
+        setCustomersData(response.data);
+      } else {
+        console.log("unauthorised");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
-    setEmployees(dummyEmployees);
-    setLoading(false);
+    getCustomerDetails();
   }, []);
+  console.log("outside useEffect", customersData);
+  const data = //
+    useEffect(() => {
+      setEmployees(dummyEmployees);
+      setLoading(false);
+    }, []);
 
   const applyFilters = useCallback(
     (data) => {
@@ -297,37 +334,33 @@ const CustomerDetails = () => {
       <table className="employee-table">
         <thead>
           <tr>
-            {displayFields.map((field) => (
+            {/* {displayFields.map((field) => (
+              <th key={field}>{field}</th>
+            ))} */}
+            {tableHeaders.map((field) => (
               <th key={field}>{field}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {dummyEmployees.map((employee, key) => (
+          {customersData.map((employee, key) => (
             <tr key={`${employee._id}-${key}`}>
               {displayFields.map((field) => (
                 <td key={`${employee._id}-${field}`}>
-                  {field === "SocialMedia" &&
-                  typeof employee[field] === "object" ? (
+                  {console.log(employee)}
+                  <span>
+                    {typeof employee[field] === "object"
+                      ? JSON.stringify(employee[field]) // Convert object to string for display
+                      : employee[field]}
+                  </span>
+
+                  {/* {typeof employee[field] === "object" ? (
                     <>
-                      {employee[field].facebookId && (
-                        <span>Login with Facebook</span>
-                      )}
-                      {employee[field].linkedinId && (
-                        <span>Login with LinkedIn</span>
-                      )}
-                      {employee[field].googleId && (
-                        <span>Login with Google</span>
-                      )}
-                      {employee[field].youtubeId && (
-                        <span>Login with youtubeId</span>
-                      )}
-                      {!employee[field].facebookId &&
-                        !employee[field].linkedinId &&
-                        !employee[field].googleId &&
-                        !employee[field].youtubeId && (
-                          <span>No social media IDs</span>
-                        )}
+                      <span>
+                        {employee[field] !== null && employee[field] !== ""
+                          ? employee[field]
+                          : "--"}
+                      </span>
                     </>
                   ) : (
                     <span>
@@ -335,7 +368,7 @@ const CustomerDetails = () => {
                         ? employee[field]
                         : "--"}
                     </span>
-                  )}
+                  )} */}
                 </td>
               ))}
             </tr>

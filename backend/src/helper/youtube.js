@@ -100,8 +100,8 @@ async function handleYoutubeInteractions(channelId) {
           part: "snippet,statistics",
           id: videoId,
         });
-        console.log("-------------------------------------------------");
-        console.log(videoDetails.data.items[0].statistics);
+        // console.log("-------------------------------------------------");
+        // console.log(videoDetails.data.items[0].statistics);
 
         if (videoDetails.data.items[0].statistics.commentCount > 0) {
           // Fetch comments if comments are enabled
@@ -109,6 +109,7 @@ async function handleYoutubeInteractions(channelId) {
             part: "snippet",
             videoId: videoId,
             textDisplay: "original", // Include original comment text
+            maxResults: 50,
             // Comment filtering/sorting as needed
           });
 
@@ -134,7 +135,8 @@ async function handleYoutubeInteractions(channelId) {
       }
     }
 
-    console.log("4", videoComments);
+    // console.log("4", videoComments);
+    // videoComments.map((v) => console.log(v.comments.length));
 
     return {
       channels: channels.data.items[0].snippet,

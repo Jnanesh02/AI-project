@@ -19,6 +19,9 @@ const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
 const router = require("./src/routes");
+const { requireAuth } = require("./middleware/auth");
+
+
 connect();
 // Enable CORS for all requests
 // app.use(
@@ -66,6 +69,8 @@ app.use("/auth/twitter", twitterRouter);
 // Admin routes
 app.use("/ai", router.adminAuthentication);
 app.use("/ai", router.customer);
+app.use("/ai",requireAuth, router.plan);
+
 
 app.get("/success", (req, res) => {
   res.send("success");
