@@ -22,20 +22,54 @@ function Signup() {
   const validateForm = () => {
     let newErrors = {};
 
+    // if (!formData.firstName.trim()) {
+    //   newErrors.formData.firstName = "First name is required";
+    // }
+
+    // if (!formData.lastName.trim()) {
+    //   newErrors.formData.lastName = "Last name is required";
+    // }
+
+    // if (!formData.email.trim()) {
+    //   newErrors.formData.email = "Email is required";
+    // } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    //   newErrors.email = "Email address is invalid";
+    // }
+
+    // if (!formData.password.trim()) {
+    //   newErrors.password = "Password is required";
+    //   newErrors.confirmPassword = "confirmPassword is required";
+    // } else if (formData.password.trim().length < 6) {
+    //   newErrors.password = "Password must be at least 6 characters";
+    // } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
+    //   newErrors.password =
+    //     "Password must contain at least one special character";
+    // }
+
+    // if (formData.password !== formData.confirmPassword) {
+    //   newErrors.confirmPassword = "Passwords do not match";
+    // }
+
+    // if (!formData.mobileNumber.trim()) {
+    //   newErrors.mobileNumber = "Mobile number is required";
+    // } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
+    //   newErrors.mobileNumber = "Mobile number is invalid";
+    // }
+
     if (!formData.firstName.trim()) {
-      newErrors.formData.firstName = "First name is required";
+      newErrors.firstName = "First name is required";
     }
-
+    
     if (!formData.lastName.trim()) {
-      newErrors.formData.lastName = "Last name is required";
+      newErrors.lastName = "Last name is required";
     }
-
+    
     if (!formData.email.trim()) {
-      newErrors.formData.email = "Email is required";
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email address is invalid";
     }
-
+    
     if (!formData.password.trim()) {
       newErrors.password = "Password is required";
       newErrors.confirmPassword = "confirmPassword is required";
@@ -45,16 +79,17 @@ function Signup() {
       newErrors.password =
         "Password must contain at least one special character";
     }
-
+    
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
-
+    
     if (!formData.mobileNumber.trim()) {
       newErrors.mobileNumber = "Mobile number is required";
     } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
       newErrors.mobileNumber = "Mobile number is invalid";
     }
+    
 
     setErrors(newErrors);
     // Check if there are any errors, if yes, return false, else true

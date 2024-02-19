@@ -56,7 +56,33 @@ export const AdminDashboard = () => {
                 </h2>
               </div>
             </div>
+            
             <div className="accordion" id="accordionExample2">
+  <div className="accordion-item">
+    <h2 className="accordion-header" id="headingOne2">
+      <button className="accordion-button custom-button" type="button" data-bs-toggle="collapse" data-bs-target="#masterDropdown" aria-expanded="true" aria-controls="masterDropdown">
+        Masters
+      </button>
+    </h2>
+    <div id="masterDropdown" className="accordion-collapse collapse show" aria-labelledby="headingOne2" data-bs-parent="#accordionExample2">
+      <div className="accordion-body">
+      <h2 className="accordion-header" id="headingOne2">
+                  <NavLink className="accordion-button custom-button" to="Masters1">
+                    Masters1
+                  </NavLink>
+                </h2>
+               </div>
+        <div className="accordion-body">
+      <h2 className="accordion-header" id="headingOne2">
+                  <NavLink className="accordion-button custom-button" to="Masters2">
+                    Masters2
+                  </NavLink>
+                </h2>
+        </div>
+    </div>
+  </div>
+    </div>
+             <div className="accordion" id="accordionExample2">
               <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne2">
                   <NavLink className="accordion-button custom-button" to="employeeDetails">

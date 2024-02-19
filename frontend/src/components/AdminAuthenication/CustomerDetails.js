@@ -3,7 +3,6 @@ import "./AdminStyles/CustomerDetails.css";
 
 const CustomerDetails = () => {
   const [employees, setEmployees] = useState([]);
-  const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,7 +22,8 @@ const CustomerDetails = () => {
 
   // Dummy data
   const dummyEmployees = [
-    {
+    /* Your dummy data here */
+        {
       "_id": 1,
       "FirstName": "John",
       "LastName": "Doe",
@@ -210,50 +210,31 @@ const CustomerDetails = () => {
     setLoading(false);
   }, []);
 
+  const filterBySearchTerm = (employee) =>
+    searchTerm === "" ||
+    (employee.FirstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      employee.LastName.toLowerCase().includes(searchTerm.toLowerCase()));
+
   const applyFilters = useCallback(
     (data) => {
-      return data.filter(
-        (employee) =>
-          filterBySearchTerm(employee, searchTerm) &&
-          filterByStatus(employee, statusFilter)
-      );
+      return data.filter((employee) => {
+        return (
+          filterBySearchTerm(employee) &&
+          (statusFilter === "" || employee.status === statusFilter)
+        );
+      });
     },
     [searchTerm, statusFilter]
   );
 
-  const applyAndFetch = (data, filterFunction, setFunction) => {
-    const filteredData = filterFunction(data);
-    setFunction(filteredData);
-  };
-
-  const filterBySearchTerm = (employee, term) =>
-    term === "" ||
-    Object.values(employee).some(
-      (value) =>
-        value && value.toString().toLowerCase().includes(term.toLowerCase())
-    );
-
-  const filterByStatus = (employee, status) => {
-    return (
-      status === "" ||
-      (employee &&
-        employee.status &&
-        employee.status.toLowerCase() === status.toLowerCase())
-    );
-  };
-
   const handleSearchChange = (event) => {
     const searchTerm = event.target.value;
     setSearchTerm(searchTerm);
-    setCurrentPage(1); // Reset current page when the search term changes
-    applyAndFetch(employees, applyFilters, setFilteredEmployees);
   };
 
-  const handleFilterChange = (event, setFilterFunction) => {
+  const handleFilterChange = (event) => {
     const filterValue = event.target.value;
-    setFilterFunction(filterValue);
-    setCurrentPage(1); // Reset current page when the filter changes
-    applyAndFetch(employees, applyFilters, setFilteredEmployees);
+    setStatusFilter(filterValue);
   };
 
   const handlePageChange = (newPage) => {
@@ -263,7 +244,7 @@ const CustomerDetails = () => {
   // Calculate the index range for the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredEmployees.slice(
+  const currentItems = applyFilters(employees).slice(
     indexOfFirstItem,
     indexOfLastItem
   );
@@ -273,27 +254,24 @@ const CustomerDetails = () => {
       <div className="dep-tbl">
         <h2 className="customer-heading">Customer Details</h2>
 
+        <input
+          type="text"
+          placeholder="Search..."
+          className="Searchbar form-control"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
 
-          <input
-            type="text"
-            placeholder="Search..."
-            className="Searchbar form-control"
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-
-          <label className="table-bar-label">
-            <select
-              className="form-select"
-              value={statusFilter}
-              onChange={(e) => handleFilterChange(e, setStatusFilter)}
-            >
-              <option value=""> Status Filter: </option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </label>
-        
+        <label className="table-bar-label">
+          <select
+            className="form-select"
+            value={statusFilter}
+            onChange={handleFilterChange}>
+            <option value=""> Status Filter: </option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </label>
       </div>
 
       <table className="employee-table">
@@ -305,29 +283,21 @@ const CustomerDetails = () => {
           </tr>
         </thead>
         <tbody>
-          {dummyEmployees.map((employee, key) => (
+          {/* {employees.map((employee, key) => ( */}
+          {currentItems.filter(employee => filterBySearchTerm(employee, searchTerm)).map((employee,key) => (
             <tr key={`${employee._id}-${key}`}>
               {displayFields.map((field) => (
                 <td key={`${employee._id}-${field}`}>
-                  {field === "SocialMedia" &&
-                  typeof employee[field] === "object" ? (
+                  {field === "SocialMedia" && typeof employee[field] === "object" ? (
                     <>
-                      {employee[field].facebookId && (
-                        <span>Login with Facebook</span>
-                      )}
-                      {employee[field].linkedinId && (
-                        <span>Login with LinkedIn</span>
-                      )}
-                      {employee[field].googleId && (
-                        <span>Login with Google</span>
-                      )}
-                      {employee[field].youtubeId && (
-                        <span>Login with youtubeId</span>
-                      )}
+                      {employee[field].facebookId && <span>Login with Facebook</span>}
+                      {employee[field].linkedinId && <span>Login with LinkedIn</span>}
+                      {employee[field].googleId && <span>Login with Google</span>}
+                      {employee[field].youtubeId && <span>Login with youtubeId</span>}
                       {!employee[field].facebookId &&
                         !employee[field].linkedinId &&
-                        !employee[field].googleId && 
-                        !employee[field].youtubeId &&(
+                        !employee[field].googleId &&
+                        !employee[field].youtubeId && (
                           <span>No social media IDs</span>
                         )}
                     </>
@@ -358,8 +328,7 @@ const CustomerDetails = () => {
         <button
           className="next"
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={indexOfLastItem >= filteredEmployees.length}
-        >
+          disabled={indexOfLastItem >= applyFilters(employees).length}>
           Next
         </button>
       </div>
@@ -371,3 +340,5 @@ const CustomerDetails = () => {
 };
 
 export default CustomerDetails;
+
+
