@@ -1,5 +1,5 @@
-import React,{useEffect} from 'react'
-import { NavLink,Link ,Outlet} from 'react-router-dom';
+import React, { useEffect } from "react";
+import { NavLink, Link, Outlet } from "react-router-dom";
 import "./AdminStyles/Dashboard.css";
 import headerlogo from "../../images/header-logo.png";
 export const AdminDashboard = () => {
@@ -50,13 +50,15 @@ export const AdminDashboard = () => {
             <div className="accordion" id="accordionExample2">
               <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne2">
-                  <NavLink className="accordion-button custom-button" to="profile">
-                    Profile
+                  <NavLink
+                    className="accordion-button custom-button"
+                    to="masters">
+                    Masters
                   </NavLink>
                 </h2>
               </div>
             </div>
-            
+
             <div className="accordion" id="accordionExample2">
   <div className="accordion-item">
     <h2 className="accordion-header" id="headingOne2">
@@ -85,7 +87,9 @@ export const AdminDashboard = () => {
              <div className="accordion" id="accordionExample2">
               <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne2">
-                  <NavLink className="accordion-button custom-button" to="employeeDetails">
+                  <NavLink
+                    className="accordion-button custom-button"
+                    to="employeeDetails">
                     Employee Management
                   </NavLink>
                 </h2>
@@ -94,7 +98,9 @@ export const AdminDashboard = () => {
             <div className="accordion" id="accordionExample2">
               <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne2">
-                  <NavLink className="accordion-button custom-button" to="customerDetails">
+                  <NavLink
+                    className="accordion-button custom-button"
+                    to="customerDetails">
                     Customer Management
                   </NavLink>
                 </h2>
@@ -103,7 +109,9 @@ export const AdminDashboard = () => {
             <div className="accordion" id="accordionExample2">
               <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne2">
-                  <NavLink className="accordion-button custom-button" to="settings">
+                  <NavLink
+                    className="accordion-button custom-button"
+                    to="settings">
                     <i className="fas fa-gear"></i> Settings
                   </NavLink>
                 </h2>
@@ -112,7 +120,9 @@ export const AdminDashboard = () => {
             <div className="accordion" id="accordionExample2">
               <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne2">
-                  <NavLink className="accordion-button custom-button" to="/AdminLogout">
+                  <NavLink
+                    className="accordion-button custom-button"
+                    to="/AdminLogout">
                     Logout
                   </NavLink>
                 </h2>
@@ -216,4 +226,4 @@ export const AdminDashboard = () => {
       </div>
     </div>
   );
-}
+};

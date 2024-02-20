@@ -47,57 +47,102 @@ async function handleYoutubeInteractions(channelId) {
       part: "snippet",
       channelId: channelId,
       type: "video",
+      order: "date",
     });
+    // console.log(channels.data.items[0].snippet);
     // console.log("3", videos.data.items);
-    return {
-      channels: channels.data.items[0].snippet,
-      videos: videos.data.items,
-    };
 
     const videoComments = [];
 
+    // for (const video of videos.data.items) {
+    //   const videoId = video.id.videoId; // Extract video ID
+
+    //   // Fetch comments for this video, filtering for top-level comments
+
+    //   const videoDetails = youtube.videos.list({
+    //     part: "snippet,statistics",
+    //     id: videoId,
+    //   });
+
+    //   // console.log("5", videoDetails);
+
+    //   const videoStats = await videoDetails
+    //     .then((details) => {
+    //       // console.log("5", details.data.items[0].statistics);
+    //       return { data: details.data.items[0] };
+    //     })
+    //     .catch((err) => console.log(err.message));
+
+    //   console.log("6", videoStats.data);
+
+    //   const comments = await youtube.commentThreads.list({
+    //     part: "snippet",
+    //     videoId: videoId,
+    //     // Ensure chronological order
+    //     textDisplay: "original", // Include original comment text
+    //     // searchRank: "topLevel", // Filter for top-level comments
+    //   });
+
+    //   // Only add top-level comments to the array
+    //   videoComments.push({
+    //     videoId: videoId,
+    //     comments: comments.data.items.map((comment) => {
+    //       comment.snippet.topLevelComment.snippet.textDisplay;
+    //     }),
+    //   });
+    // }
     for (const video of videos.data.items) {
-      const videoId = video.id.videoId; // Extract video ID
+      const videoId = video.id.videoId;
 
-      // Fetch comments for this video, filtering for top-level comments
-      if (!video) {
-        console.error("Skipping video: Missing video object.");
-        continue;
+      // Check comment status before fetching comments
+      try {
+        const videoDetails = await youtube.videos.list({
+          part: "snippet,statistics",
+          id: videoId,
+        });
+        // console.log("-------------------------------------------------");
+        // console.log(videoDetails.data.items[0].statistics);
+
+        if (videoDetails.data.items[0].statistics.commentCount > 0) {
+          // Fetch comments if comments are enabled
+          const comments = await youtube.commentThreads.list({
+            part: "snippet",
+            videoId: videoId,
+            textDisplay: "original", // Include original comment text
+            maxResults: 50,
+            // Comment filtering/sorting as needed
+          });
+
+          // Store comments in videoComments array
+          videoComments.push({
+            videoId: videoId,
+            comments: comments.data.items.map(
+              (comment) => comment.snippet.topLevelComment.snippet.textDisplay
+            ),
+          });
+        } else {
+          // Handle videos with disabled comments
+          console.log(`Comments disabled for video: ${videoId}`);
+          videoComments.push({
+            videoId: videoId,
+            comments: ["No comments or disabled comments"],
+          });
+          // You can also store this information somewhere
+        }
+      } catch (error) {
+        console.error(`Error fetching comments for video ${videoId}:`, error);
+        // Handle other errors as needed
       }
-
-      // Check if privacy property is available
-      if (!video.contentDetails || !video.contentDetails.privacy) {
-        console.warn(
-          `Skipping video ${video.id.videoId}: Missing privacy property.`
-        );
-        continue;
-      }
-
-      // Now check the privacy status safely
-      if (video.contentDetails.privacy.status === "private") {
-        console.log(
-          `Skipping video ${video.id.videoId}: Comments disabled (private).`
-        );
-        continue;
-      }
-      const comments = await youtube.commentThreads.list({
-        part: "snippet",
-        videoId: videoId,
-        // Ensure chronological order
-        textDisplay: "original", // Include original comment text
-        // searchRank: "topLevel", // Filter for top-level comments
-      });
-
-      // Only add top-level comments to the array
-      videoComments.push({
-        videoId: videoId,
-        comments: comments.data.items.map(
-          (comment) => comment.snippet.topLevelComment.snippet.textDisplay
-        ),
-      });
     }
 
-    console.log("4", videoComments);
+    // console.log("4", videoComments);
+    // videoComments.map((v) => console.log(v.comments.length));
+
+    return {
+      channels: channels.data.items[0].snippet,
+      videos: videos.data.items,
+      videoComments: videoComments,
+    };
     // console.log("3", channels);
     // console.log(channels.data.items[0]);
 

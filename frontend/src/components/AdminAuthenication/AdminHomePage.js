@@ -1,5 +1,16 @@
-import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar, ResponsiveContainer } from 'recharts';
+import React from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  BarChart,
+  Bar,
+  ResponsiveContainer,
+} from "recharts";
 
 const weeklyUserData = [
   { week: 1, users: 100 },
@@ -12,9 +23,9 @@ const weeklyUserData = [
 ];
 
 const webCostPlanData = [
-  { plan: 'Basic', users: 50 },
-  { plan: 'Standard', users: 100 },
-  { plan: 'Premium', users: 75 },
+  { plan: "Basic", users: 50 },
+  { plan: "Standard", users: 100 },
+  { plan: "Premium", users: 75 },
   // Add more plan data here...
 ];
 
@@ -36,7 +47,12 @@ const WeeklyUserChangeChart = ({ data }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="change" stroke="#0d0d0d" activeDot={{ r: 8 }} />
+        <Line
+          type="monotone"
+          dataKey="change"
+          stroke="#0d0d0d"
+          activeDot={{ r: 8 }}
+        />
       </LineChart>
     </ResponsiveContainer>
   );

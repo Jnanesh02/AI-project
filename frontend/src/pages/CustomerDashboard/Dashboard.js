@@ -17,6 +17,8 @@ export const Dashboard = ({ youtubeData }) => { // Destructure youtubeData from 
             [videoId]: (prevState[videoId] || 0) + 1
         }));
     };
+
+   
 console.log(youtubeData);
     useEffect(() => {
         setSelectedChannel(null);

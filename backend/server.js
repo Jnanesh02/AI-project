@@ -41,6 +41,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+console.log(__dirname);
 
 // app.use(
 //   cookieSession({
@@ -48,16 +49,16 @@ app.use(
 //     keys: ["alfjal ;dsfjo; gjoerjf;jfmsaldf "],
 //   })
 // );
-// const answer = async () => {
-//   const userComment =
-//     "This video is incredibly informative! I love how well-explained the content is, and the visuals are top-notch. Keep up the great work! 👍";
-//   const response1 = await assistantResponse(userComment);
-//   const response2 = await getChatGPTResponse(userComment);
-//   const response3 = await sentimentAnalysis(userComment);
-//   console.log(`assistant response: ${response1}`);
-//   console.log(`chatgpt response: ${response2}`);
-//   console.log(`Sentiment Analysis: ${response3}`);
-// };
+const answer = async () => {
+  const userComment =
+    "This video is incredibly informative! I love how well-explained the content is, and the visuals are top-notch. Keep up the great work! 👍";
+  const response1 = await assistantResponse(userComment);
+  const response2 = await getChatGPTResponse(userComment);
+  const response3 = await sentimentAnalysis(userComment);
+  console.log(`assistant response: ${response1}`);
+  console.log(`chatgpt response: ${response2}`);
+  console.log(`Sentiment Analysis: ${response3}`);
+};
 // answer();
 
 app.use(express.json());
@@ -71,13 +72,24 @@ app.use("/ai", router.customer);
 app.use("/ai",requireAuth, router.plan);
 
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 app.get("/success", (req, res) => {
   res.send("success");
 });
 
+const assistantInstructions = require("./src/model/assistantModel");
+
+app.get("/update-assistant-instructions", async (req, res) => {
+  console.log("update assistant instruction", req.body);
+  try {
+    const { data } = req.body;
+    
+  } catch (err) {}
+});
+
 app.get("/healthcheck", (req, res) => {
   res.send("server is working fine");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
