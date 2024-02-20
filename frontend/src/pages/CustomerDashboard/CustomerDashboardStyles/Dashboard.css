@@ -127,8 +127,7 @@ button.btn.btn-primary.signup {
         text-align: left;
     }
 }
-
-  .btn-custom {
+.btn-custom {
     background-color: #000 !important;
     color: #fff !important;
     border-color: #000 !important;
