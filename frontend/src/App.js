@@ -17,7 +17,9 @@ import CustomerBlog from "./pages/CustomerDashboard/CustomerBlog";
 import CustomerSubscription from "./pages/CustomerDashboard/CustomerSubscription";
 import { CustomerLayout } from "./pages/CustomerDashboard/CustomerLayout";
 import CustomerDashboard from "./pages/CustomerDashboard/CustomerDashboard";
-import Masters from "./components/AdminAuthenication/Masters";
+import AdminMasters from "./components/AdminAuthenication/Masters/AdminMasters";
+import Master1 from "./components/AdminAuthenication/Masters/Master1";
+import Master2 from "./components/AdminAuthenication/Masters/Master2";
 function App() {
   return (
     <div className="App">
@@ -29,12 +31,12 @@ function App() {
           </Route>
           <Route path="Features" element={<Features />} />
           <Route path="Login" element={<Login />} />
-          <Route path="dashboard" element={<CustomerLayout />}>
-            <Route index element={<CustomerDashboard />} />
-            <Route path="Account" element={<CustomerAccount />} />
-            <Route path="Blog" element={<CustomerBlog />} />
-            <Route path="Subscription" element={<CustomerSubscription />} />
-          </Route>
+          <Route path="dashboard" element={<CustomerLayout/>} >
+            <Route index element={<CustomerDashboard/>}/>
+            <Route path="Account" element={<CustomerAccount/>}/>
+            <Route path="Blog" element={<CustomerBlog/>}/>
+            <Route path="Subscription" element={<CustomerSubscription />}/>
+            </Route>
           <Route path="Signup" element={<Signup />} />
           <Route path="Forgot" element={<Forgot />} />
           <Route path="Blog" element={<Pricing />} />
@@ -44,8 +46,11 @@ function App() {
             <Route index element={<AdminHomePage />} />
             <Route path="profile" element={<AdminProfile />} />
             {/* <Route path="employeeDetails" element={<EmployeeDetails />}/> */}
-            <Route path="masters" element={<Masters></Masters>}></Route>
-            <Route path="customerDetails" element={<CustomerDetails />} />
+            <Route path="customerDetails" element={<CustomerDetails />}/>
+            <Route path="Masters" element={<AdminMasters />}/>
+            <Route path="Masters1" element={<Master1 />}/>
+            <Route path="Masters2" element={<Master2 />}/>
+            
             {/*             
             <Route path="countryServices" element={<CountryServices />}>
             </Route>
