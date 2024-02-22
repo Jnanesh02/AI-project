@@ -47,7 +47,7 @@ export const AdminDashboard = () => {
                 Dashboard{" "}
               </p>
             </NavLink>
-            <div className="accordion" id="accordionExample2">
+            {/* <div className="accordion" id="accordionExample2">
               <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne2">
                   <NavLink
@@ -57,7 +57,7 @@ export const AdminDashboard = () => {
                   </NavLink>
                 </h2>
               </div>
-            </div>
+            </div> */}
 
             <div className="accordion" id="accordionExample2">
   <div className="accordion-item">
@@ -82,6 +82,7 @@ export const AdminDashboard = () => {
                 </h2>
         </div>
     </div>
+    
   </div>
     </div>
              <div className="accordion" id="accordionExample2">

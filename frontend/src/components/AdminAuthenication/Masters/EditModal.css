@@ -15,11 +15,12 @@
   
   /* Modal container */
   .modalContainer {
-    background-color: white;
+    background-color:#fff;
     width: 400px;
     padding: 20px;
     border-radius: 8px;
-  }
+    box-shadow: 15px 10px 20px 10px #0e0d0d9b;
+   }
   
   /* Title and close button */
   .titleCloseBtn {
@@ -53,14 +54,26 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    background-color:rgba(0, 0, 0, 0.522);
+    color: white;
+    margin-top: 20px;
   }
+  /* h1{
+    background-color:rgba(0, 0, 0, 0.522);
+ 
+  } */
   
   #cancelBtn {
-    background-color:black;
+    background-color:rgba(0, 0, 0, 0.522);
     color:white;
+    margin-top: 20px;
   }
   
   button:hover {
     opacity: 0.8;
   }
-  
+  .form-group{
+    background-color:rgba(11, 11, 11, 0.658);
+    color: white;
+    margin-left: 15px;
+  }
