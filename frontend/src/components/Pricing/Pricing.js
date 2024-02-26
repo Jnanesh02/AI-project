@@ -153,8 +153,9 @@
 //   )
 // }
 
-import React from "react";
+import React, { useState } from "react";
 import "./Pricing.css";
+import axios from "axios";
 
 const pricingData = [
   {
@@ -212,6 +213,16 @@ const pricingData = [
 ];
 
 export default function Pricing() {
+  const [plans, setPlans] = useState("");
+  const getPlanDetails = async () => {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/getPlans`,
+      { headers: { authorization: token } }
+    );
+
+    console.log(response.data);
+  };
   return (
     <div>
       <section className="pricing">
@@ -241,7 +252,7 @@ export default function Pricing() {
                           height="20"
                           viewBox="0 -960 960 960"
                           width="20">
-                          <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
+                          <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
                         </svg>
                         {feature}
                       </li>

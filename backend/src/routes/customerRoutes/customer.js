@@ -5,33 +5,29 @@ const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const express = require("express");
 const router = express.Router();
-const moment = require('moment');
-const { requireAuth,isAdmin } = require("../../../middleware/auth");
-
-
+const moment = require("moment");
+const { requireAuth, isAdmin } = require("../../../middleware/auth");
 
 // Signup logic
 router.post("/signup/customer", async (req, res) => {
   console.log("signup");
   try {
-    const {firstName,lastName, userName, email, mobileNumber, password,subscriptionPlanId } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      mobileNumber,
+      password,
+      // subscriptionPlanId,
+    } = req.body;
     console.log(req.body);
 
     // Check if the username already exists
     const existingUser = await Customer.findOne({
-      $or: [
-        
-        
-        { userName: userName },
-        { email: email },
-        { phoneNumber: mobileNumber },
-      ],
+      $or: [{ email: email }, { phoneNumber: mobileNumber }],
     });
 
     if (existingUser) {
-      if (existingUser.userName === userName) {
-        return res.status(409).json({ error: "Username already exists" });
-      }
       if (existingUser.email === email) {
         return res.status(409).json({ error: "Email already exists" });
       }
@@ -43,26 +39,28 @@ router.post("/signup/customer", async (req, res) => {
     // Hash the password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const subscriptionPlan = await Plan.findById(subscriptionPlanId);
+    // const subscriptionPlan = await Plan.findById(subscriptionPlanId);
 
-    if (!subscriptionPlan) {
-      return res.status(400).json({ error: "Invalid subscription plan ID" });
-    }
-
+    // if (!subscriptionPlan) {
+    //   return res.status(400).json({ error: "Invalid subscription plan ID" });
+    // }
 
     // Create a new customer
     const newCustomer = new Customer({
-      firstName:firstName,
-      lastName:lastName,
-      userName: userName,
+      firstName: firstName,
+      lastName: lastName,
+      // userName: userName,
       email: email,
       phoneNumber: mobileNumber,
       password: hashedPassword,
-      subscriptionPlan: subscriptionPlan._id
-      
+      // subscriptionPlan: subscriptionPlan._id,
     });
     await newCustomer.save();
-    res.status(201).json({  userId: newCustomer._id,role:newCustomer.role, message: "The customer saved successfully"  });
+    res.status(201).json({
+      userId: newCustomer._id,
+      role: newCustomer.role,
+      message: "The customer saved successfully",
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -71,13 +69,14 @@ router.post("/signup/customer", async (req, res) => {
 
 router.post("/login/customer", async (req, res) => {
   try {
-    const { mailuserId, password } = req.body;
-    console.log("mailuserId", mailuserId, "password", password);
+    const { email, password } = req.body;
+
+    console.log("email", email, "password", password);
 
     const user = await Customer.findOne({
       $or: [
-        { userName: { $regex: mailuserId, $options: "i" } },
-        { email: { $regex: mailuserId, $options: "i" } },
+        // { userName: { $regex: mailuserId, $options: "i" } },
+        { email: { $regex: email, $options: "i" } },
       ],
     });
 
@@ -90,15 +89,18 @@ router.post("/login/customer", async (req, res) => {
       return res.status(401).json({ error: "Invalid credential" });
     }
 
-user.lastActiveDate = moment(new Date()).format('DD/MM/YYYY HH:mm');
-
+    user.lastActiveDate = moment(new Date()).format("DD/MM/YYYY HH:mm");
 
     // Save the user with the updated lastActiveDate
     await user.save();
 
-    const token = jwt.sign({ userId: user._id,userRole:user.role}, process.env.JWT_SECRET, {
-      expiresIn: "1h", // Token expires in 1 hour (adjust as needed)
-    });
+    const token = jwt.sign(
+      { userId: user._id, userRole: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h", // Token expires in 1 hour (adjust as needed)
+      }
+    );
 
     res.status(200).json({ token });
   } catch (error) {
@@ -106,7 +108,7 @@ user.lastActiveDate = moment(new Date()).format('DD/MM/YYYY HH:mm');
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-router.get("/customer", requireAuth,isAdmin, async (req, res) => {
+router.get("/customer", requireAuth, isAdmin, async (req, res) => {
   try {
     // Check if the authenticated user is an admin
     if (req.user.role !== "admin") {
@@ -114,7 +116,7 @@ router.get("/customer", requireAuth,isAdmin, async (req, res) => {
     }
     // Fetch and return all customer details
     // const customers = await Customer.find();
-    const customers = await Customer.find().populate('subscriptionPlan');
+    const customers = await Customer.find().populate("subscriptionPlan");
     res.json(customers);
   } catch (error) {
     console.error(error);
@@ -124,7 +126,7 @@ router.get("/customer", requireAuth,isAdmin, async (req, res) => {
 router.put("/customer", requireAuth, async (req, res) => {
   try {
     const updatedCustomer = await Customer.findByIdAndUpdate(
-      req.user._id,  // Use req.user._id directly
+      req.user._id, // Use req.user._id directly
       req.body,
       { new: true }
     );
@@ -135,24 +137,31 @@ router.put("/customer", requireAuth, async (req, res) => {
 
     res.json(updatedCustomer);
   } catch (error) {
-    console.error(error);  // Log the error for debugging
+    console.error(error); // Log the error for debugging
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-router.delete("/customer/:customerId", requireAuth, isAdmin, async (req, res) => {
-  try {
-    const customerIdToDelete = req.params.customerId;
-    const deletedCustomer = await Customer.findByIdAndDelete(customerIdToDelete);
+router.delete(
+  "/customer/:customerId",
+  requireAuth,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const customerIdToDelete = req.params.customerId;
+      const deletedCustomer = await Customer.findByIdAndDelete(
+        customerIdToDelete
+      );
 
-    if (!deletedCustomer) {
-      return res.status(404).json({ message: "Customer not found" });
+      if (!deletedCustomer) {
+        return res.status(404).json({ message: "Customer not found" });
+      }
+
+      res.json({ message: "Customer deleted successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
-
-    res.json({ message: "Customer deleted successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
   }
-});
+);
 
 module.exports = router;

@@ -5,16 +5,18 @@ import Pricing from './Pricing/Pricing'
 import Faq from './Faq/Faq'
 import Home from './Home-page/Home'
 import Footer from './Footer/Footer'
+import Master1 from './AdminAuthenication/Masters/Master1'
 
 export const OutLlet = () => {
   return (
     <>
        <Home/>
-    <Features/>
+     <Features/>
     <Benefits/>
     <Pricing/>
     <Faq/>
-    <Footer/>
+   <Footer/>
+  
     </>
   )
 }

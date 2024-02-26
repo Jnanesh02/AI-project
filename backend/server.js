@@ -19,8 +19,7 @@ const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
 const router = require("./src/routes");
-const { requireAuth } = require("./middleware/auth");
-
+// const { requireAuth } = require("./middleware/auth");
 
 connect();
 // Enable CORS for all requests
@@ -33,6 +32,7 @@ connect();
 // );
 
 app.use(cors());
+// app.use(requireAuth);
 
 app.use(
   session({
@@ -41,6 +41,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+console.log(__dirname);
 
 // app.use(
 //   cookieSession({
@@ -48,16 +49,16 @@ app.use(
 //     keys: ["alfjal ;dsfjo; gjoerjf;jfmsaldf "],
 //   })
 // );
-// const answer = async () => {
-//   const userComment =
-//     "This video is incredibly informative! I love how well-explained the content is, and the visuals are top-notch. Keep up the great work! 👍";
-//   const response1 = await assistantResponse(userComment);
-//   const response2 = await getChatGPTResponse(userComment);
-//   const response3 = await sentimentAnalysis(userComment);
-//   console.log(`assistant response: ${response1}`);
-//   console.log(`chatgpt response: ${response2}`);
-//   console.log(`Sentiment Analysis: ${response3}`);
-// };
+const answer = async () => {
+  const userComment =
+    "This video is incredibly informative! I love how well-explained the content is, and the visuals are top-notch. Keep up the great work! 👍";
+  const response1 = await assistantResponse(userComment);
+  const response2 = await getChatGPTResponse(userComment);
+  const response3 = await sentimentAnalysis(userComment);
+  console.log(`assistant response: ${response1}`);
+  console.log(`chatgpt response: ${response2}`);
+  console.log(`Sentiment Analysis: ${response3}`);
+};
 // answer();
 
 app.use(express.json());
@@ -66,18 +67,29 @@ app.use(passport.session());
 app.use("/", socialRouter);
 app.use("/auth/twitter", twitterRouter);
 // Admin routes
+
 app.use("/ai", router.adminAuthentication);
 app.use("/ai", router.customer);
-app.use("/ai",requireAuth, router.plan);
+app.use("/ai", router.plan);
+app.use("/ai", router.youtube);
 
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 app.get("/success", (req, res) => {
   res.send("success");
 });
 
+const assistantInstructions = require("./src/model/assistantModel");
+
+app.get("/update-assistant-instructions", async (req, res) => {
+  console.log("update assistant instruction", req.body);
+  try {
+    const { data } = req.body;
+  } catch (err) {}
+});
+
 app.get("/healthcheck", (req, res) => {
   res.send("server is working fine");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

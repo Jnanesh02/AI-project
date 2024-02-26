@@ -22,16 +22,50 @@ function Signup() {
   const validateForm = () => {
     let newErrors = {};
 
+    // if (!formData.firstName.trim()) {
+    //   newErrors.formData.firstName = "First name is required";
+    // }
+
+    // if (!formData.lastName.trim()) {
+    //   newErrors.formData.lastName = "Last name is required";
+    // }
+
+    // if (!formData.email.trim()) {
+    //   newErrors.formData.email = "Email is required";
+    // } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    //   newErrors.email = "Email address is invalid";
+    // }
+
+    // if (!formData.password.trim()) {
+    //   newErrors.password = "Password is required";
+    //   newErrors.confirmPassword = "confirmPassword is required";
+    // } else if (formData.password.trim().length < 6) {
+    //   newErrors.password = "Password must be at least 6 characters";
+    // } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
+    //   newErrors.password =
+    //     "Password must contain at least one special character";
+    // }
+
+    // if (formData.password !== formData.confirmPassword) {
+    //   newErrors.confirmPassword = "Passwords do not match";
+    // }
+
+    // if (!formData.mobileNumber.trim()) {
+    //   newErrors.mobileNumber = "Mobile number is required";
+    // } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
+    //   newErrors.mobileNumber = "Mobile number is invalid";
+    // }
+
     if (!formData.firstName.trim()) {
-      newErrors.formData.firstName = "First name is required";
+      newErrors.firstName = "First name is required";
     }
 
     if (!formData.lastName.trim()) {
-      newErrors.formData.lastName = "Last name is required";
+      newErrors.lastName = "Last name is required";
     }
 
     if (!formData.email.trim()) {
-      newErrors.formData.email = "Email is required";
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email address is invalid";
     }
@@ -77,12 +111,12 @@ function Signup() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       // Submit form or perform further actions
-      const response = axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/signup`,
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/signup/customer`,
         formData
       );
       // Navigate to login page

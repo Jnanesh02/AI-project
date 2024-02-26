@@ -8,7 +8,7 @@ const fs = require("fs-extra");
 const { assistantResponse } = require("../src/helper/chatgpt");
 
 passport.serializeUser((user, done) => {
-  console.log(JSON.stringify(user.profile.id))
+  // console.log(JSON.stringify(user.profile.id))
   done(null,JSON.stringify(user.profile.id));
 });
 

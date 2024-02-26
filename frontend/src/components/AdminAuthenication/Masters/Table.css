@@ -1,0 +1,43 @@
+.table-wrapper {
+  width: 100%;
+}
+
+
+ table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+ 
+ } 
+
+th, td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+input[type="text"] {
+  width: 100%;
+}
+
+button {
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.522);
+}
+
+/* button:hover {
+  background-color: rgba(0, 0, 0, 0.522);
+} */

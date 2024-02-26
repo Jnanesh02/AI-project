@@ -17,6 +17,9 @@ import CustomerBlog from "./pages/CustomerDashboard/CustomerBlog";
 import CustomerSubscription from "./pages/CustomerDashboard/CustomerSubscription";
 import { CustomerLayout } from "./pages/CustomerDashboard/CustomerLayout";
 import CustomerDashboard from "./pages/CustomerDashboard/CustomerDashboard";
+import AdminMasters from "./components/AdminAuthenication/Masters/AdminMasters";
+import Master1 from "./components/AdminAuthenication/Masters/Master1";
+import Master2 from "./components/AdminAuthenication/Masters/Master2";
 function App() {
   return (
     <div className="App">
@@ -33,20 +36,21 @@ function App() {
             <Route path="Account" element={<CustomerAccount/>}/>
             <Route path="Blog" element={<CustomerBlog/>}/>
             <Route path="Subscription" element={<CustomerSubscription />}/>
-
-
-
-          </Route>
+            </Route>
           <Route path="Signup" element={<Signup />} />
           <Route path="Forgot" element={<Forgot />} />
           <Route path="Blog" element={<Pricing />} />
-          <Route path="Contact-Us" element={<Pricing />} />
+          <Route path="pricing" element={<Pricing />} />
           <Route path="adminLogin" element={<AdminLogin />}></Route>
           <Route path="adminDashboard" element={<AdminDashboard />}>
             <Route index element={<AdminHomePage />} />
             <Route path="profile" element={<AdminProfile />} />
             {/* <Route path="employeeDetails" element={<EmployeeDetails />}/> */}
-            <Route path="customerDetails" element={<CustomerDetails />} />
+            <Route path="customerDetails" element={<CustomerDetails />}/>
+            <Route path="Masters" element={<AdminMasters />}/>
+            <Route path="Masters1" element={<Master1 />}/>
+            <Route path="Masters2" element={<Master2 />}/>
+            
             {/*             
             <Route path="countryServices" element={<CountryServices />}>
             </Route>
