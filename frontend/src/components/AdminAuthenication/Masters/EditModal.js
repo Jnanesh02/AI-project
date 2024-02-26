@@ -6,8 +6,7 @@ function EditModal({ plan, onSave, onCancel, setOpenModal }) {
   // const [price, setPrice] = useState('');
   // const [features,setFeatures]=useState('');
   const initialState = {
-    id: "",
-    subscriptionPlanName: "",
+    name: "",
     price: "",
     features: "",
   };
@@ -50,8 +49,8 @@ function EditModal({ plan, onSave, onCancel, setOpenModal }) {
                 type="text"
                 id="name"
                 placeholder="Plan Name"
-                name="subscriptionPlanName"
-                value={formdata.subscriptionPlanName}
+                name=""
+                value={formdata.name}
                 onChange={onChangeInput}
               />
             </div>
@@ -59,7 +58,6 @@ function EditModal({ plan, onSave, onCancel, setOpenModal }) {
               <input
                 type="text"
                 id="price"
-                name="price"
                 placeholder="Price ($)"
                 value={formdata.price}
                 onChange={onChangeInput}
@@ -69,7 +67,6 @@ function EditModal({ plan, onSave, onCancel, setOpenModal }) {
               <input
                 type="text"
                 id="price"
-                name="features"
                 placeholder="Features"
                 value={formdata.features}
                 onChange={onChangeInput}

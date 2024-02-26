@@ -46,7 +46,7 @@ const Master1 = () => {
   const handleSave = async (formdata) => {
     const token = localStorage.getItem("token");
 
-    await axios.put(
+    const response = await axios.put(
       `${process.env.REACT_APP_BACKEND_URL}/plans/${formdata._id}`,
       formdata,
       { headers: { authorization: token } }
@@ -102,7 +102,7 @@ const Master1 = () => {
               <td>{plan.features}</td>
               <td>
                 <button onClick={() => handleEdit(plan)}>Edit</button>
-                <button onClick={() => handleDelete(plan._id)}>Delete</button>
+                <button onClick={() => handleDelete(plan.id)}>Delete</button>
               </td>
             </tr>
           ))}

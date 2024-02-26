@@ -26,7 +26,7 @@ export const AdminLogin = () => {
         adminLoginDetails
       );
       if (response.status === 200) {
-        console.log("inside admin login", response.data.token);
+        console.log(response.data);
         localStorage.setItem("token", response.data.token);
         navigate("/adminDashboard");
       }

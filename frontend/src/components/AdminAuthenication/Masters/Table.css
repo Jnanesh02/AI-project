@@ -2,10 +2,13 @@
   width: 100%;
 }
 
-table {
+
+ table{
   width: 100%;
   border-collapse: collapse;
-}
+  margin-top: 25px;
+ 
+ } 
 
 th, td {
   padding: 8px;
@@ -32,8 +35,9 @@ button {
   padding: 5px 10px;
   margin-right: 5px;
   cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.522);
 }
 
-button:hover {
-  background-color: #ddd;
-}
+/* button:hover {
+  background-color: rgba(0, 0, 0, 0.522);
+} */

@@ -115,6 +115,7 @@ a[aria-expanded="true"] {
 .accordion-item{
     border: none;
     margin: 10px;
+    background: none;
 }
 .accordion-button.custom-button:hover {
     background: white !important; /* Change to your desired hover background color */
