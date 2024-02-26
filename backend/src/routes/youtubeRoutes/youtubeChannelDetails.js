@@ -15,21 +15,27 @@ router.get("/channel/:channelId", async (req, res) => {
   }
 });
 
-router.get("/channel/:channelId/videos", async (req, res) => {
+router.get("/channel/videos/:channelId", async (req, res) => {
   try {
-    const videos = await getVideosList(req.params.channelId);
+    const channelId = req.params.channelId;
+    const videos = await getVideosList(channelId);
     res.json(videos);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-router.get("/video/:videoId/comments", async (req, res) => {
-    try{
+router.post("/video/get-comments/:videoId", async (req, res) => {
+  try {
+    const { videoId } = req.params;
 
-        const videos= await getCommentsForVideos()
-    }
-    catch(err){
-
-    }
+    const { numOfComments, channelId, userId } = req.body;
+    
+    const videos = await getCommentsForVideos(videoId, numOfComments);
+    console.log("234", videos);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 });
+
+module.exports = router;

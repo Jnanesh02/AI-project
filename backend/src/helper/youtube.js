@@ -17,6 +17,7 @@ async function handleYoutubeInteractions(channelId) {
       part: "snippet,contentDetails,statistics",
       id: channelId,
     });
+    console.log("inside the youtube.js file", channels.data);
     // (err, channelResponse) => {
     //   if (err) {
     //     console.log("1", err);
@@ -139,7 +140,8 @@ async function handleYoutubeInteractions(channelId) {
     // videoComments.map((v) => console.log(v.comments.length));
 
     return {
-      channels: channels.data.items[0].snippet,
+      // channels: channels.data.items[0].snippet,
+      channels: channels.data,
       videos: videos.data.items,
       videoComments: videoComments,
     };

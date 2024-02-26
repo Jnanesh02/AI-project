@@ -51,6 +51,7 @@ async function getVideosList(channelId) {
 
 async function getCommentsForVideos(videoId, noOfComments) {
   try {
+    console.log("inside getComments function", videoId, noOfComments);
     let youtube = await youtubeAuth();
     let videoComments = []; // {videoId:"something", comments:"[] comments of the respective videos"}
     try {

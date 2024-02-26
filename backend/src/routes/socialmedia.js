@@ -49,18 +49,18 @@ router.get("/dashboard", async (req, res) => {
   const channelId = userId;
 
   if (channelId) {
-    // const fetchYouTubeComment = await handleYoutubeInteractions(channelId);
+    const fetchYouTubeComment = await handleYoutubeInteractions(channelId);
     const channelDetails = await getChannelDetails(channelId);
     const Videos = await getVideosList(channelId);
     const videoId = "Zj7IJLxUf7M";
 
     const CommentsForVideos = await getCommentsForVideos(videoId, 50);
 
-    console.log("channel details", channelDetails);
-    console.log("videos", Videos);
-    console.log("comments for videos ", CommentsForVideos);
+    // console.log("channel details", channelDetails);
+    // console.log("videos", Videos[0].snippet.thumbnails);
+    // console.log("comments for videos ", CommentsForVideos);
 
-    // return res.status(200).json({ fetchYouTubeComment });
+    return res.status(200).json({ fetchYouTubeComment });
   } else {
     return res.status(401).json({ message: "Channel ID not found" });
   }

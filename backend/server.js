@@ -19,8 +19,7 @@ const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
 const router = require("./src/routes");
-const { requireAuth } = require("./middleware/auth");
-
+// const { requireAuth } = require("./middleware/auth");
 
 connect();
 // Enable CORS for all requests
@@ -33,6 +32,7 @@ connect();
 // );
 
 app.use(cors());
+// app.use(requireAuth);
 
 app.use(
   session({
@@ -67,10 +67,11 @@ app.use(passport.session());
 app.use("/", socialRouter);
 app.use("/auth/twitter", twitterRouter);
 // Admin routes
+
 app.use("/ai", router.adminAuthentication);
 app.use("/ai", router.customer);
-app.use("/ai",requireAuth, router.plan);
-
+app.use("/ai", router.plan);
+app.use("/ai", router.youtube);
 
 app.get("/success", (req, res) => {
   res.send("success");
@@ -82,7 +83,6 @@ app.get("/update-assistant-instructions", async (req, res) => {
   console.log("update assistant instruction", req.body);
   try {
     const { data } = req.body;
-    
   } catch (err) {}
 });
 

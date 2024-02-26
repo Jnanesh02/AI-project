@@ -153,8 +153,9 @@
 //   )
 // }
 
-import React from "react";
+import React, { useState } from "react";
 import "./Pricing.css";
+import axios from "axios";
 
 const pricingData = [
   {
@@ -212,6 +213,16 @@ const pricingData = [
 ];
 
 export default function Pricing() {
+  const [plans, setPlans] = useState("");
+  const getPlanDetails = async () => {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/getPlans`,
+      { headers: { authorization: token } }
+    );
+
+    console.log(response.data);
+  };
   return (
     <div>
       <section className="pricing">
