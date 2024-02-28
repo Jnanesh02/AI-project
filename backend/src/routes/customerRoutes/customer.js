@@ -116,7 +116,8 @@ router.get("/customer", requireAuth, isAdmin, async (req, res) => {
     }
     // Fetch and return all customer details
     // const customers = await Customer.find();
-    const customers = await Customer.find().populate("subscriptionPlan");
+    const customers = await Customer.find();
+    // .populate("subscriptionPlan");
     res.json(customers);
   } catch (error) {
     console.error(error);

@@ -17,7 +17,7 @@ async function handleYoutubeInteractions(channelId) {
       part: "snippet,contentDetails,statistics",
       id: channelId,
     });
-    console.log("inside the youtube.js file", channels.data);
+    // console.log("inside the youtube.js file", channels.data);
     // (err, channelResponse) => {
     //   if (err) {
     //     console.log("1", err);
