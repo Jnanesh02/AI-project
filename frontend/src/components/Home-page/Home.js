@@ -102,7 +102,7 @@ export default function Home() {
             <div class="row">
               <div class="col-lg-12">
                 <h1 class="header-heading">
-                  "Streamline Your Social media Engagement"
+                  "Your Digital Dream Team: Elevating YouTube Interactions with AI"
                 </h1>
                 <div class="get-started-btn">
                   <button class="btn btn-primary"> Get Started </button>
