@@ -59,7 +59,7 @@ const answer = async () => {
   console.log(`chatgpt response: ${response2}`);
   console.log(`Sentiment Analysis: ${response3}`);
 };
-// answer();
+answer();
 
 app.use(express.json());
 app.use(passport.initialize());

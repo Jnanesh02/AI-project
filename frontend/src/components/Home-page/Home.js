@@ -25,22 +25,19 @@ export default function Home() {
                       data-bs-target="#navbarSupportedContent"
                       aria-controls="navbarSupportedContent"
                       aria-expanded="false"
-                      aria-label="Toggle navigation"
-                    >
+                      aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
                     <div
                       class="collapse navbar-collapse"
-                      id="navbarSupportedContent"
-                    >
+                      id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 navbar-media">
                         <li class="nav-item">
                           <NavLink
                             to="/Features"
                             exact
                             className="nav-link"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             Features
                           </NavLink>
                         </li>
@@ -49,8 +46,7 @@ export default function Home() {
                             to="/Pricing"
                             exact
                             className="nav-link"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             Pricing
                           </NavLink>
                         </li>
@@ -59,8 +55,7 @@ export default function Home() {
                             to="/Blog"
                             exact
                             className="nav-link"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             Blog
                           </NavLink>
                         </li>
@@ -69,8 +64,7 @@ export default function Home() {
                             to="/Contact-Us"
                             exact
                             className="nav-link"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             Contact Us
                           </NavLink>
                         </li>
@@ -87,22 +81,21 @@ export default function Home() {
                     Login{" "}
                   </NavLink>
                   </button> */}
-                  
-                   <NavLink to="/Login" className="btn btn-custom login">
-                   Login
+
+                  <NavLink to="/Login" className="btn btn-custom login">
+                    Login
                   </NavLink>
-                   <NavLink to="/Signup" className="btn btn-custom login">
+                  <NavLink to="/Signup" className="btn btn-custom login">
                     Signup
-                   </NavLink>
-                  
-                  
+                  </NavLink>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-lg-12">
                 <h1 class="header-heading">
-                  "Streamline Your Social media Engagement"
+                  "Your Digital Dream Team: Elevating YouTube Interactions with
+                  AI"
                 </h1>
                 <div class="get-started-btn">
                   <button class="btn btn-primary"> Get Started </button>
