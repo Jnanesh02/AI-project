@@ -113,6 +113,7 @@ async function handleYoutubeInteractions(channelId) {
             maxResults: 50,
             // Comment filtering/sorting as needed
           });
+          console.log("comments", comments.data);
 
           // Store comments in videoComments array
           videoComments.push({

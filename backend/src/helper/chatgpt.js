@@ -40,12 +40,12 @@ const assistantConfig = {
   tools: [{ type: "code_interpreter" }],
   model: "gpt-4-turbo-preview",
 };
-
-const test = async () => {
-  const assistant = await openai.beta.assistants.create(assistantConfig);
-  console.log(assistant);
+const createAssistant = async (configuration) => {
+  const assistant = await openai.beta.assistants.create(configuration);
+  // console.log(assistant);
+  return assistant;
 };
-// test();
+
 const updateInstructions = async () => {
   try {
     const existingAssistant = openai.beta.assistants.retrieve(
@@ -182,4 +182,9 @@ async function sentimentAnalysis(userComment) {
   }
 }
 
-module.exports = { getChatGPTResponse, assistantResponse, sentimentAnalysis };
+module.exports = {
+  getChatGPTResponse,
+  assistantResponse,
+  sentimentAnalysis,
+  createAssistant,
+};

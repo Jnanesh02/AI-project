@@ -3,6 +3,7 @@ const videoIdSchema = new mongoose.Schema({
   videoId: {
     type: "string",
     default: "",
+    
   },
   comments: [
     {
