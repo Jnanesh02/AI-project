@@ -1,9 +1,7 @@
 .table-wrapper {
   width: 100%;
 }
-
-
- table{
+table{
   width: 100%;
   border-collapse: collapse;
   margin-top: 25px;
@@ -37,7 +35,10 @@ button {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.522);
 }
-
+.description-container {
+  height: 150px; /* Adjust the height as needed */
+  overflow-y: auto;
+}
 /* button:hover {
   background-color: rgba(0, 0, 0, 0.522);
 } */

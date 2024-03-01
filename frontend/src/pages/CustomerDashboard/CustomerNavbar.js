@@ -68,8 +68,7 @@ export const CustomerNavbar = () => {
                               to="Subscription"
                               exact
                               className="nav-link"
-                              activeClassName="active"
-                            >
+                              activeClassName="active">
                               Subscription
                             </NavLink>
                           </li>
