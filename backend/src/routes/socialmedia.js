@@ -55,13 +55,16 @@ router.get("/auth/youtube/callback", function (req, res, next) {
       // console.log("inside youtube callback", userInfo);
 
       userId = userInfo.profile.id;
-      console.log("accessToken before ", userInfo.accessToken);
-      try {
-        let accessToken = await refreshAccessToken(userInfo.refreshToken);
-        console.log("refresh Token", accessToken);
-      } catch (err) {
-        console.log(err.message);
-      }
+      // console.log("accessToken before ", userInfo.accessToken);
+      // console.log("refresh token", userInfo.refreshToken);
+      console.log(userInfo);
+      // try {
+      //   let accessToken = await refreshAccessToken(userInfo.refreshToken);
+      //   console.log("refresh Token", accessToken);
+      // } catch (err) {
+      //   console.log(err.message);
+      // }
+      // res.json({}).redirect("alsdfjalsd")
 
       res.redirect("http://localhost:3001/dashboard");
     }

@@ -71,13 +71,18 @@ async function getCommentsForVideos(videoId, noOfComments) {
           maxResults: noOfComments,
           // Comment filtering/sorting as needed
         });
+        // console.log(comments.data);
 
         // Store comments in videoComments array
         videoComments.push({
           videoId: videoId,
-          comments: comments.data.items.map(
-            (comment) => comment.snippet.topLevelComment.snippet.textDisplay
-          ),
+
+          comments: comments.data.items.map((comment) => {
+            return {
+              id: comment.id,
+              data: comment.snippet.topLevelComment.snippet.textDisplay,
+            };
+          }),
         });
         return videoComments;
       } else {

@@ -50,6 +50,7 @@ const customer = new Schema(
         default: 0,
       },
     },
+    
     // subscriptionPlan: {
     //   type: Schema.Types.ObjectId,
     //   ref: "SubscriptionPlan",
