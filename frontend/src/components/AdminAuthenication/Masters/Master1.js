@@ -1,15 +1,12 @@
+
+// Master1.js
 import React, { useEffect, useState } from "react";
 import EditModal from "./EditModal";
 import "./Table.css";
 import axios from "axios";
 
 const Master1 = () => {
-  // const [plans, setPlans] = useState([
-  //   // { id: 1, name: 'Basic Plan', price: '$10/month' },
-  //   // { id: 2, name: 'Pro Plan', price: '$20/month' },
-  //   // { id: 3, name: 'Free Plan', price: 'Free' },
-  // ]);
-  const [plans, setPlans] = useState([{ _id: "", price: null }]);
+  const [plans, setPlans] = useState([]);
   const [editingPlan, setEditingPlan] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -18,62 +15,64 @@ const Master1 = () => {
       const token = localStorage.getItem("token");
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/getPlans`,
-        {
-          headers: { authorization: token },
-        }
+        { headers: { authorization: token } }
       );
-      // console.log(response.data);
       setPlans(response.data);
-    } catch (err) {}
+    } catch (err) {
+      console.error("Error fetching plans:", err);
+    }
   };
-  // console.log("inside getDetails function", plans);
+
+  useEffect(() => {
+    getPlanDetails();
+  }, []);
 
   const handleEdit = (plan) => {
     setEditingPlan(plan);
     setModalOpen(true);
   };
-  useEffect(() => {
-    getPlanDetails();
-    // handleSave();
-  }, []);
-  useEffect(() => {
-    if (editingPlan?.id) {
-      // Check if editingPlan has an ID
-      getPlanDetails(); // Refetch plans after editing
+
+  const handleCreate = () => {
+    setEditingPlan(null);
+    setModalOpen(true);
+  };
+
+  const handleSave = async (formData) => {
+    try {
+      const token = localStorage.getItem("token");
+      let response;
+      if (!formData._id) {
+        response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/addPlans`,
+          formData,
+          { headers: { authorization: token } }
+        );
+      } else {
+        response = await axios.put(
+          `${process.env.REACT_APP_BACKEND_URL}/plans/${formData._id}`,
+          formData,
+          { headers: { authorization: token } }
+        );
+      }
+      // Update plans after successful save
+      getPlanDetails();
+      setModalOpen(false);
+    } catch (err) {
+      console.error("Error saving plan:", err);
     }
-  }, [editingPlan]);
-
-  const handleSave = async (formdata) => {
-    const token = localStorage.getItem("token");
-
-    const response = await axios.put(
-      `${process.env.REACT_APP_BACKEND_URL}/plans/${formdata._id}`,
-      formdata,
-      { headers: { authorization: token } }
-    );
-
-    // console.log("this is inside", response.data);
-    // setPlans(
-    //   plans.map((plan) =>
-    //     plan.id === id ? { ...plan, name: newName, price: newPrice } : plan
-    //   )
-    // );
-    setModalOpen(false);
   };
 
   const handleDelete = async (id) => {
-    // setPlans(plans.filter((plan) => plan.id !== id));
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.delete(
+      await axios.delete(
         `${process.env.REACT_APP_BACKEND_URL}/plans/${id}`,
-        {
-          headers: { authorization: token },
-        }
+        { headers: { authorization: token } }
       );
-      console.log(response.data);
+      // Update plans after successful delete
+      getPlanDetails();
     } catch (err) {
-      console.log(err.message);
+      console.error("Error deleting plan:", err);
     }
   };
 
@@ -86,14 +85,7 @@ const Master1 = () => {
     <div>
       <h1>Plan Management</h1>
       <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Features</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+        {/* Table headers */}
         <tbody>
           {plans.map((plan) => (
             <tr key={plan._id}>
@@ -102,12 +94,15 @@ const Master1 = () => {
               <td>{plan.features}</td>
               <td>
                 <button onClick={() => handleEdit(plan)}>Edit</button>
-                <button onClick={() => handleDelete(plan.id)}>Delete</button>
+                <button onClick={() => handleDelete(plan._id)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div>
+        <button onClick={handleCreate}>Create New Plan</button>
+      </div>
       {modalOpen && (
         <EditModal
           plan={editingPlan}
@@ -119,5 +114,4 @@ const Master1 = () => {
     </div>
   );
 };
-
 export default Master1;

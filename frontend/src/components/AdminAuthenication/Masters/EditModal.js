@@ -1,36 +1,30 @@
 import React, { useState, useEffect } from "react";
 import "./EditModal.css";
 
-function EditModal({ plan, onSave, onCancel, setOpenModal }) {
-  // const [name, setName] = useState('');
-  // const [price, setPrice] = useState('');
-  // const [features,setFeatures]=useState('');
-  const initialState = {
-    name: "",
-    price: "",
-    features: "",
-  };
-
-  const [formdata, setFormData] = useState(initialState);
+function EditModal({ plan, onSave, onCancel }) {
+  const [formData, setFormData] = useState({
+    subscriptionPlanName: plan ? plan.subscriptionPlanName : "",
+    price: plan ? plan.price : "",
+    features: plan ? plan.features : "",
+  });
 
   useEffect(() => {
     if (plan) {
       setFormData(plan);
-      console.log("124", formdata);
     }
   }, [plan]);
-  const onChangeInput = (event) => {
+
+  const handleChange = (event) => {
     const { name, value } = event.target;
-    event.preventDefault();
-    setFormData((prevDate) => ({
-      ...prevDate,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
     }));
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSave(formdata);
-    setOpenModal(false);
+    onSave(formData);
   };
 
   return (
@@ -40,36 +34,35 @@ function EditModal({ plan, onSave, onCancel, setOpenModal }) {
           <button onClick={onCancel}>X</button>
         </div>
         <div className="title">
-          <h1>Edit Plan</h1>
+          <h1>{plan ? "Edit Plan" : "Create Plan"}</h1>
         </div>
         <div className="body">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <input
                 type="text"
-                id="name"
+                name="subscriptionPlanName"
                 placeholder="Plan Name"
-                name=""
-                value={formdata.name}
-                onChange={onChangeInput}
+                value={formData.subscriptionPlanName}
+                onChange={handleChange}
               />
             </div>
             <div className="form-group">
               <input
                 type="text"
-                id="price"
-                placeholder="Price ($)"
-                value={formdata.price}
-                onChange={onChangeInput}
+                name="price"
+                placeholder= "Price ($)"
+                value={formData.price}
+                onChange={handleChange}
               />
             </div>
             <div className="form-group">
               <input
                 type="text"
-                id="price"
+                name="features"
                 placeholder="Features"
-                value={formdata.features}
-                onChange={onChangeInput}
+                value={formData.features}
+                onChange={handleChange}
               />
             </div>
             <div className="footer">
@@ -86,3 +79,4 @@ function EditModal({ plan, onSave, onCancel, setOpenModal }) {
 }
 
 export default EditModal;
+
