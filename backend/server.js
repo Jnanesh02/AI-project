@@ -41,7 +41,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-console.log(__dirname);
+console.log("path name",__dirname);
 
 // app.use(
 //   cookieSession({

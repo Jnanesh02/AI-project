@@ -50,11 +50,11 @@ router.get("/dashboard", async (req, res) => {
 
   if (channelId) {
     const fetchYouTubeComment = await handleYoutubeInteractions(channelId);
-    const channelDetails = await getChannelDetails(channelId);
-    const Videos = await getVideosList(channelId);
-    const videoId = "Zj7IJLxUf7M";
+    // const channelDetails = await getChannelDetails(channelId);
+    // const Videos = await getVideosList(channelId);
+    // const videoId = "Zj7IJLxUf7M";
 
-    const CommentsForVideos = await getCommentsForVideos(videoId, 50);
+    // const CommentsForVideos = await getCommentsForVideos(videoId, 50);
 
     // console.log("channel details", channelDetails);
     // console.log("videos", Videos[0].snippet.thumbnails);

@@ -13,6 +13,8 @@ async function handleYoutubeInteractions(channelId) {
     auth.setCredentials({ access_token: accessToken });
     const youtube = google.youtube({ version: "v3", auth });
 
+
+    
     const channels = await youtube.channels.list({
       part: "snippet,contentDetails,statistics",
       id: channelId,
