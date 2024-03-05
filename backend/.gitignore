@@ -12,6 +12,7 @@
 /build
 /credetials.json
 # misc
+/customers.csv
 .env
 .DS_Store
 .env.local
