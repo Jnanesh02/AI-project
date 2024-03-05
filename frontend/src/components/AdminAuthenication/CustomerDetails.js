@@ -275,11 +275,32 @@ const CustomerDetails = () => {
     indexOfLastItem
   );
 
+  function exportData() {
+    const token = localStorage.getItem("token");
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/export/customer`, {
+        responseType: "blob",
+        headers: { authorization: token },
+      })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "customers.csv";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Export error:", error.message);
+      });
+  }
+
   return (
     <div className="main-department-section">
       <div className="dep-tbl">
         <h2 className="customer-heading">Customer Details</h2>
-
+        <button onClick={exportData}>export data</button>
         <input
           type="text"
           placeholder="Search..."
@@ -292,8 +313,7 @@ const CustomerDetails = () => {
           <select
             className="form-select"
             value={statusFilter}
-            onChange={handleFilterChange}
-          >
+            onChange={handleFilterChange}>
             <option value=""> Status Filter: </option>
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -330,16 +350,14 @@ const CustomerDetails = () => {
         <button
           className="previouss"
           onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
+          disabled={currentPage === 1}>
           Previous
         </button>
         <span className="pagination-count">{currentPage}</span>
         <button
           className="next"
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={indexOfLastItem >= applyFilters(customersData).length}
-        >
+          disabled={indexOfLastItem >= applyFilters(customersData).length}>
           Next
         </button>
       </div>

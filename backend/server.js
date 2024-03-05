@@ -44,7 +44,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-// console.log(__dirname);
+console.log("path name", __dirname);
 
 // app.use(
 //   cookieSession({
@@ -69,7 +69,7 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/", socialRouter);
-app.use("/auth/twitter", twitterRouter);
+// app.use("/auth/twitter", twitterRouter);
 // Admin routes
 
 app.use("/ai", router.adminAuthentication);
@@ -88,7 +88,10 @@ app.get("/update-assistant-instructions", async (req, res) => {
   console.log("update assistant instruction", req.body);
   try {
     const { data } = req.body;
-  } catch (err) {}
+  } catch (err) {
+    
+
+  }
 });
 
 app.get("/healthcheck", (req, res) => {

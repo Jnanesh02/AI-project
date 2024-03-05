@@ -55,7 +55,7 @@ router.get("/video/get-comment-replies", async (req, res) => {
 const assistantConfig = {
   name: "test",
   instructions: "",
-  tools: [{ type: "code_interpreter" }],
+  // tools: [{ type: "code_interpreter" }],
   model: "gpt-4-turbo-preview",
 };
 
@@ -63,8 +63,9 @@ const assistantConfig = {
 
 router.post("/createassistant", async (req, res) => {
   try {
-    const instructions = JSON.stringify(req.body.formData);
+    const instructions = JSON.stringify(req.body);
     console.log("body", req.body);
+    console.log(instructions);
     assistantConfig.name = "testing assistant";
     assistantConfig.instructions = instructions;
     const assistant = await createAssistant(assistantConfig);
