@@ -105,5 +105,4 @@ const CustomerSubscription = () => {
     </div>
   )
 }
-
 export default CustomerSubscription

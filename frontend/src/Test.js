@@ -1,20 +1,57 @@
-import React from "react";
-// import axios from "axios";
+import { useState } from "react";
+import axios from "axios";
 const Test = () => {
-  //   const handleClick = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:3000/auth/youtube");
-  //       console.log(response);
-  //     } catch (err) {
-  //       console.log(err.message);
-  //     }
-  //   };
+  const [formData, setFormData] = useState({
+    tone: "",
+    style: "",
+    emoji: "",
+    description: "",
+  });
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+  const handleSubmit = async () => {
+    // console.log(formData);
+    const token = localStorage.getItem("token");
+    const tokenData = JSON.parse(atob(token.split(".")[1]));
+    console.log(tokenData);
+
+    const response = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/createassistant`,
+      { formData, userId: tokenData.userId }
+    );
+    console.log("response from the backend", response.data);
+  };
+
   return (
-    <div>
-      <form action="http://localhost:3000/auth/youtube" method="get">
-        <input type="submit" value="Press to log in" />
-      </form>
-    </div>
+    <>
+      <input
+        type="text"
+        placeholder="tone"
+        value={formData.tone}
+        name="tone"
+        onChange={onChangeInput}></input>
+      <input
+        type="text"
+        placeholder="style"
+        value={formData.style}
+        name="style"
+        onChange={onChangeInput}></input>
+      <input
+        type="text"
+        placeholder="emoji"
+        value={formData.emoji}
+        name="emoji"
+        onChange={onChangeInput}></input>
+      <input
+        type="text"
+        placeholder="description"
+        value={formData.description}
+        name="description"
+        onChange={onChangeInput}></input>
+      <button onClick={handleSubmit}>submit</button>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-// const axios = require("axios");
+const axios = require("axios");
 const handleYoutubeInteractions = require("../helper/youtube");
 const {
   getVideosList,
@@ -33,13 +33,38 @@ router.get(
 
 router.get("/auth/youtube", passport.authenticate("youtube"));
 
+async function refreshAccessToken(refreshToken) {
+  try {
+    const response = await axios.post("https://oauth2.googleapis.com/token", {
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET,
+      refresh_token: refreshToken,
+      grant_type: "refresh_token",
+    });
+    return response.data.access_token;
+  } catch (error) {
+    throw new Error("Failed to refresh access token");
+  }
+}
 router.get("/auth/youtube/callback", function (req, res, next) {
-  passport.authenticate("youtube", function (err, userInfo) {
+  passport.authenticate("youtube", async function (err, userInfo) {
     // console.log(userInfo);
     if (err) {
       return res.status(500).json({ message: err.message });
     } else {
+      // console.log("inside youtube callback", userInfo);
+
       userId = userInfo.profile.id;
+      // console.log("accessToken before ", userInfo.accessToken);
+      // console.log("refresh token", userInfo.refreshToken);
+      console.log(userInfo);
+      // try {
+      //   let accessToken = await refreshAccessToken(userInfo.refreshToken);
+      //   console.log("refresh Token", accessToken);
+      // } catch (err) {
+      //   console.log(err.message);
+      // }
+      // res.json({}).redirect("alsdfjalsd")
 
       res.redirect("http://localhost:3001/dashboard");
     }
@@ -47,7 +72,7 @@ router.get("/auth/youtube/callback", function (req, res, next) {
 });
 router.get("/dashboard", async (req, res) => {
   const channelId = userId;
-
+  // console.log("inside  dashboard route", req.user);
   if (channelId) {
     const fetchYouTubeComment = await handleYoutubeInteractions(channelId);
     // const channelDetails = await getChannelDetails(channelId);

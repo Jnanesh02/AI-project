@@ -5,6 +5,7 @@ const {
   getChatGPTResponse,
   assistantResponse,
   sentimentAnalysis,
+  createAssistant,
 } = require("./src/helper/chatgpt");
 const cors = require("cors");
 const twitterClient = require("./src/routes/twitterClient");
@@ -19,7 +20,9 @@ const session = require("express-session");
 const cookieSession = require("cookie-session");
 const twitterRouter = require("./src/routes/twitterLogin");
 const router = require("./src/routes");
+const jwt = require("jsonwebtoken");
 // const { requireAuth } = require("./middleware/auth");
+const emojiSchema = require("./src/model/testModel");
 
 connect();
 // Enable CORS for all requests
@@ -41,7 +44,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-console.log("path name",__dirname);
+// console.log(__dirname);
 
 // app.use(
 //   cookieSession({
@@ -52,15 +55,16 @@ console.log("path name",__dirname);
 const answer = async () => {
   const userComment =
     "This video is incredibly informative! I love how well-explained the content is, and the visuals are top-notch. Keep up the great work! 👍";
-  const response1 = await assistantResponse(userComment);
+  // const response1 = await assistantResponse(userComment);
   const response2 = await getChatGPTResponse(userComment);
   const response3 = await sentimentAnalysis(userComment);
-  console.log(`assistant response: ${response1}`);
+  // console.log(`assistant response: ${response1}`);
   console.log(`chatgpt response: ${response2}`);
   console.log(`Sentiment Analysis: ${response3}`);
 };
 // answer();
 
+// createAssistant();
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -72,6 +76,11 @@ app.use("/ai", router.adminAuthentication);
 app.use("/ai", router.customer);
 app.use("/ai", router.plan);
 app.use("/ai", router.youtube);
+// app.use("/ai", router.assistant);
+app.use("/ai", router.assistant2);
+app.use("/ai", router.form);
+
+
 
 app.get("/success", (req, res) => {
   res.send("success");
@@ -89,6 +98,23 @@ app.get("/update-assistant-instructions", async (req, res) => {
 app.get("/healthcheck", (req, res) => {
   res.send("server is working fine");
 });
+
+// testing to get emoji in the backend
+// app.post("/getemoji", async (req, res) => {
+//   try {
+//     const emoji = req.body.emoji;
+//     console.log("emoji", emoji);
+//     const Emoji = await emojiSchema.create({
+//       data: {
+//         Emoji: emoji,
+//       },
+//     });
+//     await Emoji.save();
+//     return res.status(200).json("ppp");
+//   } catch (err) {
+//     return res.status(500).json({ err: err.message });
+//   }
+// });
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
