@@ -46,16 +46,13 @@ const createAssistant = async (configuration) => {
   return assistant;
 };
 
-const updateInstructions = async () => {
+const updateInstructions = async (id, newinstructions) => {
   try {
-    const existingAssistant = openai.beta.assistants.retrieve(
-      "asst_p6mboQnCyfmGjKKecWwaSIRC"
-    );
-    const instructions = "this is just a test";
-    await openai.beta.assistants.update("asst_p6mboQnCyfmGjKKecWwaSIRC", {
-      instructions: instructions,
+    const updatedAssistant = await openai.beta.assistants.update(id, {
+      instructions: newinstructions,
     });
     console.log("assistant instructions updated successfully");
+    return updatedAssistant;
   } catch (err) {
     console.log(err.message);
   }
@@ -187,4 +184,5 @@ module.exports = {
   assistantResponse,
   sentimentAnalysis,
   createAssistant,
+  updateInstructions,
 };

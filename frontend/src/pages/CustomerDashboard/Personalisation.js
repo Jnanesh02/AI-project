@@ -12,6 +12,7 @@ const options = [
 ];
 
 function PersonalisationForm() {
+  const [showForm, setShowForm] = useState(false);
   const [values, setValues] = useState({
     tone: [],
     style: [],
@@ -40,9 +41,11 @@ function PersonalisationForm() {
         description: values.description,
       };
       console.log("FormData:", formData);
+      const token = localStorage.getItem("token");
+      const tokenData = JSON.parse(atob(token.split(".")[1]));
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/createassistant`,
-        formData
+        { data: formData, id: tokenData.userId }
       );
       console.log(response.data);
       // Reset form after successful submission

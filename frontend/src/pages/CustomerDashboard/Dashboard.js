@@ -36,7 +36,7 @@ export const Dashboard = ({ youtubeData }) => {
     console.log(numComments[videoId]);
     const token = localStorage.getItem("token");
     const tokenData = JSON.parse(atob(token.split(".")[1]));
-    console.log("token data", tokenData.userId);
+    console.log("token data", tokenData);
     const userId = tokenData.userId;
     console.log("inside handleSubmit of dashboard", token);
     const response = await axios.post(

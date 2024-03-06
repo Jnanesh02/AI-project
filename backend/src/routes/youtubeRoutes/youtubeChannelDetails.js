@@ -4,8 +4,9 @@ const {
   getVideosList,
   getCommentsForVideos,
 } = require("../../helper/youtubeFunctions");
+const Customer = require("../../model/customermodel");
 
-const { createAssistant } = require("../../helper/chatgpt");
+const { createAssistant, updateInstructions } = require("../../helper/chatgpt");
 
 const router = express.Router();
 
@@ -63,14 +64,35 @@ const assistantConfig = {
 
 router.post("/createassistant", async (req, res) => {
   try {
-    const instructions = JSON.stringify(req.body);
-    console.log("body", req.body);
-    console.log(instructions);
-    assistantConfig.name = "testing assistant";
-    assistantConfig.instructions = instructions;
-    const assistant = await createAssistant(assistantConfig);
-    console.log(assistant);
-    return res.json(assistant);
+    const instructions = JSON.stringify(req.body.data);
+    const userId = req.body.id;
+    console.log(req.body);
+    let customer = await Customer.findById({ _id: userId });
+    console.log("customer object", customer);
+    if (customer.assistantId) {
+      // 3. Assistant already exists, return assistantId
+
+      const updatedAssistant = await updateInstructions(
+        customer.assistantId,
+        instructions
+      );
+
+      return res.json({
+        assistantId: customer.assistantId,
+        message: "assistant instructions updated",
+      });
+    }
+    // console.log("body", req.body);
+    // console.log(instructions);
+    else {
+      assistantConfig.name = "testing assistant";
+      assistantConfig.instructions = instructions;
+      const assistant = await createAssistant(assistantConfig);
+      console.log(assistant);
+      customer.assistantId = assistant.id;
+      await customer.save();
+      return res.json(assistant.id);
+    }
     // return res.json(instructions);
   } catch (err) {
     console.log(err.message);

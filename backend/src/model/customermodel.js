@@ -50,13 +50,17 @@ const customer = new Schema(
         default: 0,
       },
     },
-    
+
     // subscriptionPlan: {
     //   type: Schema.Types.ObjectId,
     //   ref: "SubscriptionPlan",
     // },
 
     extraPackagePurchaseData: {
+      type: String,
+      default: "",
+    },
+    assistantId: {
       type: String,
       default: "",
     },
