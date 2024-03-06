@@ -6,6 +6,8 @@ const dotenv = require("dotenv");
 const express = require("express");
 const router = express.Router();
 const moment = require("moment");
+const json2csv = require("json2csv").parse;
+const fs = require("fs");
 const { requireAuth, isAdmin } = require("../../../middleware/auth");
 
 // Signup logic
@@ -124,6 +126,72 @@ router.get("/customer", requireAuth, isAdmin, async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+// router.get("/export/customer", requireAuth, isAdmin, async (req, res) => {
+//   if (req.user.role !== "admin") {
+//     return res.status(403).json({ message: "Access denied. Admins only." });
+//   }
+//   try {
+//     const customers = await Customer.find({});
+//     // console.log("backend customer export route", customers);
+//     const fields = Object.keys(customers[0]);
+//     const csv = json2csv(customers, { fields });
+//     fs.writeFileSync("customers.csv", csv, "utf8");
+//     res.download("customers.csv");
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).json({ message: err.message });
+//   }
+// });
+
+router.get("/export/customer", requireAuth, isAdmin, async (req, res) => {
+  if (req.user.role !== "admin") {
+      return res.status(403).json({ message: "Access denied. Admins only." });
+  }
+  try {
+      const customers = await Customer.find({});
+      if (customers.length === 0) {
+          return res.status(404).json({ message: "No customers found." });
+      }
+
+      let csv = '';
+
+      // Extract column names
+      const columns = Object.keys(customers[0].toObject());
+
+      // Add column names to CSV
+      csv += columns.join(",") + "\n";
+
+      // Iterate over each customer
+      customers.forEach(customer => {
+          const customerData = customer.toObject(); // Convert Mongoose document to plain JavaScript object
+
+          // Convert usage object to a string with a custom delimiter
+          const usageString = JSON.stringify(customerData.usage).replace(/,/g, ';');
+
+          // Replace the usage object in the customer data with the string representation
+          customerData.usage = usageString;
+
+          // Convert object to CSV row
+          const row = columns.map(column => {
+              const value = customerData[column];
+              return typeof value === 'object' ? JSON.stringify(value) : value;
+          }).join(",");
+
+          csv += row + "\n"; // Append row to CSV string
+      });
+
+      // Write CSV to file
+      fs.writeFileSync("customers.csv", csv, "utf8");
+
+      // Send CSV file as a download
+      res.download("customers.csv");
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).json({ message: err.message });
+  }
+});
+
 router.put("/customer", requireAuth, async (req, res) => {
   try {
     const updatedCustomer = await Customer.findByIdAndUpdate(
