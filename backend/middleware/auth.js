@@ -2,7 +2,7 @@ const Customer = require("../src/model/customermodel");
 const Admin = require("../src/model/adminmodel");
 
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
+
 
 const requireAuth = async (req, res, next) => {
   try {

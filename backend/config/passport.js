@@ -1,15 +1,13 @@
-const FacebookStrategy = require("passport-facebook").Strategy;
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+// const FacebookStrategy = require("passport-facebook").Strategy;
+// const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const YoutubeV3Strategy = require("passport-youtube-v3").Strategy;
-const { google } = require("googleapis");
+// const { google } = require("googleapis");
 const passport = require("passport");
 const fs = require("fs-extra");
-// const { OpenAI } = require("openai");
-const { assistantResponse } = require("../src/helper/chatgpt");
 
 passport.serializeUser((user, done) => {
   // console.log(JSON.stringify(user.profile.id))
-  done(null,JSON.stringify(user.profile.id));
+  done(null, JSON.stringify(user.profile.id));
 });
 
 passport.deserializeUser((obj, done) => {
@@ -32,41 +30,41 @@ async function updateAccessToken(accessToken) {
   }
 }
 
-passport.use(
-  new FacebookStrategy(
-    {
-      clientID: process.env.FACEBOOK_APP_ID,
-      clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "http://localhost:3000/auth/facebook/callback",
-      profileFields: ["id", "displayName", "email"],
-      enableProof: true,
-    },
-    function (accessToken, refreshToken, profile, done) {
-      console.log(profile);
-      return done(null, profile);
-    }
-  )
-);
+// passport.use(
+//   new FacebookStrategy(
+//     {
+//       clientID: process.env.FACEBOOK_APP_ID,
+//       clientSecret: process.env.FACEBOOK_APP_SECRET,
+//       callbackURL: "http://localhost:3000/auth/facebook/callback",
+//       profileFields: ["id", "displayName", "email"],
+//       enableProof: true,
+//     },
+//     function (accessToken, refreshToken, profile, done) {
+//       console.log(profile);
+//       return done(null, profile);
+//     }
+//   )
+// );
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/callback",
-      scope: ["profile", "email"],
-    },
-    // Process Google authentication, create or update user in the database4
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        // Check if the user already exists in the database based on their Google ID
-        return done(profile, null);
-      } catch (error) {
-        return done(error, null);
-      }
-    }
-  )
-);
+// passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID: process.env.GOOGLE_CLIENT_ID,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//       callbackURL: "http://localhost:3000/auth/google/callback",
+//       scope: ["profile", "email"],
+//     },
+//     // Process Google authentication, create or update user in the database4
+//     async (accessToken, refreshToken, profile, done) => {
+//       try {
+//         // Check if the user already exists in the database based on their Google ID
+//         return done(profile, null);
+//       } catch (error) {
+//         return done(error, null);
+//       }
+//     }
+//   )
+// );
 
 // youtube comments
 // passport.use(
@@ -217,7 +215,6 @@ passport.use(
         refreshToken: refreshToken,
       };
       await updateAccessToken(accessToken);
-      
 
       return done(null, user);
     }

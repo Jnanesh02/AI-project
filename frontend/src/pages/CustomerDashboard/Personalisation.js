@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import CreatableSelect from "react-select/creatable";
 import Select from "react-select";
+import "./Personalisation.css";
 
 const components = { DropdownIndicator: null };
 const options = [
@@ -77,6 +78,7 @@ function PersonalisationForm() {
       borderRadius: "5px",
       border: "1px solid #080808",
     },
+
     button: {
       padding: "10px 20px",
       fontSize: "16px",
@@ -116,9 +118,9 @@ function PersonalisationForm() {
   return (
     <div className="container mt-5">
       <div className="row ">
-        <div className="col-md-6 ">
-          <button className="btn btn-primary m-5" onClick={toggleModal}>
-            Open Form
+        <div className="col-md-12 ">
+          <button className="btn btn-primary open-form" onClick={toggleModal}>
+            Assistance Instructions
           </button>
           {isOpen && (
             <div
@@ -155,7 +157,8 @@ function PersonalisationForm() {
                         <div>
                           <label className="mb-2">Tone</label>
                           <Select
-                            isMulti
+                            // isMulti
+                            isClearable
                             options={options}
                             onChange={(selectedOption) =>
                               handleChange("tone", selectedOption)
@@ -166,7 +169,8 @@ function PersonalisationForm() {
                         <div>
                           <label className="mb-2">Style</label>
                           <Select
-                            isMulti
+                            // isMulti
+                            isClearable
                             options={options}
                             onChange={(selectedOption) =>
                               handleChange("style", selectedOption)

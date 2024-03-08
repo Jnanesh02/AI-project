@@ -60,7 +60,7 @@ const assistantConfig = {
   model: "gpt-4-turbo-preview",
 };
 
-// console.log(assistantConfig);
+// console.log(assistantConfig);+
 
 router.post("/createassistant", async (req, res) => {
   try {

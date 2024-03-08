@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CustomerDashboardStyles/CustomerAccount.css";
 import PersonalisationForm from "./Personalisation";
+import { Dashboard } from "./Dashboard";
 const CustomerAccount = () => {
+  const [linked, setLinked] = useState(false);
   const navigate = useNavigate();
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("youtubeForm");
@@ -14,15 +16,18 @@ const CustomerAccount = () => {
   });
 
   const SignInWithYoutube = () => {
+    const token = localStorage.getItem("token");
+    const tokenData = JSON.parse(atob(token.split(".")[1]));
     return (
       <>
         <form
           id="youtubeForm"
           action="http://localhost:3000/auth/youtube"
           method="get">
-          <button type="submit">
+          <input type="hidden" name="id" value={tokenData.userId}></input>
+          <button type="submit" class="btn btn-primary youtube-btn">
             <i class="fa-brands fa-youtube mx-2" aria-hidden="true"></i>
-            sign in with youtube
+            Link your Youtube account
           </button>
         </form>
       </>
@@ -36,8 +41,8 @@ const CustomerAccount = () => {
     );
   };
   return (
-    <div>
-      <div>
+    <div className="container">
+      <div className="row">
         <ul className="social-icons">
           {/* <li>
         <NavLink to="#" className="facebook">
@@ -76,11 +81,11 @@ const CustomerAccount = () => {
             sign in with youtube
           </button>
         </form> */}
-
-          <SignInWithYoutube></SignInWithYoutube>
         </ul>
+        <CreateAssistant></CreateAssistant>
+        <SignInWithYoutube></SignInWithYoutube>
+        {/* <Dashboard></Dashboard> */}
       </div>
-      <CreateAssistant></CreateAssistant>
     </div>
   );
 };

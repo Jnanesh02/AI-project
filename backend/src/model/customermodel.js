@@ -13,11 +13,6 @@ const customer = new Schema(
       type: String,
       required: true,
     },
-    // userName: {
-    //   type: String,
-    //   default: "",
-    //   unique: true,
-    // },
     email: {
       type: String,
       required: true,
@@ -50,7 +45,18 @@ const customer = new Schema(
         default: 0,
       },
     },
-
+    accessToken: {
+      type: String,
+      default: "",
+    },
+    refreshToken: {
+      type: String,
+      default: "",
+    },
+    channelId: {
+      type: String,
+      default: "",
+    },
     // subscriptionPlan: {
     //   type: Schema.Types.ObjectId,
     //   ref: "SubscriptionPlan",
@@ -86,10 +92,10 @@ const customer = new Schema(
 
     paymentHistory: [{ type: String, default: "" }],
 
-    recentActivityInsights: {
-      type: String,
-      default: "",
-    },
+    // recentActivityInsights: {
+    //   type: String,
+    //   default: "",
+    // },
 
     role: {
       type: String,

@@ -2,13 +2,14 @@
 const { assistantResponse } = require("../helper/chatgpt");
 const fs = require("fs-extra");
 const { google } = require("googleapis");
-async function handleYoutubeInteractions(channelId) {
+async function handleYoutubeInteractions(accessToken, channelId) {
   try {
-    const credentials = await fs.readJson(
-      process.env.CREDENTIALS_PATH + "/config/credentials.json"
-    );
+    // const credentials = await fs.readJson(
+    //   process.env.CREDENTIALS_PATH + "/config/credentials.json"
+    // );
 
-    const accessToken = credentials.accessToken;
+    // const accessToken = credentials.accessToken;
+
     const auth = new google.auth.OAuth2();
     auth.setCredentials({ access_token: accessToken });
     const youtube = google.youtube({ version: "v3", auth });
@@ -113,7 +114,7 @@ async function handleYoutubeInteractions(channelId) {
             maxResults: 50,
             // Comment filtering/sorting as needed
           });
-          console.log("comments", comments.data);
+          // console.log("comments", comments.data);
 
           // Store comments in videoComments array
           videoComments.push({

@@ -8,6 +8,7 @@ async function youtubeAuth() {
     );
 
     const accessToken = credentials.accessToken;
+    
     const auth = new google.auth.OAuth2();
     auth.setCredentials({ access_token: accessToken });
     const youtube = google.youtube({ version: "v3", auth });

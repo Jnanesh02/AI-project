@@ -77,7 +77,7 @@ router.post("/login/customer", async (req, res) => {
 
     const user = await Customer.findOne({
       $or: [
-        // { userName: { $regex: mailuserId, $options: "i" } },
+        
         { email: { $regex: email, $options: "i" } },
       ],
     });
