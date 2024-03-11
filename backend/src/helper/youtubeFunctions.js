@@ -1,14 +1,14 @@
 const fs = require("fs-extra");
 const { google } = require("googleapis");
 
-async function youtubeAuth() {
+async function youtubeAuth(accessToken) {
   try {
-    const credentials = await fs.readJson(
-      process.env.CREDENTIALS_PATH + "/config/credentials.json"
-    );
+    // const credentials = await fs.readJson(
+    //   process.env.CREDENTIALS_PATH + "/config/credentials.json"
+    // );
 
-    const accessToken = credentials.accessToken;
-    
+    // const accessToken = credentials.accessToken;
+
     const auth = new google.auth.OAuth2();
     auth.setCredentials({ access_token: accessToken });
     const youtube = google.youtube({ version: "v3", auth });
@@ -18,10 +18,10 @@ async function youtubeAuth() {
   }
 }
 
-async function getChanneldetails(channelId) {
+async function getChanneldetails(accessToken, channelId) {
   try {
     console.log(channelId, "channelId");
-    let youtube = await youtubeAuth();
+    let youtube = await youtubeAuth(accessToken);
     const channels = await youtube.channels.list({
       part: "snippet,contentDetails,statistics",
       id: channelId,
@@ -50,10 +50,10 @@ async function getVideosList(channelId) {
   }
 }
 
-async function getCommentsForVideos(videoId, noOfComments) {
+async function getCommentsForVideos(accessToken, videoId, noOfComments) {
   try {
     console.log("inside getComments function", videoId, noOfComments);
-    let youtube = await youtubeAuth();
+    let youtube = await youtubeAuth(accessToken);
     let videoComments = []; // {videoId:"something", comments:"[] comments of the respective videos"}
     try {
       const videoDetails = await youtube.videos.list({
@@ -105,9 +105,9 @@ async function getCommentsForVideos(videoId, noOfComments) {
   }
 }
 
-async function replyToComments(videoId) {
+async function replyToComments(accessToken, videoId) {
   try {
-    let youtube = await youtubeAuth();
+    let youtube = await youtubeAuth(accessToken);
     const comments = youtube.comments.list({
       part: "snippet",
     });

@@ -72,17 +72,17 @@ const updateInstructions = async (id, newinstructions) => {
 //   metadata: {}
 // }
 
-async function assistantResponse(userComment) {
+async function assistantResponse(assistantId, userComment) {
   try {
     // Retrieve the assistant
 
-    const assistant = await openai.beta.assistants.create({
-      name: "Math Tutor",
-      instructions:
-        "You are a personal math tutor. Write and run code to answer math questions.",
-      tools: [{ type: "code_interpreter" }],
-      model: "gpt-4-turbo-preview",
-    });
+    // const assistant = await openai.beta.assistants.create({
+    //   name: "Math Tutor",
+    //   instructions:
+    //     "You are a personal math tutor. Write and run code to answer math questions.",
+    //   tools: [{ type: "code_interpreter" }],
+    //   model: "gpt-4-turbo-preview",
+    // });
 
     // Create a thread
     const threadResponse = await openai.beta.threads.create();
@@ -185,4 +185,5 @@ module.exports = {
   sentimentAnalysis,
   createAssistant,
   updateInstructions,
+  openai,
 };
