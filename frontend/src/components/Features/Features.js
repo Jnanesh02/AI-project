@@ -85,7 +85,7 @@ import featuresicon3 from "../../images/Icon-3.png";
 const Features = () => (
   <section className="features">
     <div className="container features-cards">
-      <h1>Features</h1>
+      <h1 className='feature'>Features</h1>
       <div className="row">
         {[{ icon: featuresicon1, title: "Engage with Precision", text: "Elevate your YouTube presence with personalized comment replies, crafting unique connections that resonate with your audience." },
           { icon: featuresicon2, title: "Insightful Sentiment Discovery", text: "Dive deep into your viewers' emotions, unlocking engagement insights through nuanced sentiment analysis of YouTube comments." },

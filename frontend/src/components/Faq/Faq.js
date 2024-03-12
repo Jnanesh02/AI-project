@@ -1,7 +1,37 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import "./Faq.css";
 
 export default function Faq() {
+  const[name,setname]=useState("");
+  const[nameerror,setnameerror]=useState("")
+  const[email,setemail]=useState("");
+  const[emailerror,setemailerror]=useState("");
+  const[message,setmessage]=useState("");
+  const[messageerror,setmessageerror]=useState("");
+
+  const handleNameChange=(e)=>{
+
+     setname(e.target.value);
+     setnameerror("");
+  }
+  const handleEmailchange=(e)=>{
+setemail(e.target.value);
+  }
+  const handlemessagechange=(e)=>{
+    setmessage(e.target.value);
+  }
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    if(name.trim()===""){
+      setnameerror("firstname is required");
+      return;
+    }
+    alert("send request sucessfully")
+    console.log("Name:",name);
+    console.log("email:", email);
+    console.log("message:",message);
+  }
   return (
     <section className="faq">
       <div className="container">
@@ -27,11 +57,12 @@ export default function Faq() {
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12">
             <div className="make-your-questions">
-              <form>
-                <input type="text" className="form-control mb-3" placeholder="Name"/>
-                <input type="text" className="form-control mb-3" placeholder="Email"/>
-                <textarea className="form-control mb-3" rows="3" placeholder="Write Something"></textarea>
-                <button type="button" className="btn btn-primary send-req"> SEND REQUEST </button>
+              <form onSubmit={handleSubmit}>
+                <input type="text" className="form-control mb-3" placeholder="Name" value={name} onChange={handleNameChange}/>
+                {nameerror && <div className='Error'>{nameerror}</div>}
+                <input type="text" className="form-control mb-3" placeholder="Email" value={email} onChange={handleEmailchange} required/>
+                <textarea className="form-control mb-3" rows="3" placeholder="Write Something" value={message} onChange={handlemessagechange}></textarea>
+                <button type="submit" className="btn btn-primary send-req"> SEND REQUEST </button>
               </form>
             </div>
           </div>

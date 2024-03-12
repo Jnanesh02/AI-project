@@ -58,8 +58,7 @@ const pricingData = [
     button: "Contact For More Information",
   },
 ];
-
-export default function Pricing() {
+ export default function Pricing() {
   const [plans, setPlans] = useState("");
   const getPlanDetails = async () => {
     const token = localStorage.getItem("token");
@@ -70,8 +69,6 @@ export default function Pricing() {
 
     console.log(response.data);
   };
-
-
   useEffect(()=>{
     getPlanDetails();
   },[])
