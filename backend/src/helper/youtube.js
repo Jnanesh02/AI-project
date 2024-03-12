@@ -4,12 +4,6 @@ const fs = require("fs-extra");
 const { google } = require("googleapis");
 async function handleYoutubeInteractions(accessToken, channelId) {
   try {
-    // const credentials = await fs.readJson(
-    //   process.env.CREDENTIALS_PATH + "/config/credentials.json"
-    // );
-
-    // const accessToken = credentials.accessToken;
-
     const auth = new google.auth.OAuth2();
     auth.setCredentials({ access_token: accessToken });
     const youtube = google.youtube({ version: "v3", auth });
@@ -18,32 +12,6 @@ async function handleYoutubeInteractions(accessToken, channelId) {
       part: "snippet,contentDetails,statistics",
       id: channelId,
     });
-    // console.log("inside the youtube.js file", channels.data);
-    // (err, channelResponse) => {
-    //   if (err) {
-    //     console.log("1", err);
-    //   } else {
-    //     return  (channelResponse.data.items[0].snippet);
-    //   }
-    // }
-    // );
-    // console.log("2", channels.data.items[0].snippet);
-    // console.log("channel response:", channels.data.items[0].snippet);
-
-    // const videos = youtube.videos.list(
-    //   {
-    //     part: "snippet",
-    //     channelId: channelId,
-    //     id: channelId,
-    //   },
-    //   (err, videoResponse) => {
-    //     if (err) {
-    //       console.log("3", err);
-    //     } else {
-    //       console.log("4", videoResponse.data.items);
-    //     }
-    //   }
-    // );
 
     const videos = await youtube.search.list({
       part: "snippet",

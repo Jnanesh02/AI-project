@@ -1,4 +1,7 @@
 const express = require("express");
+const commentsSchema = require("../../model/commentsmodel");
+const mongoose = require("mongoose");
+const { assistantResponse, openai } = require("../../helper/chatgpt");
 const {
   getChanneldetails,
   getVideosList,
@@ -34,12 +37,95 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     const { videoId } = req.params;
 
     const { numOfComments, channelId, userId } = req.body;
-
-    const videos = await getCommentsForVideos(videoId, numOfComments);
+    console.log("inside api userid", userId);
+    const customer = await Customer.findById(userId);
+    console.log("inside api", customer);
+    const accessToken = customer.accessToken;
+    const videos = await getCommentsForVideos(
+      accessToken,
+      videoId,
+      numOfComments
+    );
+    // const assistantId = customer.assistantId;
+    const assistantId = "asst_6YBo6GvvYLVEmzumZ6XqpCbU";
+    
+    console.log("assistant id ", assistantId);
     console.log("234", videos);
 
     console.log("456", videos[0].comments);
+    const userIdObjectId = new mongoose.Types.ObjectId(userId);
 
+    const existingCustomer = await commentsSchema.findOne({
+      customerId: userIdObjectId,
+    });
+    if (!existingCustomer) {
+      const createNewCommentSection = new commentsSchema({
+        customerId: userId,
+        channels: [
+          {
+            channelId: channelId,
+
+            videos: [
+              {
+                videoId: videos[0].videoId,
+                comments: videos[0].comments.map((comment) => ({
+                  commentId: comment.id,
+                  usercomments: comment.data,
+                })),
+              },
+            ],
+          },
+          ,
+        ],
+      });
+      await createNewCommentSection.save();
+      return res.status(200).json(createNewCommentSection);
+    } else {
+      const existingChannel = existingCustomer.channels.find(
+        (channel) => channel.channelId === channelId
+      );
+      if (!existingChannel) {
+        existingChannel = {
+          channelId: channelId,
+          videos: [
+            {
+              videoId,
+              comments: videos[0].comments.map((comment) => ({
+                commentId: comment.id,
+                usercomments: comment.data,
+              })),
+            },
+          ],
+        };
+        existingCustomer.channels.push(existingChannel);
+        await existingCustomer.save();
+        return res.status(200).json(existingCustomer);
+      } else {
+        const existingVideo = existingChannel.videos.find(
+          (video) => video.videoId === videoId
+        );
+        if (!existingVideo) {
+          existingChannel.videos.push({
+            videoId,
+            comments: videos[0].comments.map((comment) => ({
+              commentId: comment.id,
+              usercomments: comment.data,
+            })),
+          });
+          await existingCustomer.save();
+          return res.status(200).json(existingCustomer);
+        } else {
+          existingVideo.comments.push(
+            ...videos[0].comments.map((comment) => ({
+              commentId: comment.id,
+              usercomments: comment.data,
+            }))
+          );
+          await existingCustomer.save();
+        }
+      }
+      return res.status(200).json(existingCustomer);
+    }
     // we need to save the comments here
   } catch (err) {
     console.log(err.message);
@@ -60,7 +146,7 @@ const assistantConfig = {
   model: "gpt-4-turbo-preview",
 };
 
-// console.log(assistantConfig);+
+// console.log(assistantConfig);
 
 router.post("/createassistant", async (req, res) => {
   try {

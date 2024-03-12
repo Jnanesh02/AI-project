@@ -1,19 +1,31 @@
 const mongoose = require("mongoose");
 const videoIdSchema = new mongoose.Schema({
   videoId: {
-    type: "string",
+    type: String,
     default: "",
-    
   },
   comments: [
     {
+      commentId: {
+        type: String,
+        default: "",
+      },
       usercomments: {
-        type: "string",
+        type: String,
         default: "",
       },
       chatGpt: {
+        type: String,
+        default: "",
+      },
+      chatGptReplied: {
         type: Boolean,
         default: false,
+      },
+      Status: {
+        enums: ["Approved", "Pending"],
+        type: String,
+        default: "Pending",
       },
     },
   ],
@@ -23,12 +35,15 @@ const commentsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "customermodels",
   },
-  channelId: [videoIdSchema],
-  commmentsReplied: {
-    type: Number,
-    default: 0,
-  },
+  channels: [
+    {
+      channelId: {
+        type: String,
+        default: "",
+      },
+      videos: [videoIdSchema],
+    },
+  ],
 });
 const commentmodel = mongoose.model("commentsSchema", commentsSchema);
 module.exports = commentmodel;
-

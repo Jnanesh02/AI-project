@@ -51,6 +51,7 @@ router.get("/auth/youtube", (req, res, next) => {
   }
 });
 
+
 router.get("/auth/youtube/callback", function (req, res, next) {
   passport.authenticate("youtube", async function (err, userInfo) {
     // console.log(userInfo);
@@ -76,6 +77,7 @@ router.get("/auth/youtube/callback", function (req, res, next) {
     }
   })(req, res, next);
 });
+
 router.get("/dashboard", async (req, res) => {
   try {
     const id = req.query.userId;
@@ -95,6 +97,9 @@ router.get("/dashboard", async (req, res) => {
         validAccessToken = accessToken;
       } else {
         validAccessToken = await generateNewAccessToken(refreshToken);
+        customer.accessToken = validAccessToken;
+        await customer.save();
+
         console.log("new Token generated:", validAccessToken);
       }
     } catch (err) {
