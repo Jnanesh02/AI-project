@@ -139,6 +139,32 @@ button.btn.btn-primary.signup {
     line-height: normal; /* Reset the line height */
     margin: 5px;
   }
+  /* home.css */
+
+.nav-link {
+    position: relative;
+  }
+  
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height:2px;
+    background-color:black;
+    transition: all 0.5s ease;
+    opacity: 0;
+  
+  }
+  
+  .nav-link:hover::after {
+    width: 100%;
+    opacity: 1;
+    }
+  
   
   
   
