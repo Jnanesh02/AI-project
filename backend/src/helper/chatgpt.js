@@ -120,7 +120,7 @@ async function assistantResponse(assistantId, userComment) {
     );
     const assistantResponse =
       aiMessages[aiMessages.length - 1].content[0].text.value;
-
+    console.log("asss", assistantResponse);
     return assistantResponse;
   } catch (error) {
     console.error("Error:", error);

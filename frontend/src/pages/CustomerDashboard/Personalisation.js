@@ -15,18 +15,20 @@ const options = [
 function PersonalisationForm() {
   const [showForm, setShowForm] = useState(false);
   const [values, setValues] = useState({
-    tone: [],
-    style: [],
-    emojis: [],
+    tone: "",
+    style: "",
+    emojis: "",
     description: "",
   });
 
   const handleChange = (field, selectedOption) => {
-    setValues({ ...values, [field]: selectedOption });
+    setValues({ ...values, [field]: selectedOption.value });
   };
 
   const handleEmojisChange = (selectedOption) => {
-    setValues({ ...values, emojis: selectedOption });
+    console.log("inside emojis", selectedOption);
+    setValues({ ...values, emojis: selectedOption.value });
+    
   };
 
   const handleTextareaChange = (event) => {
@@ -35,25 +37,26 @@ function PersonalisationForm() {
 
   const handleSubmit = async () => {
     try {
-      const formData = {
-        tone: values.tone.map((option) => option.value),
-        style: values.style.map((option) => option.value),
-        emojis: values.emojis.map((emoji) => emoji.value),
-        description: values.description,
-      };
-      console.log("FormData:", formData);
+      // console.log(values);
+      // const formData = {
+      //   tone: values.tone.map((option) => option.value),
+      //   style: values.style.map((option) => option.value),
+      //   emojis: values.emojis.map((emoji) => emoji.value),
+      //   description: values.description,
+      // };
+      console.log("FormData:", values);
       const token = localStorage.getItem("token");
       const tokenData = JSON.parse(atob(token.split(".")[1]));
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/createassistant`,
-        { data: formData, id: tokenData.userId }
-      );
-      console.log(response.data);
+      // const response = await axios.post(
+      //   `${process.env.REACT_APP_BACKEND_URL}/createassistant`,
+      //   { data: formData, id: tokenData.userId }
+      // );
+
       // Reset form after successful submission
       setValues({
-        tone: [],
-        style: [],
-        emojis: [],
+        tone: "",
+        style: "",
+        emojis: "",
         description: "",
       });
     } catch (error) {
@@ -183,7 +186,6 @@ function PersonalisationForm() {
                           <CreatableSelect
                             components={components}
                             isClearable
-                            isMulti
                             value={values.emojis}
                             onChange={handleEmojisChange}
                             styles={styles.select} // Apply custom styles to the Select component

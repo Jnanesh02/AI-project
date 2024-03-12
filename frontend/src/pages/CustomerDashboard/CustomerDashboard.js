@@ -20,8 +20,9 @@ const CustomerDashboard = () => {
         params: { userId: tokenData.userId },
       });
       setYoutubeData(response);
+      console.log("response in frontend", response);
     } catch (error) {
-      console.log(error);
+      console.log("youtube error in frontend", error);
     }
   };
   return (

@@ -15,7 +15,7 @@ const videoIdSchema = new mongoose.Schema({
         default: "",
       },
       chatGpt: {
-        type: String,
+        type: [String],
         default: "",
       },
       chatGptReplied: {

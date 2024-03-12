@@ -48,11 +48,11 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     );
     // const assistantId = customer.assistantId;
     const assistantId = "asst_6YBo6GvvYLVEmzumZ6XqpCbU";
-    
-    console.log("assistant id ", assistantId);
-    console.log("234", videos);
 
-    console.log("456", videos[0].comments);
+    // console.log("assistant id ", assistantId);
+    // console.log("234", videos);
+
+    // console.log("456", videos[0].comments);
     const userIdObjectId = new mongoose.Types.ObjectId(userId);
 
     const existingCustomer = await commentsSchema.findOne({
@@ -68,9 +68,12 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
             videos: [
               {
                 videoId: videos[0].videoId,
-                comments: videos[0].comments.map((comment) => ({
+                comments: videos[0].comments.map(async (comment) => ({
                   commentId: comment.id,
                   usercomments: comment.data,
+                  chatGpt: await Promise(
+                    assistantResponse(assistantId, comment.data)
+                  ),
                 })),
               },
             ],
