@@ -18,7 +18,9 @@ router.post("/addPlans", requireAuth, isAdmin, async (req, res) => {
   try {
     // console.log("req.user", req.user);
     console.log(req.body);
-    const plan = new Plan(req.body);
+    const plan = new Plan({
+      
+    });
 
     await plan.save();
     res.status(201).json(plan);
@@ -37,7 +39,7 @@ router.get("/getPlans", async (req, res) => {
 router.put("/plans/:id", requireAuth, isAdmin, async (req, res) => {
   try {
     const plan = await Plan.findByIdAndUpdate(req.params.id, req.body, {
-      new:true,
+      new: true,
     });
     if (!plan) {
       return res.status(404).json({ error: "Plan not found" });
@@ -47,9 +49,9 @@ router.put("/plans/:id", requireAuth, isAdmin, async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-router.delete("/plans/:id", isAdmin, async (req, res) => {
+router.delete("/plans/:id", requireAuth, isAdmin, async (req, res) => {
   try {
-    console.log("inside delete route",req.params.id);
+    console.log("inside delete route", req.params.id);
     const plan = await Plan.findByIdAndDelete(req.params.id);
     if (!plan) {
       return res.status(404).json({ error: "Plan not found" });

@@ -37,7 +37,7 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     const { videoId } = req.params;
 
     const { numOfComments, channelId, userId } = req.body;
-    console.log("inside api userid", userId);
+    console.log("inside api ", req.body);
     const customer = await Customer.findById(userId);
     console.log("inside api", customer);
     const accessToken = customer.accessToken;
@@ -48,13 +48,14 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     );
     // const assistantId = customer.assistantId;
     const assistantId = "asst_6YBo6GvvYLVEmzumZ6XqpCbU";
-    
-    console.log("assistant id ", assistantId);
-    console.log("234", videos);
-
-    console.log("456", videos[0].comments);
     const userIdObjectId = new mongoose.Types.ObjectId(userId);
+    const commentsPromises = videos[0].comments.map(async (comment) => ({
+      commentId: comment.id,
+      usercomments: comment.data,
+      chatGpt: await assistantResponse(assistantId, comment.data),
+    }));
 
+    const comments = await Promise.all(commentsPromises);
     const existingCustomer = await commentsSchema.findOne({
       customerId: userIdObjectId,
     });
@@ -64,14 +65,10 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
         channels: [
           {
             channelId: channelId,
-
             videos: [
               {
                 videoId: videos[0].videoId,
-                comments: videos[0].comments.map((comment) => ({
-                  commentId: comment.id,
-                  usercomments: comment.data,
-                })),
+                comments,
               },
             ],
           },
@@ -90,10 +87,7 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
           videos: [
             {
               videoId,
-              comments: videos[0].comments.map((comment) => ({
-                commentId: comment.id,
-                usercomments: comment.data,
-              })),
+              comments,
             },
           ],
         };
@@ -107,20 +101,28 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
         if (!existingVideo) {
           existingChannel.videos.push({
             videoId,
-            comments: videos[0].comments.map((comment) => ({
-              commentId: comment.id,
-              usercomments: comment.data,
-            })),
+            comments,
           });
           await existingCustomer.save();
           return res.status(200).json(existingCustomer);
         } else {
-          existingVideo.comments.push(
-            ...videos[0].comments.map((comment) => ({
-              commentId: comment.id,
-              usercomments: comment.data,
-            }))
-          );
+          // const existingCommentId = existingVideo.comments.map(
+          //   (comment) => comment.commentId
+          // );
+          // console.log("existingCommentId", existingCommentId);
+          // const newComment = comments.filter((comment) => {
+          //   return !existingCommentId.includes(comment.commentId);
+          // });
+          // console.log("newComment", newComment);
+          // existingVideo.comments.push(...newComment);
+          for (const comment of comments) {
+            const newComment = existingVideo.comments.find(
+              (comment) => comment.commentId === comment.commentId
+            );
+            if (!newComment) {
+              existingVideo.comments.push(comment);
+            }
+          }
           await existingCustomer.save();
         }
       }

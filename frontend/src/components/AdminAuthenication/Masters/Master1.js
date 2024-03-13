@@ -1,4 +1,3 @@
-
 // Master1.js
 import React, { useEffect, useState } from "react";
 import EditModal from "./EditModal";
@@ -53,6 +52,7 @@ const Master1 = () => {
           formData,
           { headers: { authorization: token } }
         );
+        console.log(response.data);
       }
       // Update plans after successful save
       getPlanDetails();
@@ -65,10 +65,16 @@ const Master1 = () => {
    const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(
+      console.log("token in handledelete", token);
+      console.log("id in handledelete", id);
+
+      const response = await axios.delete(
         `${process.env.REACT_APP_BACKEND_URL}/plans/${id}`,
-        { headers: { authorization: token } }
+        {
+          headers: { authorization: token },
+        }
       );
+      console.log(response.data);
       // Update plans after successful delete
       getPlanDetails();
     } catch (err) {

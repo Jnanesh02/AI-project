@@ -3,64 +3,49 @@ import avatar from "../../images/avatar.png";
 import youtube from "../../images/avatar.png";
 import "./CustomerDashboardStyles/Dashboardyoutube.css";
 import axios from "axios";
+
 export const Dashboard = ({ youtubeData }) => {
-  // Destructure youtubeData from props
   const [selectedChannel, setSelectedChannel] = useState(null);
-  const [numComments, setNumComments] = useState(0);
-  //   console.log("updateNumComments", youtubeData);
-  //   function isTokenExpired() {
-  //     const token = localStorage.getItem('adminToken');
-  //     if (!token) {
-  //       return true;
-  //     }
-  //     const tokenData = JSON.parse(atob(token.split('.')[1]));
-  //     const expirationTime = tokenData.exp * 1000;
-  //     const currentTime = new Date().getTime();
-  //     return expirationTime < currentTime;
-  //       }
+  const [numComments, setNumComments] = useState({});
 
   const handleChannelSelect = (channel) => {
     setSelectedChannel(channel);
-    setNumComments(0);
+    setNumComments({});
   };
-  const updateNumComments = (videoId) => {
+
+  const updateNumComments = (videoId, value) => {
     setNumComments((prevState) => ({
       ...prevState,
-      [videoId]: (prevState[videoId] || 0) + 1,
+      [videoId]: value,
     }));
   };
-  const channelId = youtubeData?.fetchYouTubeComment?.channels?.items[0]?.id;
 
   const handleSubmit = async (videoId) => {
-    console.log(videoId);
-    console.log(numComments[videoId]);
     const token = localStorage.getItem("token");
     const tokenData = JSON.parse(atob(token.split(".")[1]));
-    console.log("token data", tokenData);
     const userId = tokenData.userId;
-    console.log("inside handleSubmit of dashboard", token);
+    console.log("no of comments in handle submit", numComments);
     const response = await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/video/get-comments/${videoId}`,
-
       {
-        // channelId: channelId,
-        // videoId: videoId,
         headers: { authorization: token },
-        channelId: channelId,
+        channelId: youtubeData?.fetchYouTubeComment?.channels?.items[0]?.id,
         userId: userId,
-        numOfComments: numComments[videoId],
+        numOfComments: numComments[videoId] || 0,
       }
     );
     console.log(response.data);
   };
+  const handleAnalysis = async (videoId) => {
 
-  // console.log(youtubeData);
+    
+  };
+
   useEffect(() => {
     setSelectedChannel(null);
-    setNumComments(0);
+    setNumComments({});
   }, [youtubeData]);
 
-  // console.log(channelId);
   return (
     <>
       <section className="dashboard-youtube">
@@ -163,12 +148,49 @@ export const Dashboard = ({ youtubeData }) => {
                             {/* ,youtubeData?.fetchYouTubeComment?.channels?.title */}
                             Post
                           </button>
-                          <button
+                          {/* <button
                             type="button"
-                            className="btn btn-primary post num"
-                            onClick={() => updateNumComments(video.id.videoId)}>
-                            {numComments[video.id.videoId] || 0}
-                          </button>
+                            className="btn btn-primary post"
+                            onClick={() => handleSubmit(video.id.videoId)}>
+                            analysis
+                          </button> */}
+
+                          <div className="input-group">
+                            {/* <button
+                              className="btn btn-outline-secondary"
+                              type="button"
+                              onClick={() =>
+                                updateNumComments(
+                                  video.id.videoId,
+                                  (numComments[video.id.videoId] || 0) - 1
+                                )
+                              }>
+                              -
+                            </button> */}
+                            <input
+                              type="number"
+                              min={0}
+                              className="form-control"
+                              onChange={(e) =>
+                                updateNumComments(
+                                  video.id.videoId,
+                                  parseInt(e.target.value)
+                                )
+                              }
+                              value={numComments[video.id.videoId] || 0}
+                            />
+                            {/* <button
+                              className="btn btn-outline-secondary"
+                              type="button"
+                              onClick={() =>
+                                updateNumComments(
+                                  video.id.videoId,
+                                  (numComments[video.id.videoId] || 0) + 1
+                                )
+                              }>
+                              +
+                            </button> */}
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -4,7 +4,7 @@ import "./CustomerDashboardStyles/CustomerAccount.css";
 import PersonalisationForm from "./Personalisation";
 import { Dashboard } from "./Dashboard";
 const CustomerAccount = () => {
-  const [linked, setLinked] = useState(false);
+  const [linked, setLinked] = useState(true);
   const navigate = useNavigate();
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("youtubeForm");
@@ -83,7 +83,7 @@ const CustomerAccount = () => {
         </form> */}
         </ul>
         <CreateAssistant></CreateAssistant>
-        <SignInWithYoutube></SignInWithYoutube>
+        {linked && <SignInWithYoutube></SignInWithYoutube>}
         {/* <Dashboard></Dashboard> */}
       </div>
     </div>

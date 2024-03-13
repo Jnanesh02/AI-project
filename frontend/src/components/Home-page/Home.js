@@ -102,16 +102,10 @@ export default function Home() {
                     </button>
                   ) : (
                     <>
-                      <NavLink
-                        to="/Login"
-                        className="btn btn-custom login"
-                      >
+                      <NavLink to="/Login" className="btn btn-custom login">
                         Login
                       </NavLink>
-                      <NavLink
-                        to="/Signup"
-                        className="btn btn-custom login"
-                      >
+                      <NavLink to="/Signup" className="btn btn-custom login">
                         Signup
                       </NavLink>
                     </>
@@ -122,7 +116,8 @@ export default function Home() {
             <div className="row">
               <div className="col-lg-12">
                 <h1 className="header-heading">
-                  "Your Digital Dream Team: Elevating YouTube Interactions with AI"
+                  "Your Digital Dream Team: Elevating YouTube Interactions with
+                  AI"
                 </h1>
                 <div className="get-started-btn">
                   <button className="btn btn-primary"> Get Started </button>
