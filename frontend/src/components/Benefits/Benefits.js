@@ -63,7 +63,7 @@ import benefits from "../../images/benefits.png";
 const Benefits = () => (
   <section className="benefits">
     <div className="container">
-      <h1 className="benefits-heading">Benefits</h1>
+      <h1 className="transition">Benefits</h1>
       <div className="row">
         <div className="col-lg-6 col-md-12 col-sm-12">
           <div className="benefits-image">

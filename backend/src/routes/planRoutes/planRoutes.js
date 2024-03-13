@@ -8,10 +8,9 @@ const isAdmin = (req, res, next) => {
   // console.log("inside isAdmin", req);
   if (req.user && req.user.role === "admin") {
     // User is an admin
-
     next();
   } else {
-    res.status(403).json({ message: "Unauthorized. Admin access required." });
+  res.status(403).json({ message: "Unauthorized. Admin access required." });
   }
 };
 
@@ -59,7 +58,7 @@ router.delete("/plans/:id", requireAuth, isAdmin, async (req, res) => {
     }
     res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error"});
   }
 });
 

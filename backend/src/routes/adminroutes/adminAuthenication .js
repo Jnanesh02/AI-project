@@ -134,8 +134,6 @@ console.log("user",user);
   if (!user) {
     return res.status(403).json({ message: "Invalid Credentials" });
   }
-  
-
   console.log("t",password,user.password);
   const matchedPassword = await bcrypt.compare(password, user.password);
   console.log("matchedpassword",matchedPassword );

@@ -17,3 +17,24 @@ main
   background-image: url(images/Pattern-1.png);
   background-size: cover;
 }
+.transition {
+  position: relative;
+}
+
+.transition::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%; /* Align the line to the center */
+  transform: translateX(-50%); /* Move the line back by half its width */
+  width: 0; /* Set initial width to 0 */
+  height:1px; /* Adjust line height as needed */
+  background-color:black; /* Adjust line color as needed */
+  transition: width 0.5s ease;
+}
+
+.transition:hover::after {
+  width: 15%; /* Adjust line width on hover as needed */
+  opacity: 10; /* Make the line visible on hover */
+  /* Add additional transition effects as needed */
+}
