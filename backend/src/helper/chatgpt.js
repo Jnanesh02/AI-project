@@ -85,6 +85,9 @@ async function assistantResponse(assistantId, userComment) {
     // });
 
     // Create a thread
+    if (!userComment) {
+      return "No user comments";
+    }
     const threadResponse = await openai.beta.threads.create();
 
     // Add user comment to the thread
@@ -120,10 +123,11 @@ async function assistantResponse(assistantId, userComment) {
     );
     const assistantResponse =
       aiMessages[aiMessages.length - 1].content[0].text.value;
-    console.log("asss", assistantResponse);
+    // console.log("asss", assistantResponse);
     return assistantResponse;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error in chatgpt function:", error);
+
     throw error; // Re-throw to allow for further handling
   }
 }

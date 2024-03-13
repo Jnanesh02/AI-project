@@ -22,35 +22,38 @@ function PersonalisationForm() {
   });
 
   const handleChange = (field, selectedOption) => {
-    setValues({ ...values, [field]: selectedOption.value });
+    if (field === "emojis") {
+      // For emojis, we directly set the value since it's an object
+      setValues({ ...values, [field]: selectedOption });
+    } else {
+      // For other fields, we set the value property of selectedOption
+      setValues({ ...values, [field]: selectedOption.value });
+    }
   };
 
-  const handleEmojisChange = (selectedOption) => {
-    console.log("inside emojis", selectedOption);
-    setValues({ ...values, emojis: selectedOption.value });
-    
-  };
+  // const handleEmojisChange = (selectedOption) => {
+  //   console.log("selectedOption:", selectedOption);
+  //   console.log("selectedOption.value:", selectedOption);
+  //   setValues({
+  //     ...values,
+  //     emojis: selectedOption.value,
+  //   }); // Update state for emojis properly
+  // };
 
   const handleTextareaChange = (event) => {
     setValues({ ...values, description: event.target.value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     try {
-      // console.log(values);
-      // const formData = {
-      //   tone: values.tone.map((option) => option.value),
-      //   style: values.style.map((option) => option.value),
-      //   emojis: values.emojis.map((emoji) => emoji.value),
-      //   description: values.description,
-      // };
+      e.preventDefault();
       console.log("FormData:", values);
       const token = localStorage.getItem("token");
       const tokenData = JSON.parse(atob(token.split(".")[1]));
-      // const response = await axios.post(
-      //   `${process.env.REACT_APP_BACKEND_URL}/createassistant`,
-      //   { data: formData, id: tokenData.userId }
-      // );
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/createassistant`,
+        { data: values, id: tokenData.userId }
+      );
 
       // Reset form after successful submission
       setValues({
@@ -187,7 +190,9 @@ function PersonalisationForm() {
                             components={components}
                             isClearable
                             value={values.emojis}
-                            onChange={handleEmojisChange}
+                            onChange={(selectedOption) =>
+                              handleChange("emojis", selectedOption)
+                            }
                             styles={styles.select} // Apply custom styles to the Select component
                           />
                         </div>
