@@ -11,9 +11,8 @@ export default function Faq() {
   const[messageerror,setmessageerror]=useState("");
 
   const handleNameChange=(e)=>{
-
-     setname(e.target.value);
-     setnameerror("");
+    setname(e.target.value);
+     
   }
   const handleEmailchange=(e)=>{
 setemail(e.target.value);
@@ -35,7 +34,7 @@ setemail(e.target.value);
   return (
     <section className="faq">
       <div className="container">
-        <h1 className="faq-section"> FAQ </h1>
+        <h1 className="transition"> FAQ </h1>
         <div className="row">
           <div className="col-lg-6 col-md-12 col-sm-12">
             <div className="accordion" id="accordionExample">

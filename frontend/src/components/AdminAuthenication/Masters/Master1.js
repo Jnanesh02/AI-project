@@ -57,12 +57,12 @@ const Master1 = () => {
       // Update plans after successful save
       getPlanDetails();
       setModalOpen(false);
+      console.log(response.data);
     } catch (err) {
       console.error("Error saving plan:", err);
     }
   };
-
-  const handleDelete = async (id) => {
+   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(

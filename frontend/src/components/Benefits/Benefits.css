@@ -38,38 +38,12 @@ section.benefits li.list-group-item {
         padding-left: 20px;
         padding-right: 20px;
     }
-  
-  }
+    }
   img {
     transition: transform 0.6s ease-in-out;
   }
   
   img:hover {
     transform: scale(1.1);
-  }
-  /* Faq.css */
-
-/* CSS for benefits-heading */
-.benefits-heading {
-    position: relative;
-  }
-  
-  .benefits-heading::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%; /* Align the line to the center */
-    transform: translateX(-50%); /* Move the line back by half its width */
-    width: 0; /* Set initial width to 0 */
-    height: 2px; /* Adjust line height as needed */
-    background-color:black; /* Adjust line color as needed */
-    transition: all 0.3s ease; /* Apply transition to all properties */
-    opacity: 0; /* Initially hide the line */
-  }
-  
-  .benefits-heading:hover::after {
-    width:15%; /* Adjust line width on hover as needed */
-    opacity: 1; /* Make the line visible on hover */
-    /* Add additional transition effects as needed */
   }
   
