@@ -86,10 +86,10 @@ router.get("/dashboard", async (req, res) => {
     const channelId = customer.channelId;
     console.log("channel id", channelId);
 
-    // console.log("customer data in dashboard route", customer);
+    
     const accessToken = customer.accessToken;
     const refreshToken = customer.refreshToken;
-    // console.log("tokens in dashboard route", accessToken, refreshToken);
+   
     let validAccessToken = null;
     try {
       let isValid = await verifyAccessToken(accessToken);

@@ -10,7 +10,7 @@ const isAdmin = (req, res, next) => {
     // User is an admin
     next();
   } else {
-  res.status(403).json({ message: "Unauthorized. Admin access required." });
+    res.status(403).json({ message: "Unauthorized. Admin access required." });
   }
 };
 
@@ -18,8 +18,11 @@ router.post("/addPlans", requireAuth, isAdmin, async (req, res) => {
   try {
     // console.log("req.user", req.user);
     console.log(req.body);
+
     const plan = new Plan({
-      
+      subscriptionPlanName: req.body.subscriptionPlanName,
+      price: req.body.price,
+      features: req.body.features,
     });
 
     await plan.save();
@@ -58,7 +61,7 @@ router.delete("/plans/:id", requireAuth, isAdmin, async (req, res) => {
     }
     res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error"});
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import EditModal from "./EditModal";
 import "./Table.css";
 import axios from "axios";
+import CreatableSelect from "react-select/creatable";
 
 const Master1 = () => {
   const [plans, setPlans] = useState([]);
@@ -62,7 +63,7 @@ const Master1 = () => {
       console.error("Error saving plan:", err);
     }
   };
-   const handleDelete = async (id) => {
+  const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
       console.log("token in handledelete", token);

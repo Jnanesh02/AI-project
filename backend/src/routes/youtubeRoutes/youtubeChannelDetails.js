@@ -6,7 +6,9 @@ const {
   getChanneldetails,
   getVideosList,
   getCommentsForVideos,
+  replyToComments,
 } = require("../../helper/youtubeFunctions");
+const {}=require("../../helper/tokens")
 const Customer = require("../../model/customermodel");
 
 const { createAssistant, updateInstructions } = require("../../helper/chatgpt");
@@ -46,8 +48,9 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
       videoId,
       numOfComments
     );
-    // const assistantId = customer.assistantId;
-    const assistantId = "asst_6YBo6GvvYLVEmzumZ6XqpCbU";
+    // console.log("videos inside api", videos[0].comments);
+    const assistantId = customer.assistantId;
+    // const assistantId = "asst_6YBo6GvvYLVEmzumZ6XqpCbU";
     const userIdObjectId = new mongoose.Types.ObjectId(userId);
     const commentsPromises = videos[0].comments.map(async (comment) => ({
       commentId: comment.id,
@@ -56,6 +59,7 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     }));
 
     const comments = await Promise.all(commentsPromises);
+
     const existingCustomer = await commentsSchema.findOne({
       customerId: userIdObjectId,
     });
@@ -78,7 +82,7 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
       await createNewCommentSection.save();
       return res.status(200).json(createNewCommentSection);
     } else {
-      const existingChannel = existingCustomer.channels.find(
+      let existingChannel = existingCustomer.channels.find(
         (channel) => channel.channelId === channelId
       );
       if (!existingChannel) {
@@ -93,9 +97,10 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
         };
         existingCustomer.channels.push(existingChannel);
         await existingCustomer.save();
+        console.log("123", existingCustomer.channelId);
         return res.status(200).json(existingCustomer);
       } else {
-        const existingVideo = existingChannel.videos.find(
+        let existingVideo = existingChannel.videos.find(
           (video) => video.videoId === videoId
         );
         if (!existingVideo) {
@@ -130,14 +135,29 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     }
     // we need to save the comments here
   } catch (err) {
-    console.log(err.message);
+    console.log("123", err.message);
     return res.status(500).json({ message: err.message });
   }
 });
 
-router.get("/video/get-comment-replies", async (req, res) => {
+router.post("/video/post-comment-replies", async (req, res) => {
   try {
-  } catch (err) {}
+    const { videoId, commentId, replyText, userId } = req.body;
+    // console.log("4654584", req.body);
+    const customer = await Customer.findById(userId);
+    const accessToken = customer.accessToken;
+    console.log("hlfkasjh", customer);
+    const response = await replyToComments(
+      accessToken,
+      videoId,
+      commentId,
+      replyText
+    );
+    console.log(response);
+    return res.status(200).json({ message: "comment replied successfully" });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 });
 
 // to create a seperate assistant for the user

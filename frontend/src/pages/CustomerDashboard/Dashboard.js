@@ -36,10 +36,7 @@ export const Dashboard = ({ youtubeData }) => {
     );
     console.log(response.data);
   };
-  const handleAnalysis = async (videoId) => {
-
-    
-  };
+  const handleAnalysis = async (videoId) => {};
 
   useEffect(() => {
     setSelectedChannel(null);
@@ -119,44 +116,45 @@ export const Dashboard = ({ youtubeData }) => {
                 />{" "}
                 Youtube Channel Post
               </h5>
-              {youtubeData?.fetchYouTubeComment?.videos &&
-                youtubeData.fetchYouTubeComment.videos.map((video, index) => (
-                  <div key={index} className="card dashboard-youtube-card">
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="flex-shrink-0">
-                          <img
-                            src={video.snippet.thumbnails.default.url}
-                            alt="--"
-                          />
-                        </div>
-                        <div className="flex-grow-1 ms-3">
-                          <p className="channel-post">
-                            {/* <span> */}
-                            {/* {selectedChannel?.title || "selectedVideo"}
+              <div className="youtube-channel-posts">
+                {youtubeData?.fetchYouTubeComment?.videos &&
+                  youtubeData.fetchYouTubeComment.videos.map((video, index) => (
+                    <div key={index} className="card dashboard-youtube-card">
+                      <div className="card-body">
+                        <div className="d-flex">
+                          <div className="flex-shrink-0">
+                            <img
+                              src={video.snippet.thumbnails.default.url}
+                              alt="--"
+                            />
+                          </div>
+                          <div className="flex-grow-1 ms-3">
+                            <p className="channel-post">
+                              {/* <span> */}
+                              {/* {selectedChannel?.title || "selectedVideo"}
                               {selectedChannel?.id} */}
-                            {/* </span> */}
-                          </p>
-                          <small>
-                            <span>{video.snippet.title}</span>
-                          </small>
+                              {/* </span> */}
+                            </p>
+                            <small>
+                              <span>{video.snippet.title}</span>
+                            </small>
 
-                          <button
-                            type="button"
-                            className="btn btn-primary post"
-                            onClick={() => handleSubmit(video.id.videoId)}>
-                            {/* ,youtubeData?.fetchYouTubeComment?.channels?.title */}
-                            Post
-                          </button>
-                          {/* <button
+                            <button
+                              type="button"
+                              className="btn btn-primary post"
+                              onClick={() => handleSubmit(video.id.videoId)}>
+                              {/* ,youtubeData?.fetchYouTubeComment?.channels?.title */}
+                              Post
+                            </button>
+                            {/* <button
                             type="button"
                             className="btn btn-primary post"
                             onClick={() => handleSubmit(video.id.videoId)}>
                             analysis
                           </button> */}
 
-                          <div className="input-group">
-                            {/* <button
+                            <div className="input-group">
+                              {/* <button
                               className="btn btn-outline-secondary"
                               type="button"
                               onClick={() =>
@@ -167,19 +165,19 @@ export const Dashboard = ({ youtubeData }) => {
                               }>
                               -
                             </button> */}
-                            <input
-                              type="number"
-                              min={0}
-                              className="form-control"
-                              onChange={(e) =>
-                                updateNumComments(
-                                  video.id.videoId,
-                                  parseInt(e.target.value)
-                                )
-                              }
-                              value={numComments[video.id.videoId] || 0}
-                            />
-                            {/* <button
+                              <input
+                                type="number"
+                                min={0}
+                                className="form-control"
+                                onChange={(e) =>
+                                  updateNumComments(
+                                    video.id.videoId,
+                                    parseInt(e.target.value)
+                                  )
+                                }
+                                value={numComments[video.id.videoId] || 0}
+                              />
+                              {/* <button
                               className="btn btn-outline-secondary"
                               type="button"
                               onClick={() =>
@@ -190,12 +188,13 @@ export const Dashboard = ({ youtubeData }) => {
                               }>
                               +
                             </button> */}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </div>
           </div>
         </div>

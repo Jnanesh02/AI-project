@@ -18,14 +18,14 @@ const Master2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const getTones = async () => {
-    // try {
-    //   const response = await axios.get(
-    //     `${process.env.REACT_APP_BACKEND_URL}/all-assistance-instructions`
-    //   );
-    //   console.log(response.data);
-    // } catch (err) {
-    //   console.error(err.message);
-    // }
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/all-assistance-instructions`
+      );
+      console.log("response", response.data);
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   useEffect(() => {
@@ -36,19 +36,19 @@ const Master2 = () => {
     setModalOpen(true);
   };
 
-  const handleCreate = async () => {
+  const handleCreate = async (tone) => {
     setEditingTone(null);
     setModalOpen(true);
-    // try {
-    //   const token = localStorage.getItem("token");
-    //   const response = await axios.post(
-    //     `${process.env.REACT_APP_BACKEND_URL}/assistance-instructions`,
-    //     { headers: { authorization: token } }
-    //   );
-    //   console.log("Created new tone: ", response.data);
-    // } catch (err) {
-    //   console.error(err.message);
-    // }
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/assistance-instructions`,
+        { headers: { authorization: token } }
+      );
+      console.log("Created new tone: ", response.data);
+    } catch (err) {
+      console.error(err.message);
+    }
   };
   const handleSave = (id, newName, newDescription) => {
     if (id) {
