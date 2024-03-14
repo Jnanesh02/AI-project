@@ -139,4 +139,57 @@ button.btn.btn-primary.signup {
   
   
  
+  .comment-section__Reply{
+    border-radius: 1rem ;
+    border: 1px solid black;
+    background-color: #f1f2f2;
+    height: 5rem;
+  }
+  .comment-section-scroll{
+    max-height: 30rem;
+    overflow-y: auto;
+  }
+
   
+  .comment-section-scroll::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.comment-section-scroll::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: 515151;
+}
+.comment-section-scroll::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #515151f0;
+}
+
+.youtube-channel-posts{
+    
+    max-height: 30rem;
+    overflow-y: auto;
+}
+.youtube-channel-posts::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.youtube-channel-posts::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: 515151;
+}
+.youtube-channel-posts::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #515151f0;
+}

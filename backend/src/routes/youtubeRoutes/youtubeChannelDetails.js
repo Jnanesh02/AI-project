@@ -7,6 +7,7 @@ const {
   getVideosList,
   getCommentsForVideos,
 } = require("../../helper/youtubeFunctions");
+const {verifyAccessToken,generateNewAccessToken}=require("../../helper/tokens");
 const Customer = require("../../model/customermodel");
 
 const { createAssistant, updateInstructions } = require("../../helper/chatgpt");
@@ -37,12 +38,29 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     const { videoId } = req.params;
 
     const { numOfComments, channelId, userId } = req.body;
-    console.log("inside api ", req.body);
+    // console.log("inside api ", req.body);
     const customer = await Customer.findById(userId);
-    console.log("inside api", customer);
+
+    // console.log("inside api", customer);
     const accessToken = customer.accessToken;
+    const refreshToken=customer.refreshToken;
+    let validAccessToken = null;
+    try {
+      let isValid = await verifyAccessToken(accessToken);
+      if (isValid) {
+        validAccessToken = accessToken;
+      } else {
+        validAccessToken = await generateNewAccessToken(refreshToken);
+        customer.accessToken = validAccessToken;
+        await customer.save();
+
+        console.log("new Token generated:", validAccessToken);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
     const videos = await getCommentsForVideos(
-      accessToken,
+      validAccessToken,
       videoId,
       numOfComments
     );
@@ -76,6 +94,7 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
         ],
       });
       await createNewCommentSection.save();
+      console.log("if data is not there in db :::: 1");
       return res.status(200).json(createNewCommentSection);
     } else {
       const existingChannel = existingCustomer.channels.find(
@@ -93,6 +112,7 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
         };
         existingCustomer.channels.push(existingChannel);
         await existingCustomer.save();
+        console.log("2");
         return res.status(200).json(existingCustomer);
       } else {
         const existingVideo = existingChannel.videos.find(
@@ -104,6 +124,7 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
             comments,
           });
           await existingCustomer.save();
+          console.log("new vedio is comments already data is exisit ::: 3");
           return res.status(200).json(existingCustomer);
         } else {
           // const existingCommentId = existingVideo.comments.map(
@@ -126,6 +147,8 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
           await existingCustomer.save();
         }
       }
+      console.log("if already chatgpt gave comments and for new comments chatgpt giving 4");
+
       return res.status(200).json(existingCustomer);
     }
     // we need to save the comments here
@@ -134,6 +157,8 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 });
+
+
 
 router.get("/video/get-comment-replies", async (req, res) => {
   try {
