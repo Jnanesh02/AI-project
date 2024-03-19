@@ -7,11 +7,14 @@ import axios from "axios";
 export const Dashboard = ({ youtubeData }) => {
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [numComments, setNumComments] = useState({});
-
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [replyTexts, setReplyTexts] = useState(Array(comments.length).fill(""));
   const handleChannelSelect = (channel) => {
     setSelectedChannel(channel);
     setNumComments({});
   };
+  let apiKey = process.env.GOOGLE_API_KEY;
 
   const updateNumComments = (videoId, value) => {
     setNumComments((prevState) => ({
@@ -19,26 +22,85 @@ export const Dashboard = ({ youtubeData }) => {
       [videoId]: value,
     }));
   };
+  const handleReplyTextChange = (index, value) => {
+    const updatedReplyTexts = [...replyTexts];
+    updatedReplyTexts[index] = value;
+    setReplyTexts(updatedReplyTexts);
+  };
+
+  const handleAccept = async (comment, videoId, replyText) => {
+    // const response = await axios.post(
+    const token = localStorage.getItem("token");
+    const tokenData = JSON.parse(atob(token.split(".")[1]));
+    const userId = tokenData.userId;
+    const response = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/video/post-comment-replies`,
+      {
+        videoId: videoId,
+        commentId: comment.commentId,
+        replyText: replyText,
+        userId: userId,
+      }
+    );
+    console.log(response);
+  };
+  const handleAcceptAll = async () => {
+    const token = localStorage.getItem("token");
+    const tokenData = JSON.parse(atob(token.split(".")[1]));
+    const userId = tokenData.userId;
+    // const comments=comment
+    const response = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/video/post-comment-replies`
+    );
+  };
+
+  async function checkCommentExistence(commentId, apiKey) {
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/youtube/v3/commentThreads?id=${commentId}&part=id,snippet&key=${apiKey}`
+      );
+
+      if (!response.data.ok) {
+        throw new Error(
+          `Network response was not ok (status: ${response.status})`
+        );
+      }
+
+      const data = response.data; // Access the actual data from the response
+
+      if (data.items.length > 0) {
+        console.log("Comment still exists.");
+      } else {
+        console.log("Comment does not exist.");
+      }
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+    }
+  }
 
   const handleSubmit = async (videoId) => {
     const token = localStorage.getItem("token");
     const tokenData = JSON.parse(atob(token.split(".")[1]));
     const userId = tokenData.userId;
     console.log("no of comments in handle submit", numComments);
+    setSelectedVideo(videoId);
+    const channelId = youtubeData?.fetchYouTubeComment?.channels?.items[0]?.id;
     const response = await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/video/get-comments/${videoId}`,
       {
         headers: { authorization: token },
-        channelId: youtubeData?.fetchYouTubeComment?.channels?.items[0]?.id,
+        channelId: channelId,
         userId: userId,
         numOfComments: numComments[videoId] || 0,
       }
     );
-    console.log(response.data);
-  };
-  const handleAnalysis = async (videoId) => {
-
-    
+    const data = response.data;
+    console.log("Data:", data);
+    const videos = data.channels
+      .find((channel) => channel.channelId === channelId)
+      ?.videos.find((video) => video.videoId === videoId);
+    console.log("56252", videos);
+    setComments(videos.comments);
   };
 
   useEffect(() => {
@@ -109,7 +171,7 @@ export const Dashboard = ({ youtubeData }) => {
                 )
               )}
             </div>
-            <div className="col-lg-6 main-cont-dashboard">
+            <div className="col-lg-5 main-cont-dashboard">
               <h5 className="channel-headings">
                 <form></form>
                 <img
@@ -119,83 +181,116 @@ export const Dashboard = ({ youtubeData }) => {
                 />{" "}
                 Youtube Channel Post
               </h5>
-              {youtubeData?.fetchYouTubeComment?.videos &&
-                youtubeData.fetchYouTubeComment.videos.map((video, index) => (
-                  <div key={index} className="card dashboard-youtube-card">
-                    <div className="card-body">
-                      <div className="d-flex">
-                        <div className="flex-shrink-0">
-                          <img
-                            src={video.snippet.thumbnails.default.url}
-                            alt="--"
-                          />
-                        </div>
-                        <div className="flex-grow-1 ms-3">
-                          <p className="channel-post">
-                            {/* <span> */}
-                            {/* {selectedChannel?.title || "selectedVideo"}
-                              {selectedChannel?.id} */}
-                            {/* </span> */}
-                          </p>
-                          <small>
-                            <span>{video.snippet.title}</span>
-                          </small>
-
-                          <button
-                            type="button"
-                            className="btn btn-primary post"
-                            onClick={() => handleSubmit(video.id.videoId)}>
-                            {/* ,youtubeData?.fetchYouTubeComment?.channels?.title */}
-                            Post
-                          </button>
-                          {/* <button
-                            type="button"
-                            className="btn btn-primary post"
-                            onClick={() => handleSubmit(video.id.videoId)}>
-                            analysis
-                          </button> */}
-
-                          <div className="input-group">
-                            {/* <button
-                              className="btn btn-outline-secondary"
-                              type="button"
-                              onClick={() =>
-                                updateNumComments(
-                                  video.id.videoId,
-                                  (numComments[video.id.videoId] || 0) - 1
-                                )
-                              }>
-                              -
-                            </button> */}
-                            <input
-                              type="number"
-                              min={0}
-                              className="form-control"
-                              onChange={(e) =>
-                                updateNumComments(
-                                  video.id.videoId,
-                                  parseInt(e.target.value)
-                                )
-                              }
-                              value={numComments[video.id.videoId] || 0}
+              <div className="youtube-channel-posts">
+                {youtubeData?.fetchYouTubeComment?.videos &&
+                  youtubeData.fetchYouTubeComment.videos.map((video, index) => (
+                    <div key={index} className="card  dashboard-youtube-card ">
+                      <div className="card-body">
+                        <div className="d-flex">
+                          <div className="flex-shrink-0">
+                            <img
+                              src={video.snippet.thumbnails.default.url}
+                              alt="--"
                             />
-                            {/* <button
-                              className="btn btn-outline-secondary"
-                              type="button"
-                              onClick={() =>
-                                updateNumComments(
-                                  video.id.videoId,
-                                  (numComments[video.id.videoId] || 0) + 1
-                                )
-                              }>
-                              +
-                            </button> */}
+                          </div>
+                          <div className="flex-grow-1 ms-3">
+                            <p className="channel-post"></p>
+                            <small>
+                              <span>{video.snippet.title}</span>
+                            </small>
+                            <div className="d-flex w-100 justify-content-end">
+                              <div className="input-group w-25 mt-3 ">
+                                <input
+                                  type="number"
+                                  min={0}
+                                  className="form-control"
+                                  onChange={(e) =>
+                                    updateNumComments(
+                                      video.id.videoId,
+                                      parseInt(e.target.value)
+                                    )
+                                  }
+                                  value={numComments[video.id.videoId] || 0}
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                className="btn btn-primary post"
+                                onClick={() => handleSubmit(video.id.videoId)}>
+                                Post
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  ))}
+              </div>
+            </div>
+            <div className="col-lg-4 main-cont-dashboard">
+              <h5 className="channel-headings">
+                <form></form>
+                <img
+                  className="youtube-icons-dashboard"
+                  src={youtube}
+                  alt="/"
+                />{" "}
+                Comment Reply
+              </h5>
+              <div className="card  text-start py-4 px-3 comment-section-scroll">
+                <div className="comment-section">
+                  <h6>Comments</h6>
+                  <div className="comment-section__list">
+                    {comments.length === 0 ? (
+                      <p>No comments yet.</p>
+                    ) : (
+                      comments.map((comment, index) => (
+                        <div key={comment?.commentId}>
+                          <p className="comment-section__youtubecomment">
+                            {comment.usercomments}
+                          </p>
+                          {!comment.chatGptReplied && (
+                            <div>
+                              <textarea
+                                className="comment-section__Reply w-100 p-3"
+                                cols="30"
+                                rows="10"
+                                value={
+                                  replyTexts[index] !== undefined
+                                    ? replyTexts[index]
+                                    : comment.chatGpt
+                                }
+                                onChange={(e) =>
+                                  handleReplyTextChange(index, e.target.value)
+                                } // Update replyTexts state for this index
+                              ></textarea>
+                              <div className="comment-section__commentbutton text-end">
+                                <button
+                                  className="comment-section__commentbutton-accept btn btn-dark"
+                                  onClick={() =>
+                                    handleAccept(
+                                      comment,
+                                      selectedVideo,
+                                      replyTexts[index]
+                                    )
+                                  } // Pass replyTexts[index] to handleAccept
+                                >
+                                  Accept
+                                </button>
+                                <button className="comment-section__commentbutton-reject btn btn-secondary">
+                                  Reject
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                          <hr />
+                        </div>
+                      ))
+                    )}
+                    <button onClick={handleAcceptAll}>Accept all</button>
                   </div>
-                ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

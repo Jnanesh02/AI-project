@@ -1,131 +1,128 @@
-
 section.Customer-header-section {
-    background-image: url(../../../images/Banner.jpg);
-    background-size: cover;
-    padding-top: 30px;
-    padding-bottom: 30px;
+  background-image: url(../../../images/Banner.jpg);
+  background-size: cover;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 .row.header-bg-clr {
-    background: white;
-    border-radius: 40px;
+  background: white;
+  border-radius: 40px;
 }
 h1.header-heading {
-    color: white;
-    text-align: center;
-    font-size: 60px;
-    width: 60%;
-    margin: auto;
-    margin-top: 100px;
-    margin-bottom: 90px;
+  color: white;
+  text-align: center;
+  font-size: 60px;
+  width: 60%;
+  margin: auto;
+  margin-top: 100px;
+  margin-bottom: 90px;
 }
 .get-started-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
 }
 .get-started-btn button.btn.btn-primary {
-    background: black;
-    border: 1px solid white;
-    padding: 12px;
-    padding-left: 35px;
-    padding-right: 35px;
-    box-shadow: 0px 0px 6px 0px white;
-    border-radius: 10px;
+  background: black;
+  border: 1px solid white;
+  padding: 12px;
+  padding-left: 35px;
+  padding-right: 35px;
+  box-shadow: 0px 0px 6px 0px white;
+  border-radius: 10px;
 }
 .header-logo img {
-    width: 160px;
+  width: 160px;
 }
 .header-logo {
-    padding: 10px;
+  padding: 10px;
 }
 nav.navbar.navbar-expand-lg.bg-body-tertiary {
-    background: none !important;
-    padding-top: 15px;
+  background: none !important;
+  padding-top: 15px;
 }
 .navbar-media {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 .navbar-media a {
-    color: black;
+  color: black;
 }
-.navbar-media a.nav-link.active
-{
-    color:black;
-    font-weight: 600;
+.navbar-media a.nav-link.active {
+  color: black;
+  font-weight: 600;
 }
 
 button.btn.btn-primary.login {
-    margin-right: 10px;
-    background: none;
-    color: black;
-    border: none;
-    
+  margin-right: 10px;
+  background: none;
+  color: black;
+  border: none;
 }
 button.btn.btn-primary.signup {
-    margin-right: 10px;
-    padding: 4px;
-    padding-left: 15px;
-    padding-right: 15px;
-    background: black;
-    border: none;
-    font-size: 14px;
+  margin-right: 10px;
+  padding: 4px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background: black;
+  border: none;
+  font-size: 14px;
 }
 
-.btn-custom-signup{
-    background-color: white;
+.btn-custom-signup {
+  background-color: white;
 }
 
- .signup{
-    float: right;
-    top: 30px;
-    position: absolute;
-    /* right: 27px; */
-    background-color:black;
-    color: white;
-    }
-  .Dashboarduser{
-    width: 50px;
-    height: auto;
-    color: white;
+.signup {
+  float: right;
+  top: 30px;
+  position: absolute;
+  /* right: 27px; */
+  background-color: black;
+  color: white;
+}
+.Dashboarduser {
+  width: 50px;
+  height: auto;
+  color: white;
 }
 @media only screen and (max-width: 1000px) {
-    h1.header-heading {
-        color: white;
-        text-align: center;
-        font-size: 26px;
-        width: 100%;
-        margin: auto;
-        margin-top: 75px;
-        margin-bottom: 48px;
-    }
-    .row.header-bg-clr {
-        background: white;
-        border-radius: 0px;
-    }
-    section.header-section {
-        padding-top: 0px;
-    }
-   
-    section.header-section {
-        padding-bottom: 25px;
-    }
-    .navbar-tgl-btn {
-        position: absolute;
-        right: 0px;
-        top: -46px;
-    }
-    .header-logo {
-        padding: 10px;
-        float: left;
-        position: relative;
-        top: 12px;
-    }
-    .navbar-media a {
-        color: black;
-        text-align: left;
-    }
+  h1.header-heading {
+    color: white;
+    text-align: center;
+    font-size: 26px;
+    width: 100%;
+    margin: auto;
+    margin-top: 75px;
+    margin-bottom: 48px;
+  }
+  .row.header-bg-clr {
+    background: white;
+    border-radius: 0px;
+  }
+  section.header-section {
+    padding-top: 0px;
+  }
+
+  section.header-section {
+    padding-bottom: 25px;
+  }
+  .navbar-tgl-btn {
+    position: absolute;
+    right: 0px;
+    top: -46px;
+  }
+  .header-logo {
+    padding: 10px;
+    float: left;
+    position: relative;
+    top: 12px;
+  }
+  .navbar-media a {
+    color: black;
+    text-align: left;
+  }
 }
 .btn-custom {
     background-color: #000 !important;
@@ -139,4 +136,57 @@ button.btn.btn-primary.signup {
   
   
  
+  .comment-section__Reply{
+    border-radius: 1rem ;
+    border: 1px solid black;
+    background-color: #f1f2f2;
+    height: 5rem;
+  }
+  .comment-section-scroll{
+    max-height: 30rem;
+    overflow-y: auto;
+  }
+
   
+  .comment-section-scroll::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.comment-section-scroll::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: 515151;
+}
+.comment-section-scroll::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #515151f0;
+}
+
+.youtube-channel-posts{
+    
+    max-height: 30rem;
+    overflow-y: auto;
+}
+.youtube-channel-posts::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.youtube-channel-posts::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: 515151;
+}
+.youtube-channel-posts::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #515151f0;
+}

@@ -44,4 +44,29 @@ async function generateNewAccessToken(refreshToken) {
   }
 }
 
+
+
+
+// async function verifyAndGenerateToken(accessToken,refreshToken){
+
+//   const accessToken = customer.accessToken;
+//   const refreshToken = customer.refreshToken;
+ 
+//   let validAccessToken = null;
+//   try {
+//     let isValid = await verifyAccessToken(accessToken);
+//     if (isValid) {
+//       validAccessToken = accessToken;
+//     } else {
+//       validAccessToken = await generateNewAccessToken(refreshToken);
+//       customer.accessToken = validAccessToken;
+//       await customer.save();
+
+//       console.log("new Token generated:", validAccessToken);
+//     }
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// }
+
 module.exports = { verifyAccessToken, generateNewAccessToken };

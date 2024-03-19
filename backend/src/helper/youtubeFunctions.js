@@ -105,12 +105,29 @@ async function getCommentsForVideos(accessToken, videoId, noOfComments) {
   }
 }
 
-async function replyToComments(accessToken, videoId) {
+async function replyToComments(accessToken, videoId, commentId, replyText) {
   try {
     let youtube = await youtubeAuth(accessToken);
-    const comments = youtube.comments.list({
-      part: "snippet",
+    console.log(
+      "inside reply function",
+      accessToken,
+      videoId,
+      commentId,
+      replyText
+    );
+   
+    const response = await youtube.comments.insert({
+      part: ["snippet"],
+      resource: {
+        snippet: {
+          parentId: commentId,
+          textOriginal: replyText,
+        },
+        id: videoId,
+      },
     });
+    console.log("inside reply comments function", response.data);
+    return response.data;
   } catch (err) {
     console.error("error replying to comments", err.message);
   }
@@ -121,4 +138,5 @@ module.exports = {
   getChanneldetails,
   getVideosList,
   getCommentsForVideos,
+  replyToComments,
 };

@@ -6,7 +6,12 @@ const {
   getChanneldetails,
   getVideosList,
   getCommentsForVideos,
+  replyToComments,
 } = require("../../helper/youtubeFunctions");
+const {
+  verifyAccessToken,
+  generateNewAccessToken,
+} = require("../../helper/tokens");
 const Customer = require("../../model/customermodel");
 
 const { createAssistant, updateInstructions } = require("../../helper/chatgpt");
@@ -37,17 +42,35 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     const { videoId } = req.params;
 
     const { numOfComments, channelId, userId } = req.body;
-    console.log("inside api ", req.body);
+    // console.log("inside api ", req.body);
     const customer = await Customer.findById(userId);
-    console.log("inside api", customer);
+
+    // console.log("inside api", customer);
     const accessToken = customer.accessToken;
+    const refreshToken = customer.refreshToken;
+    let validAccessToken = null;
+    try {
+      let isValid = await verifyAccessToken(accessToken);
+      if (isValid) {
+        validAccessToken = accessToken;
+      } else {
+        validAccessToken = await generateNewAccessToken(refreshToken);
+        customer.accessToken = validAccessToken;
+        await customer.save();
+
+        console.log("new Token generated:", validAccessToken);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
     const videos = await getCommentsForVideos(
-      accessToken,
+      validAccessToken,
       videoId,
       numOfComments
     );
-    // const assistantId = customer.assistantId;
-    const assistantId = "asst_6YBo6GvvYLVEmzumZ6XqpCbU";
+    // console.log("videos inside api", videos[0].comments);
+    const assistantId = customer.assistantId;
+    // const assistantId = "asst_6YBo6GvvYLVEmzumZ6XqpCbU";
     const userIdObjectId = new mongoose.Types.ObjectId(userId);
     const commentsPromises = videos[0].comments.map(async (comment) => ({
       commentId: comment.id,
@@ -56,6 +79,7 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     }));
 
     const comments = await Promise.all(commentsPromises);
+
     const existingCustomer = await commentsSchema.findOne({
       customerId: userIdObjectId,
     });
@@ -76,9 +100,10 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
         ],
       });
       await createNewCommentSection.save();
+      console.log("if data is not there in db :::: 1");
       return res.status(200).json(createNewCommentSection);
     } else {
-      const existingChannel = existingCustomer.channels.find(
+      let existingChannel = existingCustomer.channels.find(
         (channel) => channel.channelId === channelId
       );
       if (!existingChannel) {
@@ -93,9 +118,11 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
         };
         existingCustomer.channels.push(existingChannel);
         await existingCustomer.save();
+        console.log("123", existingCustomer.channelId);
+        console.log("2");
         return res.status(200).json(existingCustomer);
       } else {
-        const existingVideo = existingChannel.videos.find(
+        let existingVideo = existingChannel.videos.find(
           (video) => video.videoId === videoId
         );
         if (!existingVideo) {
@@ -104,6 +131,7 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
             comments,
           });
           await existingCustomer.save();
+          console.log("new vedio is comments already data is exisit ::: 3");
           return res.status(200).json(existingCustomer);
         } else {
           // const existingCommentId = existingVideo.comments.map(
@@ -126,18 +154,56 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
           await existingCustomer.save();
         }
       }
+      console.log(
+        "if already chatgpt gave comments and for new comments chatgpt giving 4"
+      );
+
       return res.status(200).json(existingCustomer);
     }
     // we need to save the comments here
   } catch (err) {
-    console.log(err.message);
+    console.log("123", err.message);
     return res.status(500).json({ message: err.message });
   }
 });
 
-router.get("/video/get-comment-replies", async (req, res) => {
+router.post("/video/post-comment-replies", async (req, res) => {
   try {
-  } catch (err) {}
+    const { videoId, commentId, replyText, userId } = req.body;
+    // console.log("4654584", req.body);
+    const customer = await Customer.findById(userId);
+    const comments = await commentsSchema.findById(userId);
+    console.log("comments in the post api", comments);
+    // const replied= comments.find(channel=>channel.id===channelId)
+    const accessToken = customer.accessToken;
+    const refreshToken = customer.refreshToken;
+    let validAccessToken = null;
+    try {
+      let isValid = await verifyAccessToken(accessToken);
+      if (isValid) {
+        validAccessToken = accessToken;
+      } else {
+        validAccessToken = await generateNewAccessToken(refreshToken);
+        customer.accessToken = validAccessToken;
+        await customer.save();
+
+        console.log("new Token generated:", validAccessToken);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+
+    const response = await replyToComments(
+      validAccessToken,
+      videoId,
+      commentId,
+      replyText
+    );
+    console.log(response);
+    return res.status(200).json({ message: "comment replied successfully" });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 });
 
 // to create a seperate assistant for the user
@@ -147,8 +213,6 @@ const assistantConfig = {
   // tools: [{ type: "code_interpreter" }],
   model: "gpt-4-turbo-preview",
 };
-
-// console.log(assistantConfig);
 
 router.post("/createassistant", async (req, res) => {
   try {
@@ -169,10 +233,7 @@ router.post("/createassistant", async (req, res) => {
         assistantId: customer.assistantId,
         message: "assistant instructions updated",
       });
-    }
-    // console.log("body", req.body);
-    // console.log(instructions);
-    else {
+    } else {
       assistantConfig.name = "testing assistant";
       assistantConfig.instructions = instructions;
       const assistant = await createAssistant(assistantConfig);

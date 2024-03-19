@@ -127,6 +127,7 @@ import EditModal from "./EditModal";
 import ConfirmationModal from "./ConfirmationModal"; // Import the ConfirmationModal component
 import "./Table.css";
 import axios from "axios";
+import CreatableSelect from "react-select/creatable";
 
 const Master1 = () => {
   const [plans, setPlans] = useState([]);
