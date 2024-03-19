@@ -1,0 +1,21 @@
+
+.counter-description {
+   text-align: center; /* Center the text horizontally */
+     margin-top:220px;
+     margin-right:220px;
+     border: none;
+     border:2px solid #a7a7b6;
+     font-size: 15px;
+     width:250px;
+    
+
+     }
+     .counter-wrapper{
+        border:4px solid #ccc;
+     }
+     .counter{
+        color: blue;
+       
+     }
+     
+  

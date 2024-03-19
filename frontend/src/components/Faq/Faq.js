@@ -12,8 +12,7 @@ export default function Faq() {
 
   const handleNameChange=(e)=>{
     setname(e.target.value);
-     
-  }
+     }
   const handleEmailchange=(e)=>{
 setemail(e.target.value);
   }
@@ -25,11 +24,21 @@ setemail(e.target.value);
     if(name.trim()===""){
       setnameerror("firstname is required");
       return;
+    }else{
+      setnameerror("")
     }
+    if(email.trim()===""){
+      setemailerror("email is required");
+      return;
+    }else{
+      setemailerror("")
+    }
+    if(message.trim()==="")
     alert("send request sucessfully")
     console.log("Name:",name);
     console.log("email:", email);
     console.log("message:",message);
+    
   }
   return (
     <section className="faq">
@@ -59,7 +68,8 @@ setemail(e.target.value);
               <form onSubmit={handleSubmit}>
                 <input type="text" className="form-control mb-3" placeholder="Name" value={name} onChange={handleNameChange}/>
                 {nameerror && <div className='Error'>{nameerror}</div>}
-                <input type="text" className="form-control mb-3" placeholder="Email" value={email} onChange={handleEmailchange} required/>
+                <input type="text" className="form-control mb-3" placeholder="Email" value={email} onChange={handleEmailchange}/>
+                {emailerror&&<div className='Error'>{emailerror}</div>}
                 <textarea className="form-control mb-3" rows="3" placeholder="Write Something" value={message} onChange={handlemessagechange}></textarea>
                 <button type="submit" className="btn btn-primary send-req"> SEND REQUEST </button>
               </form>

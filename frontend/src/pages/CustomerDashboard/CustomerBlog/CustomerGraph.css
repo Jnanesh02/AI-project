@@ -1,0 +1,14 @@
+.chart-wrapper {
+    width: 48%;
+   
+    border:4px solid #ccc;
+    border-radius: 18px;
+  }
+  
+  .chart-container {
+    padding: 50px;
+    
+  }
+ 
+  
+  

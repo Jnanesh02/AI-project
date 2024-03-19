@@ -19,6 +19,9 @@ router.post("/addPlans", requireAuth, isAdmin, async (req, res) => {
     // console.log("req.user", req.user);
     console.log(req.body);
     const plan = new Plan({
+      subscriptionPlanName:req.body.subscriptionPlanName,
+      price:req.body.price,
+      features:req.body.features,
       
     });
 

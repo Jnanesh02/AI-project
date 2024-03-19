@@ -20,7 +20,7 @@ import AdminHomePage from "./components/AdminAuthenication/AdminHomePage";
 import { AdminProfile } from "./components/AdminAuthenication/AdminProfile";
 import CustomerDetails from "./components/AdminAuthenication/CustomerDetails";
 import CustomerAccount from "./pages/CustomerDashboard/CustomerAccount";
-import CustomerBlog from "./pages/CustomerDashboard/CustomerBlog";
+import CustomerBlog from "./pages/CustomerDashboard/CustomerBlog/CustomerBlog";
 import CustomerSubscription from "./pages/CustomerDashboard/CustomerSubscription";
 import { CustomerLayout } from "./pages/CustomerDashboard/CustomerLayout";
 import CustomerDashboard from "./pages/CustomerDashboard/CustomerDashboard";
@@ -29,10 +29,13 @@ import Master1 from "./components/AdminAuthenication/Masters/Master1";
 import Master2 from "./components/AdminAuthenication/Masters/Master2";
 import Test from "./Test";
 import Logout from "./components/Login/Logout";
+import CustomerGraph from "./pages/CustomerDashboard/CustomerBlog/CustomerGraph";
 
 
 import CustomerPrivateRoute from './components/PrivateRoutes/CustomerPrivateRoutes'
 import AdminRoute from "./components/PrivateRoutes/AdminRoute"
+import CommentReplyCounter from "./pages/CustomerDashboard/CustomerBlog/CommentReplyCounter";
+import SuggestionComments from "./pages/CustomerDashboard/CustomerBlog/SuggestionComments";
 function App() {
   return (
     <div className="App">
@@ -45,7 +48,7 @@ function App() {
           </Route>
           <Route path="Features" element={<Features />} />
           <Route path="Login" element={<Login />} />
-          <Route path="Logout" element={<Logout />}></Route>
+          <Route path="Logout" element={<Logout/>}></Route>
 
           <Route path='dashboard' element={<CustomerPrivateRoute/>}>
           <Route path="/dashboard" element={<CustomerLayout/>}>
@@ -60,6 +63,9 @@ function App() {
           <Route path="Signup" element={<Signup />} />
           <Route path="Forgot" element={<Forgot />} />
           <Route path="Blog" element={<Pricing />} />
+          <Route path="Graph" element={<CustomerGraph/>}></Route>
+          <Route path="CommentReplay" element={<CommentReplyCounter/>}></Route>
+          <Route path="SuggestionComments" element={<SuggestionComments/>}></Route>
           <Route path="pricing" element={<Pricing />} />
 
             <Route path="adminLogin" element={<AdminLogin />}></Route>
