@@ -45,6 +45,8 @@ async function generateNewAccessToken(refreshToken) {
 }
 
 
+
+
 // async function verifyAndGenerateToken(accessToken,refreshToken){
 
 //   const accessToken = customer.accessToken;

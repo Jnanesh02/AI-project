@@ -14,13 +14,13 @@ const CustomerDashboard = () => {
       const token = localStorage.getItem("token");
       // console.log(token);
       const tokenData = JSON.parse(atob(token.split(".")[1]));
-      console.log("token data inside dashboard.js file, ", tokenData);
+      
       const response = await axios.get("http://localhost:3000/dashboard", {
         headers: { authorization: token },
         params: { userId: tokenData.userId },
       });
       setYoutubeData(response);
-      console.log("response in frontend", response);
+
     } catch (error) {
       console.log("youtube error in frontend", error);
     }
