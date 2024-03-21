@@ -58,32 +58,8 @@ const updateInstructions = async (id, newinstructions) => {
   }
 };
 
-// updateInstructions();
-// {
-//   id: 'asst_p6mboQnCyfmGjKKecWwaSIRC',
-//   object: 'assistant',
-//   created_at: 1707815157,
-//   name: 'test',
-//   description: null,
-//   model: 'gpt-4-turbo-preview',
-//   instructions: '',
-//   tools: [ { type: 'code_interpreter' } ],
-//   file_ids: [],
-//   metadata: {}
-// }
-
 async function assistantResponse(assistantId, userComment) {
   try {
-    // Retrieve the assistant
-
-    // const assistant = await openai.beta.assistants.create({
-    //   name: "Math Tutor",
-    //   instructions:
-    //     "You are a personal math tutor. Write and run code to answer math questions.",
-    //   tools: [{ type: "code_interpreter" }],
-    //   model: "gpt-4-turbo-preview",
-    // });
-
     // Create a thread
     if (!userComment) {
       return "No user comments";

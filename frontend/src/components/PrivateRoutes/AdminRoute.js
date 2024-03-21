@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect } from "react";
 import { Outlet, Navigate, useNavigate } from "react-router-dom";
-  const PrivateRoute = () => {
+const PrivateRoute = () => {
   const navigate = useNavigate();
-  const navigateToAdminLogin = useCallback(()=>{
-   localStorage.removeItem('token')
+  const navigateToAdminLogin = useCallback(() => {
+    localStorage.removeItem("token");
     navigate("/adminLogin");
-  },[navigate]);
+  }, [navigate]);
   useEffect(() => {
     function isTokenExpired() {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("adminToken");
       if (!token) {
         return true;
       }
       const tokenData = JSON.parse(atob(token.split(".")[1]));
+      console.log("inside admin private route", tokenData);
       const expirationTime = tokenData.exp * 1000;
       const currentTime = new Date().getTime();
       return expirationTime < currentTime;
@@ -27,7 +28,7 @@ import { Outlet, Navigate, useNavigate } from "react-router-dom";
     return () => clearInterval(interval);
   }, [navigateToAdminLogin]);
 
-  const employeeId = localStorage.getItem("token");
+  const employeeId = localStorage.getItem("adminToken");
   if (!employeeId) {
     return <Navigate to="/adminLogin" />;
   } else {

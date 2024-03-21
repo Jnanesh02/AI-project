@@ -1,6 +1,5 @@
-
-import React, { useState } from 'react';
-import CreatableSelect from 'react-select/creatable';
+import React, { useState } from "react";
+import CreatableSelect from "react-select/creatable";
 
 const components = {
   DropdownIndicator: null,
@@ -11,11 +10,15 @@ const createOption = (label) => ({
   value: label,
 });
 
+
 const EditModal = ({ plan, onSave, onCancel }) => {
-  const [inputValue, setInputValue] = useState('');
+  console.log("inside edit modal", plan);
+  const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState([]);
-  const [planName, setPlanName] = useState(plan ? plan.subscriptionPlanName : '');
-  const [price, setPrice] = useState(plan ? plan.price : '');
+  const [planName, setPlanName] = useState(
+    plan ? plan.subscriptionPlanName : ""
+  );
+  const [price, setPrice] = useState(plan ? plan.price : "");
 
   const handleChangePlanName = (event) => {
     setPlanName(event.target.value);
@@ -28,10 +31,10 @@ const EditModal = ({ plan, onSave, onCancel }) => {
   const handleKeyDown = (event) => {
     if (!inputValue) return;
     switch (event.key) {
-      case 'Enter':
-      case 'Tab':
+      case "Enter":
+      case "Tab":
         setValue((prev) => [...prev, createOption(inputValue)]);
-        setInputValue('');
+        setInputValue("");
         event.preventDefault();
         break;
       default:
@@ -46,10 +49,10 @@ const EditModal = ({ plan, onSave, onCancel }) => {
       price: price,
       features: value.map((option) => option.value),
     };
-    console.log('Updated Details:');
-    console.log('Plan Name:', planData.subscriptionPlanName);
-    console.log('Price:', planData.price);
-    console.log('Features:', planData.features);
+    console.log("Updated Details:");
+    console.log("Plan Name:", planData.subscriptionPlanName);
+    console.log("Price:", planData.price);
+    console.log("Features:", planData.features);
     onSave(planData);
   };
 
@@ -60,7 +63,7 @@ const EditModal = ({ plan, onSave, onCancel }) => {
           <button onClick={onCancel}>X</button>
         </div>
         <div className="title">
-          <h1>{plan ? 'Edit Plan' : 'Create Plan'}</h1>
+          <h1>{plan ? "Edit Plan" : "Create Plan"}</h1>
         </div>
         <div className="body">
           <form onSubmit={handleSubmit}>

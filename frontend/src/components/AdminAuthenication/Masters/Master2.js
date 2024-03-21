@@ -40,7 +40,7 @@ const Master2 = () => {
     setEditingTone(null);
     setModalOpen(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/assistance-instructions`,
         { headers: { authorization: token } }

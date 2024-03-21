@@ -117,7 +117,7 @@
 //           setOpenModal={setModalOpen}
 //         />
 //       )}
-      
+
 //     </div>
 //   );
 // };
@@ -138,12 +138,13 @@ const Master1 = () => {
 
   const getPlanDetails = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/getPlans`,
         { headers: { authorization: token } }
       );
       setPlans(response.data);
+      console.log("getplandetails", response.data);
     } catch (err) {
       console.error("Error fetching plans:", err);
     }
@@ -154,6 +155,7 @@ const Master1 = () => {
   }, []);
 
   const handleEdit = (plan) => {
+    console.log("inside handleEdit", plan);
     setEditingPlan(plan);
     setModalOpen(true);
   };
@@ -165,8 +167,9 @@ const Master1 = () => {
 
   const handleSave = async (formData) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       let response;
+      console.log("formdata", formData);
       if (!formData._id) {
         response = await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/addPlans`,
@@ -194,7 +197,7 @@ const Master1 = () => {
 
   const confirmDelete = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       const response = await axios.delete(
         `${process.env.REACT_APP_BACKEND_URL}/plans/${planToDelete._id}`,
         {
@@ -210,7 +213,7 @@ const Master1 = () => {
     }
   };
 
- const handleCancel = () => {
+  const handleCancel = () => {
     setEditingPlan(null);
     setModalOpen(false);
     setPlanToDelete(null);

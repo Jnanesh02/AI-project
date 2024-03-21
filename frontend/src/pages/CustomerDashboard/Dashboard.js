@@ -42,6 +42,13 @@ export const Dashboard = ({ youtubeData }) => {
         userId: userId,
       }
     );
+    setComments(
+      comments.map((existingComment) =>
+        existingComment.commentId === comment.commentId
+          ? { ...existingComment, chatGptReplied: true } // Mark comment as accepted
+          : existingComment
+      )
+    );
     console.log(response);
   };
   const handleAcceptAll = async () => {
@@ -95,12 +102,12 @@ export const Dashboard = ({ youtubeData }) => {
       }
     );
     const data = response.data;
-    console.log("Data:", data);
+    // console.log("Data:", data);
     const videos = data.channels
       .find((channel) => channel.channelId === channelId)
       ?.videos.find((video) => video.videoId === videoId);
-    console.log("56252", videos);
-    setComments(videos.comments);
+    // console.log("56252", videos);
+    setComments(videos.comments.filter((comment) => !comment.chatGptReplied));
   };
 
   useEffect(() => {
@@ -247,7 +254,7 @@ export const Dashboard = ({ youtubeData }) => {
                       comments.map((comment, index) => (
                         <div key={comment?.commentId}>
                           <p className="comment-section__youtubecomment">
-                            {comment.usercomments}
+                            {!comment.chatGptReplied && comment.usercomments}
                           </p>
                           {!comment.chatGptReplied && (
                             <div>

@@ -27,7 +27,7 @@ export const AdminLogin = () => {
       );
       if (response.status === 200) {
         console.log(response.data);
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("adminToken", response.data.token);
         navigate("/adminDashboard");
       }
     } catch (error) {

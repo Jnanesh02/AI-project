@@ -123,7 +123,7 @@ export const AdminDashboard = () => {
                 <h2 className="accordion-header" id="headingOne2">
                   <NavLink
                     className="accordion-button custom-button"
-                    to="/Login">
+                    to="/adminLogin">
                     Logout
                   </NavLink>
                 </h2>
