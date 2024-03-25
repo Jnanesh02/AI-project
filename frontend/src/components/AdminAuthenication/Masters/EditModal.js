@@ -126,12 +126,15 @@ const createOption = (label) => ({
   value: label,
 });
 
+
 const EditModal = ({ plan, onSave, onCancel }) => {
   console.log("inside edit modal",plan);
   const [inputValue, setInputValue] = useState('');
   const [value, setValue] = useState([]);
-  const [planName, setPlanName] = useState(plan ? plan.subscriptionPlanName : '');
-  const [price, setPrice] = useState(plan ? plan.price : '');
+  const [planName, setPlanName] = useState(
+    plan ? plan.subscriptionPlanName : ""
+  );
+  const [price, setPrice] = useState(plan ? plan.price : "");
 
   useEffect(() => {
     if (plan) {
@@ -156,10 +159,10 @@ const EditModal = ({ plan, onSave, onCancel }) => {
   const handleKeyDown = (event) => {
     if (!inputValue) return;
     switch (event.key) {
-      case 'Enter':
-      case 'Tab':
+      case "Enter":
+      case "Tab":
         setValue((prev) => [...prev, createOption(inputValue)]);
-        setInputValue('');
+        setInputValue("");
         event.preventDefault();
         break;
       default:
@@ -196,7 +199,7 @@ const EditModal = ({ plan, onSave, onCancel }) => {
           <button onClick={onCancel}>X</button>
         </div>
         <div className="title">
-          <h1>{plan ? 'Edit Plan' : 'Create Plan'}</h1>
+          <h1>{plan ? "Edit Plan" : "Create Plan"}</h1>
         </div>
         <div className="body">
           <form onSubmit={handleSubmit}>

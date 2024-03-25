@@ -90,8 +90,10 @@ import React, { useState, useEffect } from "react";
 import "./EditModal.css";
 
 function EditModal2({ plan, onSave, onCancel }) {
+  console.log("plan in editmodal", plan);
   const [formData, setFormData] = useState({
-    name: plan ? plan.name : "",
+    id: plan?._id || "",
+    tone: plan ? plan.tone : "",
     description: plan ? plan.description : "",
   });
 
@@ -103,6 +105,7 @@ function EditModal2({ plan, onSave, onCancel }) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    console.log("inside handleChange", name, value);
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -116,7 +119,7 @@ function EditModal2({ plan, onSave, onCancel }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSave(plan ? plan.id : null, formData.name, formData.description);
+    onSave(plan ? plan.id : null, formData.tone, formData.description);
   };
 
   return (
@@ -133,9 +136,9 @@ function EditModal2({ plan, onSave, onCancel }) {
             <div className="form-group">
               <input
                 type="text"
-                name="name"
+                name="tone"
                 placeholder="Tone Name"
-                value={formData.name}
+                value={formData.tone}
                 onChange={handleChange}
               />
             </div>
@@ -146,7 +149,7 @@ function EditModal2({ plan, onSave, onCancel }) {
                 value={formData.description}
                 onChange={handleChange}
                 onInput={handleAutoResize}
-                style={{width:'100%', height:'100px'}}
+                style={{ width: "100%", height: "100px" }}
               />
             </div>
             <div className="footer">

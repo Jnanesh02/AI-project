@@ -214,7 +214,7 @@ const CustomerDetails = () => {
 
   const getCustomerDetails = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       if (token) {
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/customer`,
@@ -276,7 +276,7 @@ const CustomerDetails = () => {
   );
 
   function exportData() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/export/customer`, {
         responseType: "blob",

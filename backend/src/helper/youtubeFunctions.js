@@ -108,14 +108,7 @@ async function getCommentsForVideos(accessToken, videoId, noOfComments) {
 async function replyToComments(accessToken, videoId, commentId, replyText) {
   try {
     let youtube = await youtubeAuth(accessToken);
-    console.log(
-      "inside reply function",
-      accessToken,
-      videoId,
-      commentId,
-      replyText
-    );
-   
+
     const response = await youtube.comments.insert({
       part: ["snippet"],
       resource: {

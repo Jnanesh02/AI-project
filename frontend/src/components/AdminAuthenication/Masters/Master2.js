@@ -5,24 +5,30 @@ import "./Table.css";
 import axios from "axios";
 
 const Master2 = () => {
-  const [tones, setTones] = useState([
-    {
-      id: 1,
-      name: "sai Tone",
-      description:
-        "The novelist J.K. Rowling once said, “there’s always room for a story that can transport people to another place.” But what if that place we’re transported to is here, inside the rich web of life of our Mother Earth? What if her story, told through us, becomes a portal through which we can deeply connect to our own nature and discover—without judgement—our heart-centered humanity within the whole of nature.",
-    },
-  ]);
-  // const [tones, setTones] = useState([]);
+  // const [tones, setTones] = useState([
+  //   {
+  //     id: 1,
+  //     name: "sai Tone",
+  //     description:
+  //       "The novelist J.K. Rowling once said, “there’s always room for a story that can transport people to another place.” But what if that place we’re transported to is here, inside the rich web of life of our Mother Earth? What if her story, told through us, becomes a portal through which we can deeply connect to our own nature and discover—without judgement—our heart-centered humanity within the whole of nature.",
+  //   },
+  // ]);
+  const [tones, setTones] = useState([]);
   const [editingTone, setEditingTone] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
   const getTones = async () => {
     try {
+      const token = localStorage.getItem("adminToken");
+
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/all-assistance-instructions`
+        `${process.env.REACT_APP_BACKEND_URL}/all-assistance-instructions`,
+        {
+          headers: { authorization: token },
+        }
       );
       console.log("response", response.data);
+      setTones(response.data);
     } catch (err) {
       console.error(err.message);
     }
@@ -39,8 +45,9 @@ const Master2 = () => {
   const handleCreate = async (tone) => {
     setEditingTone(null);
     setModalOpen(true);
+    console.log("inside handlecreate", tone);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/assistance-instructions`,
         { headers: { authorization: token } }
@@ -103,7 +110,7 @@ const Master2 = () => {
           {tones.map((tone) => (
             <tr key={tone.id}>
               <td>
-                <strong>{tone.name}</strong>
+                <strong>{tone.tone}</strong>
               </td>
               <td>{tone.description}</td>
               <td>
