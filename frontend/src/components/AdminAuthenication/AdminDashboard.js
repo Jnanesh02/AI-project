@@ -26,11 +26,14 @@ export const AdminDashboard = () => {
     };
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/AdminLogin"); // Use navigate function for navigation
-  };
-
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token");
+  //   navigate("/AdminLogin"); // Use navigate function for navigation
+  // };
+const handleLogout=()=>{
+  localStorage.removeItem("token");
+  navigate("/AdminLogin");
+}
   return (
     <div>
       <div />
