@@ -9,7 +9,8 @@ export const Dashboard = ({ youtubeData }) => {
   const [numComments, setNumComments] = useState({});
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [comments, setComments] = useState([]);
-  const [replyTexts, setReplyTexts] = useState(Array(comments.length).fill(""));
+  const [replyTexts, setReplyTexts] = useState([{}]); // Object to store commentId:reply pairs
+
   const handleChannelSelect = (channel) => {
     setSelectedChannel(channel);
     setNumComments({});
@@ -22,10 +23,11 @@ export const Dashboard = ({ youtubeData }) => {
       [videoId]: value,
     }));
   };
-  const handleReplyTextChange = (index, value) => {
-    const updatedReplyTexts = [...replyTexts];
-    updatedReplyTexts[index] = value;
-    setReplyTexts(updatedReplyTexts);
+  const handleReplyTextChange = (commentId, value) => {
+    setReplyTexts((prevReplyTexts) => ({
+      ...prevReplyTexts,
+      [commentId]: value,
+    }));
   };
 
   const handleAccept = async (comment, videoId, replyText) => {
@@ -56,9 +58,41 @@ export const Dashboard = ({ youtubeData }) => {
     const tokenData = JSON.parse(atob(token.split(".")[1]));
     const userId = tokenData.userId;
     // const comments=comment
-    const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/video/post-comment-replies`
-    );
+    console.log("comments inside handleAcceptall ", comments);
+    for (const comment of comments) {
+      console.log();
+      const reply = replyTexts[comment.commentId];
+      console.log("reply", replyTexts);
+      comments.map((comment) => {});
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/video/post-comment-replies`,
+          {
+            videoId: selectedVideo,
+            commentId: comment.commentId,
+            replyText: reply,
+            userId: userId,
+          },
+          {
+            headers: { authorization: token },
+          }
+        );
+        console.log(
+          "response inside handle accept all function",
+          response.data
+        );
+
+        setComments(
+          comments.map((currComment) =>
+            currComment.commentId == comment.commentId
+              ? { ...currComment, chatGptReplied: true }
+              : currComment
+          )
+        );
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
   };
 
   async function checkCommentExistence(commentId, apiKey) {
@@ -263,13 +297,16 @@ export const Dashboard = ({ youtubeData }) => {
                                 cols="30"
                                 rows="10"
                                 value={
-                                  replyTexts[index] !== undefined
-                                    ? replyTexts[index]
+                                  replyTexts[comment.commentId] !== undefined
+                                    ? replyTexts[comment.commentId]
                                     : comment.chatGpt
                                 }
                                 onChange={(e) =>
-                                  handleReplyTextChange(index, e.target.value)
-                                } // Update replyTexts state for this index
+                                  handleReplyTextChange(
+                                    comment.commentId,
+                                    e.target.value
+                                  )
+                                } // Update replyTexts state for this comment.commentId
                               ></textarea>
                               <div className="comment-section__commentbutton text-end">
                                 <button
@@ -278,7 +315,7 @@ export const Dashboard = ({ youtubeData }) => {
                                     handleAccept(
                                       comment,
                                       selectedVideo,
-                                      replyTexts[index]
+                                      replyTexts[comment.commentId]
                                     )
                                   } // Pass replyTexts[index] to handleAccept
                                 >

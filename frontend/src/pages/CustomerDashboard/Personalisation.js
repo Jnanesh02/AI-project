@@ -165,6 +165,7 @@ function PersonalisationForm() {
                           <Select
                             // isMulti
                             isClearable
+                            
                             options={options}
                             onChange={(selectedOption) =>
                               handleChange("tone", selectedOption)

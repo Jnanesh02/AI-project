@@ -9,14 +9,14 @@ function SuggestionComments() {
       <div className='content'>
         <div>
         <strong><h3 className="small-heading">consectetu</h3></strong>
-        <p>
+        <p className='Comment'>
           hkhladsfkjsdfhkjahsfdkjasdhfkjahdskfjhadkjsfhajds fsad fasdfkjahsdkjfhaksdj fad sf
           adsfkjhadskjfhakjdfh df s dfhsdjfhsadhf sad f sdah
         </p>
         </div>
         <div>
         <strong><h3 className="small-heading">consectetu</h3></strong>
-        <p>
+        <p className='Comment'>
           hkhladsfkjsdfhkjahsfdkjasdhfkjahdskfjhadkjsfhajds fsad fasdfkjahsdkjfhaksdj fad sf
           adsfkjhadskjfhakjdfh df s dfhsdjfhsadhf sad f sdah
         </p>
@@ -24,14 +24,14 @@ function SuggestionComments() {
         <div>
         <strong
         ><h3 className="small-heading">consectetu</h3></strong>
-        <p>
+        <p className='Comment'>
           hkhladsfkjsdfhkjahsfdkjasdhfkjahdskfjhadkjsfhajds fsad fasdfkjahsdkjfhaksdj fad sf
           adsfkjhadskjfhakjdfh df s dfhsdjfhsadhf sad f sdah
         </p>
         </div>
         <div>
         <strong><h3 className="small-heading">consectetu</h3></strong>
-        <p>
+        <p className='Comment'>
           hkhladsfkjsdfhkjahsfdkjasdhfkjahdskfjhadkjsfhajds fsad fasdfkjahsdkjfhaksdj fad sf
           adsfkjhadskjfhakjdfh df s dfhsdjfhsadhf sad f sdah
         </p>

@@ -169,7 +169,7 @@ const Master1 = () => {
     try {
       const token = localStorage.getItem("adminToken");
       let response;
-      console.log("formdata", formData);
+      console.log("formdata",formData);
       if (!formData._id) {
         response = await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/addPlans`,
