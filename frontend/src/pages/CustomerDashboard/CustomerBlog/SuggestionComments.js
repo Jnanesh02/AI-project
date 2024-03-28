@@ -21,22 +21,10 @@ function SuggestionComments() {
           adsfkjhadskjfhakjdfh df s dfhsdjfhsadhf sad f sdah
         </p>
         </div>
-        <div>
-        <strong
-        ><h3 className="small-heading">consectetu</h3></strong>
-        <p className='Comment'>
-          hkhladsfkjsdfhkjahsfdkjasdhfkjahdskfjhadkjsfhajds fsad fasdfkjahsdkjfhaksdj fad sf
-          adsfkjhadskjfhakjdfh df s dfhsdjfhsadhf sad f sdah
-        </p>
-        </div>
-        <div>
-        <strong><h3 className="small-heading">consectetu</h3></strong>
-        <p className='Comment'>
-          hkhladsfkjsdfhkjahsfdkjasdhfkjahdskfjhadkjsfhajds fsad fasdfkjahsdkjfhaksdj fad sf
-          adsfkjhadskjfhakjdfh df s dfhsdjfhsadhf sad f sdah
-        </p>
-        </div>
+        <button className='btn-btn-primary sent-anyl'> Scheduled Posts Overview </button>
+        
        </div>
+       
     </div>
   );
 }

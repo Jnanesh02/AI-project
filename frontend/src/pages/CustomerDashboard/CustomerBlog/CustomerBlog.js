@@ -5,9 +5,9 @@ import SuggestionComments from './SuggestionComments'
 
 const CustomerBlog = () => {
   return (
-    <div>
-      <h1>Dashboard</h1>
-     <div className='d-flex justify-content-around'>
+    <div className='central-dashboard'>
+     <h5> Central Dashboard </h5>
+     <div className='container dashboard-cards-hm'>
       <CustomerGraph/>
       <CommentReplyCounter/>
       <SuggestionComments/>

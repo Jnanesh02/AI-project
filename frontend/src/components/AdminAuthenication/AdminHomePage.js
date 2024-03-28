@@ -78,11 +78,11 @@ const AdminHomePage = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col">
+        <div className="col-lg-4">
           <h2>Weekly User Change</h2>
           <WeeklyUserChangeChart data={weeklyChangeData} />
         </div>
-        <div className="col">
+        <div className="col-lg-4">
           <h2>Web Cost Plan Details</h2>
           <WebCostPlanChart data={webCostPlanData} />
         </div>

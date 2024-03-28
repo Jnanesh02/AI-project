@@ -148,9 +148,8 @@ function PersonalisationForm() {
                   </div>
                   <div className="modal-body">
                     <div>
-                      <div style={styles.container}>
+                      <div>
                         <div className="">
-                          <h3 className="Form-Title">Hello World</h3>
                           <p className="Form-para" style={styles.paraStyle}>
                             Lorem ipsum dolor, sit amet consectetur adipisicing
                             elit. Accusamus est dignissimos sapiente,
@@ -160,7 +159,8 @@ function PersonalisationForm() {
                             consequatur!
                           </p>
                         </div>
-                        <div>
+                        <div className="main-section-tn">
+                        <div className="label-selection-input">
                           <label className="mb-2">Tone</label>
                           <Select
                             // isMulti
@@ -173,7 +173,7 @@ function PersonalisationForm() {
                             styles={styles.select} // Apply custom styles to the Select component
                           />
                         </div>
-                        <div>
+                        <div className="label-selection-input">
                           <label className="mb-2">Style</label>
                           <Select
                             // isMulti
@@ -185,7 +185,7 @@ function PersonalisationForm() {
                             styles={styles.select} // Apply custom styles to the Select component
                           />
                         </div>
-                        <div>
+                        <div className="label-selection-input">
                           <label className="mb-2">Emojis</label>
                           <CreatableSelect
                             components={components}
@@ -197,7 +197,7 @@ function PersonalisationForm() {
                             styles={styles.select} // Apply custom styles to the Select component
                           />
                         </div>
-                        <div>
+                        <div className="label-selection-input">
                           <label className="mb-2">Channel Description</label>
                           <textarea
                             style={styles.textarea}
@@ -206,6 +206,7 @@ function PersonalisationForm() {
                             placeholder="Enter description here..."
                             rows={4}
                           />
+                        </div>
                         </div>
                         <div className="mx-auto">
                           <button style={styles.button} onClick={handleSubmit}>

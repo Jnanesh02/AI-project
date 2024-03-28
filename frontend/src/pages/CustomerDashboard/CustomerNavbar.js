@@ -1,4 +1,3 @@
-
 import React from "react";
 import headerlogo from "../../images/header-logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -36,22 +35,19 @@ export const CustomerNavbar = () => {
                       data-bs-target="#navbarSupportedContent"
                       aria-controls="navbarSupportedContent"
                       aria-expanded="false"
-                      aria-label="Toggle navigation"
-                    >
+                      aria-label="Toggle navigation">
                       <span className="navbar-toggler-icon"></span>
                     </button>
                     <div
                       className="collapse navbar-collapse"
-                      id="navbarSupportedContent"
-                    >
+                      id="navbarSupportedContent">
                       <ul className="navbar-nav me-auto mb-2 mb-lg-0 w-100 navbar-media">
                         <li className="nav-item">
                           <NavLink
                             to="/dashboard"
                             exact
                             className="nav-link"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             Dashboard
                           </NavLink>
                         </li>
@@ -60,8 +56,7 @@ export const CustomerNavbar = () => {
                             to="Account"
                             exact
                             className="nav-link"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             Account
                           </NavLink>
                         </li>
@@ -70,18 +65,16 @@ export const CustomerNavbar = () => {
                             to="Blog"
                             exact
                             className="nav-link"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             Blog
                           </NavLink>
                         </li>
                         <li className="nav-item">
                           <NavLink
-                            to="Subscription"
+                            to="/Pricing"
                             exact
                             className="nav-link"
-                            activeClassName="active"
-                          >
+                            activeClassName="active">
                             Subscription
                           </NavLink>
                         </li>
@@ -95,22 +88,15 @@ export const CustomerNavbar = () => {
                   {isLoggedIn ? (
                     <button
                       onClick={Logout}
-                      className="btn btn-custom-signup signup"
-                    >
+                      className="btn btn-custom-signup signup">
                       Logout
                     </button>
                   ) : (
                     <>
-                      <NavLink
-                        to="/Login"
-                        className="btn btn-custom login"
-                      >
+                      <NavLink to="/Login" className="btn btn-custom login">
                         Login
                       </NavLink>
-                      <NavLink
-                        to="/Signup"
-                        className="btn btn-custom login"
-                      >
+                      <NavLink to="/Signup" className="btn btn-custom login">
                         Signup
                       </NavLink>
                     </>

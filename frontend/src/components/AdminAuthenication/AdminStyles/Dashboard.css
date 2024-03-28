@@ -16,9 +16,33 @@ img.header-logo {
     border-bottom: 1px solid black;
 }
 
-
-
-
+.label-selection-input {
+    width: 48%;
+    margin-right: 10px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+.css-1069h4o-control {
+    border: 1px solid #d1d1d1 !important;
+}
+.css-tj5bde-Svg {
+  background: white !important;
+    color: #818181 !important;
+}
+textarea {
+    border: 1px solid #cfcfcf !important;
+}
+p.Form-para {
+    text-align: left;
+}
+.central-dashboard h5 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.main-section-tn {
+    display: flex;
+    flex-wrap: wrap;
+}
 .navbar-btn {
     box-shadow: none;
     outline: none !important;

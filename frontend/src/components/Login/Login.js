@@ -26,7 +26,7 @@ function Login() {
         {
           email,
           password,
-        }
+          }
       );
       // Assuming your backend returns a token upon successful login
       // You can store the token in localStorage or a state management system like Redux
@@ -37,8 +37,8 @@ function Login() {
       setError("Invalid email or password. Please try again.");
     }
   };
-
-  return (
+  
+   return (
     <div className="login-dashboard-full">
       <section className="dashboard-login">
         <div className="container-fluid">

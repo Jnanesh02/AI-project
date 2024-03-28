@@ -33,6 +33,7 @@ function CommentReplyCounter() {
         <h1 className="counter">{replyCount}</h1>
         <p className="counter-description">No of the comments replied</p>
       </div>
+      <button className='btn-btn-primary sent-anyl'> Platform Performance Comparison </button>
     </div>
   );
 }

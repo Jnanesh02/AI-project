@@ -22,6 +22,17 @@ button.btn.btn-primary.youtube-btn {
   box-shadow: 2px 2px 2px 2px #cbcbcb;
   border-radius: 12px;
 }
+button.btn.btn-primary.open-form {
+  margin-bottom: 30px;
+}
+button.btn.btn-primary.open-form:hover {
+  background: #b3b3b34a;
+  color: black;
+  border: none;
+}
+button.btn.btn-primary.youtube-btn:hover {
+  background: #d5d5d5;
+}
 ul.social-icons {
   width: 100% !important;
 }

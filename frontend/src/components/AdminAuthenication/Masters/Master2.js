@@ -37,17 +37,6 @@ const Master2 = () => {
   const handleCreate = async () => {
     setEditingTone({ _id: "", tone: "", description: "" });
     setModalOpen(true);
-
-    // try {
-    //   const token = localStorage.getItem("adminToken");
-    //   const response = await axios.post(
-    //     `${process.env.REACT_APP_BACKEND_URL}/assistance-instructions`,
-    //     { headers: { authorization: token } }
-    //   );
-    //   console.log("Created new tone: ", response.data);
-    // } catch (err) {
-    //   console.error(err.message);
-    // }
   };
   const handleSave = async (id, newName, newDescription) => {
     console.log("id inside handleSave", tones);
@@ -99,8 +88,17 @@ const Master2 = () => {
     setModalOpen(false);
   };
 
-  const handleDelete = (tone) => {
-    setTones(tones.filter((t) => t.id !== tone.id));
+  const handleDelete = async (tone) => {
+    // setTones(tones.filter((t) => t.id !== tone.id));
+    const token = localStorage.getItem("adminToken");
+    console.log("inside handle delete", tone);
+    const response = await axios.delete(
+      `${process.env.REACT_APP_BACKEND_URL}/delete-assistance-instructions/${tone._id}`,
+      { headers: { authorization: token } }
+    );
+
+    getTones();
+    setModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -110,40 +108,37 @@ const Master2 = () => {
 
   return (
     <div>
-      <h1>
-        <strong>ASSISTANCE</strong>
-      </h1>
-      <table className="border table table-bordered border-3 border-black">
-        <thead className="border border-3 border-black">
-          <tr>
-            <th>
-              <strong>Tones</strong>
-            </th>
-            <th>
-              <strong>Description</strong>
-            </th>
-            <th>
-              <strong>Actions</strong>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {tones.map((currTone) => (
-            <tr key={currTone.id}>
-              <td>
-                <strong>{currTone.tone}</strong>
-              </td>
-              <td>{currTone.description}</td>
-              <td>
-                <button onClick={() => handleEdit(currTone)}>Edit</button>
-                <button onClick={() => handleDelete(currTone)}>Delete</button>
-              </td>
+      <h3 className="assis-tan">Assistance</h3>
+
+      <div className="table-assistances">
+        <table className="table">
+          <thead className="border">
+            <tr>
+              <th>Tones</th>
+              <th>Description</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {tones.map((currTone) => (
+              <tr key={currTone.id}>
+                <td>
+                  <strong>{currTone.tone}</strong>
+                </td>
+                <td>{currTone.description}</td>
+                <td>
+                  <button onClick={() => handleEdit(currTone)}>Edit</button>
+                  <button onClick={() => handleDelete(currTone)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div>
-        <button onClick={handleCreate}>Create New Tone</button>
+        <button class="create-new-tone" onClick={handleCreate}>
+          Create New Tone
+        </button>
       </div>
       {modalOpen && (
         <EditModal2

@@ -228,7 +228,7 @@ router.post("/video/post-comment-replies", async (req, res) => {
 // to create a seperate assistant for the user
 const assistantConfig = {
   name: "test",
-  instructions: "",
+  instructions: "Objective: Engage effectively with YouTube comments. Analyze sentiments, responding positively to supportive and neutral feedback, and flag negative comments with '1'. Tailor responses to match the user's desired tone, style, and emojis, ensuring brevity (no more than 25 words). Personalize replies when possible and maintain authenticity. Update your engagement strategy based on new instructions and feedback.",
   // tools: [{ type: "code_interpreter" }],
   model: "gpt-4-turbo-preview",
 };
@@ -254,7 +254,7 @@ router.post("/createassistant", async (req, res) => {
       });
     } else {
       assistantConfig.name = "testing assistant";
-      assistantConfig.instructions = instructions;
+      assistantConfig.instructions +="\n" + instructions;
       const assistant = await createAssistant(assistantConfig);
       console.log(assistant);
       customer.assistantId = assistant.id;
