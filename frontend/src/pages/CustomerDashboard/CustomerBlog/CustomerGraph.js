@@ -36,7 +36,9 @@ const CustomerGraph = () => {
             <Tooltip />
           </PieChart>
         </ResponsiveContainer>
+        
       </div>
+      <button className='btn-btn-primary sent-anyl'> Sentiment Analysis </button>
     </div>
   );
 };

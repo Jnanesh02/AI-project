@@ -1,6 +1,4 @@
 .chart-wrapper {
-    width: 48%;
-   
     border:4px solid #ccc;
     border-radius: 18px;
   }
@@ -11,4 +9,80 @@
   }
  
   
-  
+  .container.dashboard-cards-hm {
+    display: flex;
+    flex-wrap: wrap;
+}
+.dashboard-cards-hm .chart-wrapper {
+  width: 30%;
+  border: none;
+  border: 1px solid #d9d9d9;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  position: relative;
+}
+button.btn-btn-primary.sent-anyl {
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  border: none;
+  color: black;
+  background: #d7d7d7;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding: 10px;
+}
+.dashboard-cards-hm .counter-wrapper.card.p-5 {
+  width: 30%;
+  border: none;
+  border: 1px solid #e3e3e3;
+  border-radius: 16px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+.dashboard-cards-hm .section {
+  border: none;
+}
+.dashboard-cards-hm .section {
+  border: none;
+  width: 35%;
+}
+.dashboard-cards-hm .content {
+  border: 1px solid #dfdfdf;
+  border-radius: 12px;
+  padding: 20px;
+  height: 100%;
+  position: relative;
+}
+.plan-managements h4 {
+  text-align: left;
+  margin-left: 20px;
+}
+
+.plan-managements table {
+  width: 96%;
+  border-collapse: collapse;
+  margin: auto;
+  margin-top: 20px;
+}
+.plan-managements td {
+  font-size: 14px;
+  padding: 3px;
+}
+.dashboard-cards-hm p.Comment {
+  text-align: left;
+  font-size: 14px;
+}
+h1.counter {
+  color: black;
+}
+p.counter-description {
+  background: black;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border: 1px solid white;
+  color: white;
+  border-radius: 5px;
+}

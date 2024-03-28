@@ -221,9 +221,15 @@ const Master1 = () => {
   };
 
   return (
-    <div>
-      <h1>Plan Management</h1>
+    <div className="plan-managements">
+      <h4>Plan Management</h4>
       <table>
+        <thead>
+          <th> plan </th>
+          <th> price </th>
+          <th> features </th>
+          <th> Actions </th>
+        </thead>
         {/* Table headers */}
         <tbody>
         {plans.map((plan) => (
@@ -239,15 +245,15 @@ const Master1 = () => {
       ))}
     </td>
     <td>
-      <button onClick={() => handleEdit(plan)}>Edit</button>
-      <button onClick={() => handleDelete(plan)}>Delete</button>
+      <button class="edit-btn-dashboard" onClick={() => handleEdit(plan)}>Edit</button>
+      <button class="delect-btn-dashboard" onClick={() => handleDelete(plan)}>Delete</button>
     </td>
   </tr>
 ))}
       </tbody>
       </table>
       <div>
-        <button onClick={handleCreate}>Create New Plan</button>
+        <button class="crate-new-plan" onClick={handleCreate}>Create New Plan</button>
       </div>
       {modalOpen && (
         <EditModal

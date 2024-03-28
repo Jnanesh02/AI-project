@@ -331,7 +331,7 @@ export const Dashboard = ({ youtubeData }) => {
                         </div>
                       ))
                     )}
-                    <button onClick={handleAcceptAll}>Accept all</button>
+                    <button class="accpect-all" onClick={handleAcceptAll}>Accept all</button>
                   </div>
                 </div>
               </div>

@@ -126,24 +126,26 @@ function EditModal2({ plan, onSave, onCancel }) {
     <div className="modalBackground">
       <div className="modalContainer">
         <div className="titleCloseBtn">
-          <button onClick={onCancel}>X</button>
+          <button className="cross-t" onClick={onCancel}>X</button>
         </div>
         <div className="title">
           <h1>{plan ? "Edit Tone" : "Create New Tone"}</h1>
         </div>
         <div className="body">
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div className="form-group frm-gp">
               <input
                 type="text"
                 name="tone"
                 placeholder="Tone Name"
                 value={formData.tone}
                 onChange={handleChange}
+                class="form-control"
               />
             </div>
-            <div className="form-group">
+            <div className="form-group frm-gp">
               <textarea
+              class="form-control"
                 name="description"
                 placeholder="Description"
                 value={formData.description}
@@ -153,10 +155,10 @@ function EditModal2({ plan, onSave, onCancel }) {
               />
             </div>
             <div className="footer">
-              <button type="button" onClick={onCancel} id="cancelBtn">
+              <button type="button" className="cancel-cl" onClick={onCancel} id="cancelBtn">
                 Cancel
               </button>
-              <button type="submit">Save</button>
+              <button class="save-vv" type="submit">Save</button>
             </div>
           </form>
         </div>

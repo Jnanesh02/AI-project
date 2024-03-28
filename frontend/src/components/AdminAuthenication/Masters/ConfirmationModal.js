@@ -6,7 +6,7 @@ function ConfirmationModal({ onConfirmDelete, onCancel }) {
     <div className="modalBackground">
       <div className="modalContainer">
         <div className="titleCloseBtn">
-          <button onClick={onCancel}>X</button>
+          <button class="btn-cross" onClick={onCancel}>X</button>
         </div>
         <div className="title">
           <h1>Delete Plan</h1>
@@ -15,8 +15,8 @@ function ConfirmationModal({ onConfirmDelete, onCancel }) {
           <p>Are you sure you want to delete this plan?</p>
         </div>
         <div className="footer">
-          <button onClick={onCancel} id="cancelBtn">Cancel</button>
-          <button onClick={onConfirmDelete}>Delete</button>
+          <button class="cancel-footer-btn" onClick={onCancel} id="cancelBtn">Cancel</button>
+          <button class="cancel-footer-btn n" onClick={onConfirmDelete}>Delete</button>
         </div>
       </div>
     </div>

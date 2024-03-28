@@ -89,20 +89,22 @@ const Master2 = () => {
 
   return (
     <div>
-      <h1>
-        <strong>ASSISTANCE</strong>
-      </h1>
-      <table className="border table table-bordered border-3 border-black">
-        <thead className="border border-3 border-black">
+      <h3 className="assis-tan">
+         Assistance
+      </h3>
+      
+      <div className="table-assistances">
+      <table className="table">
+        <thead className="border">
           <tr>
             <th>
-              <strong>Tones</strong>
+              Tones
             </th>
             <th>
-              <strong>Description</strong>
+              Description
             </th>
             <th>
-              <strong>Actions</strong>
+              Actions
             </th>
           </tr>
         </thead>
@@ -110,7 +112,7 @@ const Master2 = () => {
           {tones.map((tone) => (
             <tr key={tone.id}>
               <td>
-                <strong>{tone.tone}</strong>
+                {tone.tone}
               </td>
               <td>{tone.description}</td>
               <td>
@@ -121,8 +123,10 @@ const Master2 = () => {
           ))}
         </tbody>
       </table>
+
+      </div>
       <div>
-        <button onClick={handleCreate}>Create New Tone</button>
+        <button class="create-new-tone" onClick={handleCreate}>Create New Tone</button>
       </div>
       {modalOpen && (
         <EditModal2

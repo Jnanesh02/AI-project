@@ -300,7 +300,7 @@ const CustomerDetails = () => {
     <div className="main-department-section">
       <div className="dep-tbl">
         <h2 className="customer-heading">Customer Details</h2>
-        <button onClick={exportData}>export data</button>
+        <button class="export-dtaa" onClick={exportData}>export data</button>
         <input
           type="text"
           placeholder="Search..."

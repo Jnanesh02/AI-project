@@ -1,33 +1,3 @@
-.table-wrapper {
-  width: 100%;
-}
-table{
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 25px;
- 
- } 
-
-th, td {
-  padding: 8px;
-  border: 1px solid #ddd;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:hover {
-  background-color: #ddd;
-}
-
-input[type="text"] {
-  width: 100%;
-}
 
 button {
   padding: 5px 10px;
@@ -42,3 +12,36 @@ button {
 /* button:hover {
   background-color: rgba(0, 0, 0, 0.522);
 } */
+button.edit-btn-dashboard {
+  background: black;
+  color: white;
+  font-size: 14px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  border-radius: 5px;
+}
+button.delect-btn-dashboard
+{
+  background: black;
+  color: white;
+  font-size: 14px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  border-radius: 5px;
+}
+.plan-managements td {
+  font-size: 14px;
+  padding: 3px;
+  border: 1px solid #e7e7e7;
+}
+button.crate-new-plan {
+  background: black;
+  color: white;
+  border: none;
+  margin-top: 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 10px;
+}

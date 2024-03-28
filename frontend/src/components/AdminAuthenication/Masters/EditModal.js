@@ -196,16 +196,17 @@ const EditModal = ({ plan, onSave, onCancel }) => {
     <div className="modalBackground">
       <div className="modalContainer">
         <div className="titleCloseBtn">
-          <button onClick={onCancel}>X</button>
+          <button class="close-planmanagement" onClick={onCancel}>X</button>
         </div>
         <div className="title">
           <h1>{plan ? "Edit Plan" : "Create Plan"}</h1>
         </div>
         <div className="body">
-          <form onSubmit={handleSubmit}>
+          <form class="planmanagement-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="subscriptionPlanName">Plan Name</label>
               <input
+              className='form-control'
                 type="text"
                 name="subscriptionPlanName"
                 placeholder="Enter plan name"
@@ -216,6 +217,7 @@ const EditModal = ({ plan, onSave, onCancel }) => {
             <div className="form-group">
               <label htmlFor="price">Price ($)</label>
               <input
+              className='form-control'
                 type="text"
                 name="price"
                 placeholder="Enter price"
@@ -239,10 +241,10 @@ const EditModal = ({ plan, onSave, onCancel }) => {
               />
             </div>
             <div className="footer">
-              <button type="button" onClick={onCancel} id="cancelBtn">
+              <button type="button" class="btn-cancel-l-form" onClick={onCancel} id="cancelBtn">
                 Cancel
               </button>
-              <button type="submit">Save</button>
+              <button className='btn-save-btn-v' type="submit">Save</button>
             </div>
           </form>
         </div>
