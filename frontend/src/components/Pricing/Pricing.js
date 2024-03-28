@@ -1,65 +1,63 @@
-
-
 import React, { useEffect, useState } from "react";
 import "./Pricing.css";
 import axios from "axios";
 
-const pricingData = [
-  {
-    type: " Basic Plan",
-    price: "0$",
-    duration: "30 days",
-    features: [
-      "Ad Free Experiences",
-      "5000 monthly images",
-      "Standard support",
-      "Private Image Generator",
-      "Unlimited Images",
-    ],
-    button: "Start Free Trial",
-  },
-  {
-    type: "Pro Plan",
-    price: "899$",
-    duration: "per Month",
-    features: [
-      "Ad Free Experiences",
-      "5000 monthly images",
-      "Standard support",
-      "Private Image Generator",
-      "Unlimited Images",
-    ],
-    button: "Contact For More Information",
-  },
-  {
-    type: "premium plan",
-    price: "1199$",
-    duration: "per Month",
-    features: [
-      "Ad Free Experiences",
-      "5000 monthly images",
-      "Standard support",
-      "Private Image Generator",
-      "Unlimited Images",
-    ],
-    button: "Contact For More Information",
-  },
-  {
-    type: "Enterprise plan",
-    price: "13,991$",
-    duration: "per Annum",
-    features: [
-      "Ad Free Experiences",
-      "5000 monthly images",
-      "Standard support",
-      "Private Image Generator",
-      "Unlimited Images",
-    ],
-    button: "Contact For More Information",
-  },
-];
- export default function Pricing() {
-  const [plans, setPlans] = useState("");
+// const pricingData = [
+//   {
+//     type: " Basic Plan",
+//     price: "0$",
+//     duration: "30 days",
+//     features: [
+//       "Ad Free Experiences",
+//       "5000 monthly images",
+//       "Standard support",
+//       "Private Image Generator",
+//       "Unlimited Images",
+//     ],
+//     button: "Start Free Trial",
+//   },
+//   {
+//     type: "Pro Plan",
+//     price: "899$",
+//     duration: "per Month",
+//     features: [
+//       "Ad Free Experiences",
+//       "5000 monthly images",
+//       "Standard support",
+//       "Private Image Generator",
+//       "Unlimited Images",
+//     ],
+//     button: "Contact For More Information",
+//   },
+//   {
+//     type: "premium plan",
+//     price: "1199$",
+//     duration: "per Month",
+//     features: [
+//       "Ad Free Experiences",
+//       "5000 monthly images",
+//       "Standard support",
+//       "Private Image Generator",
+//       "Unlimited Images",
+//     ],
+//     button: "Contact For More Information",
+//   },
+//   {
+//     type: "Enterprise plan",
+//     price: "13,991$",
+//     duration: "per Annum",
+//     features: [
+//       "Ad Free Experiences",
+//       "5000 monthly images",
+//       "Standard support",
+//       "Private Image Generator",
+//       "Unlimited Images",
+//     ],
+//     button: "Contact For More Information",
+//   },
+// ];
+export default function Pricing() {
+  const [plans, setPlans] = useState([]);
   const getPlanDetails = async () => {
     const token = localStorage.getItem("token");
     const response = await axios.get(
@@ -67,19 +65,20 @@ const pricingData = [
       { headers: { authorization: token } }
     );
 
-    console.log(response.data);
+    console.log("plans", response.data);
+    setPlans(response.data);
   };
-  useEffect(()=>{
+  useEffect(() => {
     getPlanDetails();
-  },[])
+  }, []);
   return (
     <div>
       <section className="pricing">
         <div className="container">
           <div className="row">
-            {pricingData.map((pricing, index) => (
+            {plans.map((pricing, index) => (
               <div
-                key={index}
+                key={pricing._id}
                 className="col-lg-3 col-sm-6 col-md-6 animate__fadeInUp">
                 <div className="card pricing-cards">
                   <div className="card-body pricing-card-body">
@@ -88,7 +87,9 @@ const pricingData = [
                         <h5>Most Popular</h5>
                       </div>
                     )}
-                    <h2 className="card-title">{pricing.type}</h2>
+                    <h2 className="card-title">
+                      {pricing.subscriptionPlanName}
+                    </h2>
                     <h1 className="card-body-h1">
                       {pricing.price} <span>{pricing.duration}</span>
                     </h1>

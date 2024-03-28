@@ -9,7 +9,8 @@ export const Dashboard = ({ youtubeData }) => {
   const [numComments, setNumComments] = useState({});
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [comments, setComments] = useState([]);
-  const [replyTexts, setReplyTexts] = useState([{}]); // Object to store commentId:reply pairs
+  const [replyTexts, setReplyTexts] = useState(Array(comments.length).fill("")); // Object to store commentId:reply pairs
+  const [loading, setLoading] = useState(false);
 
   const handleChannelSelect = (channel) => {
     setSelectedChannel(channel);
@@ -23,15 +24,22 @@ export const Dashboard = ({ youtubeData }) => {
       [videoId]: value,
     }));
   };
-  const handleReplyTextChange = (commentId, value) => {
-    setReplyTexts((prevReplyTexts) => ({
-      ...prevReplyTexts,
-      [commentId]: value,
-    }));
+  const handleReplyTextChange = (index, value, commentId) => {
+    const updatedReplyTexts = [...replyTexts];
+    updatedReplyTexts[index] = value;
+    setReplyTexts(updatedReplyTexts);
+
+    const updateComment = [...comments];
+
+    updateComment[index].chatGpt = value;
+
+    setComments(updateComment);
   };
 
   const handleAccept = async (comment, videoId, replyText) => {
     // const response = await axios.post(
+    console.log("hellodata:", comment, videoId, replyText);
+    alert(`Comment accepted!`);
     const token = localStorage.getItem("token");
     const tokenData = JSON.parse(atob(token.split(".")[1]));
     const userId = tokenData.userId;
@@ -57,67 +65,60 @@ export const Dashboard = ({ youtubeData }) => {
     const token = localStorage.getItem("token");
     const tokenData = JSON.parse(atob(token.split(".")[1]));
     const userId = tokenData.userId;
-    // const comments=comment
-    console.log("comments inside handleAcceptall ", comments);
-    for (const comment of comments) {
-      console.log();
-      const reply = replyTexts[comment.commentId];
-      console.log("reply", replyTexts);
-      comments.map((comment) => {});
+    console.log("commentsbefore", comments);
+    for (let i = 0; i < comments.length; i++) {
+      // console.log("122", comments[i]);
       try {
         const response = await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/video/post-comment-replies`,
           {
             videoId: selectedVideo,
-            commentId: comment.commentId,
-            replyText: reply,
+            commentId: comments[i].commentId,
+            replyText: comments[i].chatGpt,
             userId: userId,
           },
           {
             headers: { authorization: token },
           }
         );
+        comments[i].chatGptReplied = true;
+        setComments(comments);
         console.log(
           "response inside handle accept all function",
           response.data
         );
 
-        setComments(
-          comments.map((currComment) =>
-            currComment.commentId == comment.commentId
-              ? { ...currComment, chatGptReplied: true }
-              : currComment
-          )
-        );
+        // if (response.status === 200) {
+        //   setLoading(false);
+        // }
       } catch (err) {
+        setLoading(false);
         console.error(err.message);
       }
+
+    
+
+      // setComments(
+      //   comments.map((existingComment) =>
+      //     existingComment.commentId === comments[i].commentId
+      //       ? {
+      //           ...existingComment,
+      //           chatGptReplied: true,
+      //         } // Mark comment as accepted
+      //       : existingComment
+      //   )
+      // );
+      // setComments(comments);
     }
   };
+ 
 
-  async function checkCommentExistence(commentId, apiKey) {
-    try {
-      const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/commentThreads?id=${commentId}&part=id,snippet&key=${apiKey}`
-      );
-
-      if (!response.data.ok) {
-        throw new Error(
-          `Network response was not ok (status: ${response.status})`
-        );
-      }
-
-      const data = response.data; // Access the actual data from the response
-
-      if (data.items.length > 0) {
-        console.log("Comment still exists.");
-      } else {
-        console.log("Comment does not exist.");
-      }
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-    }
-  }
+  // const [acceptAllData, setAcceptAllData] = useState([
+  //   {
+  //     commentid: "",
+  //     replycomment: "",
+  //   },
+  // ]);
 
   const handleSubmit = async (videoId) => {
     const token = localStorage.getItem("token");
@@ -297,16 +298,17 @@ export const Dashboard = ({ youtubeData }) => {
                                 cols="30"
                                 rows="10"
                                 value={
-                                  replyTexts[comment.commentId] !== undefined
-                                    ? replyTexts[comment.commentId]
+                                  replyTexts[index] !== undefined
+                                    ? replyTexts[index]
                                     : comment.chatGpt
                                 }
                                 onChange={(e) =>
                                   handleReplyTextChange(
-                                    comment.commentId,
-                                    e.target.value
+                                    index,
+                                    e.target.value,
+                                    comment.commentId
                                   )
-                                } // Update replyTexts state for this comment.commentId
+                                } // Update replyTexts state for this index
                               ></textarea>
                               <div className="comment-section__commentbutton text-end">
                                 <button
@@ -315,7 +317,7 @@ export const Dashboard = ({ youtubeData }) => {
                                     handleAccept(
                                       comment,
                                       selectedVideo,
-                                      replyTexts[comment.commentId]
+                                      replyTexts[index]
                                     )
                                   } // Pass replyTexts[index] to handleAccept
                                 >
@@ -331,7 +333,9 @@ export const Dashboard = ({ youtubeData }) => {
                         </div>
                       ))
                     )}
-                    <button onClick={handleAcceptAll}>Accept all</button>
+                    <button onClick={handleAcceptAll} loading={true}>
+                      Accept all
+                    </button>
                   </div>
                 </div>
               </div>

@@ -44,7 +44,6 @@ router.get("/all-assistance-instructions", async (req, res) => {
 
 // GET a specific AssistanceInstruction by ID
 
-
 router.get("/single-assistance-instructions/:id", async (req, res) => {
   try {
     const instruction = await AssistanceInstructionModel.findById(
@@ -70,6 +69,7 @@ router.put(
   async (req, res) => {
     try {
       // Validation
+      console.log("inside put route", req.body, req.params.id);
       if (!req.body.tone || !req.body.description) {
         return res
           .status(400)
@@ -95,7 +95,7 @@ router.put(
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
-); 
+);
 
 // DELETE a specific AssistanceInstruction by ID
 router.delete(

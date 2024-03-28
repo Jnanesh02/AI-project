@@ -5,14 +5,6 @@ import "./Table.css";
 import axios from "axios";
 
 const Master2 = () => {
-  // const [tones, setTones] = useState([
-  //   {
-  //     id: 1,
-  //     name: "sai Tone",
-  //     description:
-  //       "The novelist J.K. Rowling once said, “there’s always room for a story that can transport people to another place.” But what if that place we’re transported to is here, inside the rich web of life of our Mother Earth? What if her story, told through us, becomes a portal through which we can deeply connect to our own nature and discover—without judgement—our heart-centered humanity within the whole of nature.",
-  //   },
-  // ]);
   const [tones, setTones] = useState([]);
   const [editingTone, setEditingTone] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,7 +19,7 @@ const Master2 = () => {
           headers: { authorization: token },
         }
       );
-      console.log("response", response.data);
+      // console.log("response", response.data);
       setTones(response.data);
     } catch (err) {
       console.error(err.message);
@@ -42,38 +34,67 @@ const Master2 = () => {
     setModalOpen(true);
   };
 
-  const handleCreate = async (tone) => {
-    setEditingTone(null);
+  const handleCreate = async () => {
+    setEditingTone({ _id: "", tone: "", description: "" });
     setModalOpen(true);
-    console.log("inside handlecreate", tone);
-    try {
-      const token = localStorage.getItem("adminToken");
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/assistance-instructions`,
-        { headers: { authorization: token } }
-      );
-      console.log("Created new tone: ", response.data);
-    } catch (err) {
-      console.error(err.message);
-    }
+
+    // try {
+    //   const token = localStorage.getItem("adminToken");
+    //   const response = await axios.post(
+    //     `${process.env.REACT_APP_BACKEND_URL}/assistance-instructions`,
+    //     { headers: { authorization: token } }
+    //   );
+    //   console.log("Created new tone: ", response.data);
+    // } catch (err) {
+    //   console.error(err.message);
+    // }
   };
-  const handleSave = (id, newName, newDescription) => {
+  const handleSave = async (id, newName, newDescription) => {
+    console.log("id inside handleSave", tones);
     if (id) {
       // Edit existing tone
-      const updatedTones = tones.map((tone) =>
-        tone.id === id
-          ? { ...tone, name: newName, description: newDescription }
-          : tone
+      const token = localStorage.getItem("adminToken");
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/update-assistance-instructions/${id}`,
+        {
+          tone: newName,
+          description: newDescription,
+        },
+        { headers: { authorization: token } }
       );
+      console.log("response in handleSave", response.data);
+      const updatedTones = tones.map((currTone) =>
+        currTone._id === id
+          ? {
+              ...currTone,
+              tone: response.data.tone,
+              description: response.data.description,
+            }
+          : currTone
+      );
+      console.log("updated tones", updatedTones);
       setTones(updatedTones);
+      // setTones((prevTones)=>{
+      //   ...prevTones,
+      //   response.data
+      // })
     } else {
-      // Create new tone
-      const newTone = {
-        id: tones.length + 1,
-        name: newName,
-        description: newDescription,
-      };
-      setTones([...tones, newTone]);
+      // Create new tone logic
+      try {
+        const token = localStorage.getItem("adminToken");
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/assistance-instructions`,
+          { tone: newName, description: newDescription },
+          { headers: { authorization: token } }
+        );
+        console.log("Created new tone: ", response.data);
+
+        // Update the state with the newly created tone
+        setTones([...tones, response.data]); // Add the created tone to the state
+      } catch (err) {
+        console.error(err.message);
+        // Handle errors appropriately (e.g., display error message to the user)
+      }
     }
     setModalOpen(false);
   };
@@ -107,15 +128,15 @@ const Master2 = () => {
           </tr>
         </thead>
         <tbody>
-          {tones.map((tone) => (
-            <tr key={tone.id}>
+          {tones.map((currTone) => (
+            <tr key={currTone.id}>
               <td>
-                <strong>{tone.tone}</strong>
+                <strong>{currTone.tone}</strong>
               </td>
-              <td>{tone.description}</td>
+              <td>{currTone.description}</td>
               <td>
-                <button onClick={() => handleEdit(tone)}>Edit</button>
-                <button onClick={() => handleDelete(tone)}>Delete</button>
+                <button onClick={() => handleEdit(currTone)}>Edit</button>
+                <button onClick={() => handleDelete(currTone)}>Delete</button>
               </td>
             </tr>
           ))}

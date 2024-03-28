@@ -1,5 +1,6 @@
 const fs = require("fs-extra");
 const { google } = require("googleapis");
+const pageTokenSchema = require("../model/commentspagetokens");
 
 async function youtubeAuth(accessToken) {
   try {
@@ -60,19 +61,39 @@ async function getCommentsForVideos(accessToken, videoId, noOfComments) {
         part: "snippet,statistics",
         id: videoId,
       });
-      // console.log("-------------------------------------------------");
-      // console.log(videoDetails.data.items[0].statistics);
-
       if (videoDetails.data.items[0].statistics.commentCount > 0) {
+        const pageToken = await pageTokenSchema.findOne({ videoId: videoId });
+        console.log("pageToken in getcomments function", pageToken);
         // Fetch comments if comments are enabled
-        const comments = await youtube.commentThreads.list({
-          part: "snippet",
-          videoId: videoId,
-          textDisplay: "original", // Include original comment text
-          maxResults: noOfComments,
-          // Comment filtering/sorting as needed
-        });
-        // console.log(comments.data);
+        let comments;
+        if (!pageToken) {
+          comments = await youtube.commentThreads.list({
+            part: "snippet",
+            videoId: videoId,
+            textDisplay: "original", // Include original comment text
+            maxResults: noOfComments,
+
+            // Comment filtering/sorting as needed
+          });
+          await pageTokenSchema.create({
+            videoId: videoId,
+            nextPageToken: comments.data.nextPageToken,
+          });
+          // await newPageToken.save();
+          console.log("if block", comments.data.nextPageToken);
+        } else {
+          console.log("else block ", pageToken.nextPageToken);
+          comments = await youtube.commentThreads.list({
+            part: "snippet",
+            videoId: videoId,
+            textDisplay: "original", // Include original comment text
+            maxResults: noOfComments,
+            pageToken: pageToken.nextPageToken,
+            // Comment filtering/sorting as needed
+          });
+          pageToken.nextPageToken = comments.data.nextPageToken;
+          await pageToken.save();
+        }
 
         // Store comments in videoComments array
         videoComments.push({
@@ -108,7 +129,7 @@ async function getCommentsForVideos(accessToken, videoId, noOfComments) {
 async function replyToComments(accessToken, videoId, commentId, replyText) {
   try {
     let youtube = await youtubeAuth(accessToken);
-
+    console.log("reply inside function", replyText);
     const response = await youtube.comments.insert({
       part: ["snippet"],
       resource: {

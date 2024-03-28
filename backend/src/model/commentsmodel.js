@@ -4,6 +4,10 @@ const videoIdSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  nextPageToken: {
+    type: String,
+    default: "",
+  },
   comments: [
     {
       commentId: {

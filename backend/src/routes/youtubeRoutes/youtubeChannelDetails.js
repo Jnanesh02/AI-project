@@ -46,6 +46,7 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     // console.log("inside api ", req.body);
     const customer = await Customer.findById(userId);
 
+
     // console.log("inside api", customer);
     const accessToken = customer.accessToken;
     const refreshToken = customer.refreshToken;
@@ -72,12 +73,14 @@ router.post("/video/get-comments/:videoId", async (req, res) => {
     // console.log("videos inside api", videos[0].comments);
     const assistantId = customer.assistantId;
     // const assistantId = "asst_6YBo6GvvYLVEmzumZ6XqpCbU";
+    
     const userIdObjectId = new mongoose.Types.ObjectId(userId);
     const commentsPromises = videos[0].comments.map(async (comment) => ({
       commentId: comment.id,
       usercomments: comment.data,
       chatGpt: await assistantResponse(assistantId, comment.data),
     }));
+
 
     const comments = await Promise.all(commentsPromises);
     const existingCustomer = await commentsSchema.findOne({
@@ -217,6 +220,10 @@ router.post("/video/post-comment-replies", async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 });
+
+// router.post("/video/post-all-comment-replies",async(req,res)=>{
+
+// })
 
 // to create a seperate assistant for the user
 const assistantConfig = {

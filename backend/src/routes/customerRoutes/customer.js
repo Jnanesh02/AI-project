@@ -76,10 +76,7 @@ router.post("/login/customer", async (req, res) => {
     console.log("email", email, "password", password);
 
     const user = await Customer.findOne({
-      $or: [
-        
-        { email: { $regex: email, $options: "i" } },
-      ],
+      $or: [{ email: { $regex: email, $options: "i" } }],
     });
 
     if (!user) {
@@ -146,49 +143,51 @@ router.get("/customer", requireAuth, isAdmin, async (req, res) => {
 
 router.get("/export/customer", requireAuth, isAdmin, async (req, res) => {
   if (req.user.role !== "admin") {
-      return res.status(403).json({ message: "Access denied. Admins only." });
+    return res.status(403).json({ message: "Access denied. Admins only." });
   }
   try {
-      const customers = await Customer.find({});
-      if (customers.length === 0) {
-          return res.status(404).json({ message: "No customers found." });
-      }
+    const customers = await Customer.find({});
+    if (customers.length === 0) {
+      return res.status(404).json({ message: "No customers found." });
+    }
 
-      let csv = '';
+    let csv = "";
 
-      // Extract column names
-      const columns = Object.keys(customers[0].toObject());
+    // Extract column names
+    const columns = Object.keys(customers[0].toObject());
 
-      // Add column names to CSV
-      csv += columns.join(",") + "\n";
+    // Add column names to CSV
+    csv += columns.join(",") + "\n";
 
-      // Iterate over each customer
-      customers.forEach(customer => {
-          const customerData = customer.toObject(); // Convert Mongoose document to plain JavaScript object
+    // Iterate over each customer
+    customers.forEach((customer) => {
+      const customerData = customer.toObject(); // Convert Mongoose document to plain JavaScript object
 
-          // Convert usage object to a string with a custom delimiter
-          const usageString = JSON.stringify(customerData.usage).replace(/,/g, ';');
+      // Convert usage object to a string with a custom delimiter
+      const usageString = JSON.stringify(customerData.usage).replace(/,/g, ";");
 
-          // Replace the usage object in the customer data with the string representation
-          customerData.usage = usageString;
+      // Replace the usage object in the customer data with the string representation
+      customerData.usage = usageString;
 
-          // Convert object to CSV row
-          const row = columns.map(column => {
-              const value = customerData[column];
-              return typeof value === 'object' ? JSON.stringify(value) : value;
-          }).join(",");
+      // Convert object to CSV row
+      const row = columns
+        .map((column) => {
+          const value = customerData[column];
+          return typeof value === "object" ? JSON.stringify(value) : value;
+        })
+        .join(",");
 
-          csv += row + "\n"; // Append row to CSV string
-      });
+      csv += row + "\n"; // Append row to CSV string
+    });
 
-      // Write CSV to file
-      fs.writeFileSync("customers.csv", csv, "utf8");
+    // Write CSV to file
+    fs.writeFileSync("customers.csv", csv, "utf8");
 
-      // Send CSV file as a download
-      res.download("customers.csv");
+    // Send CSV file as a download
+    res.download("customers.csv");
   } catch (err) {
-      console.error(err.message);
-      res.status(500).json({ message: err.message });
+    console.error(err.message);
+    res.status(500).json({ message: err.message });
   }
 });
 
